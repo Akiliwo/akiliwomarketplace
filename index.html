@@ -188,7 +188,7 @@ section.block{padding:70px 0}
 .feat-dl dt{font-weight:700;color:var(--green)}
 .feat-dl dd{color:var(--muted)}
 .feat-cta{font-weight:700;color:var(--green);margin:14px 0 4px}
-.feat-buy{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:10px}
+.feat-buy{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,340px));gap:12px;margin-top:10px}
 .feat-opt{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--cream-2);display:flex;flex-direction:column;gap:10px}
 .feat-opt .fmt{font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .feat-opt .price{font-size:1.7rem;line-height:1}
@@ -721,10 +721,11 @@ const PRODUCTS = [
     title:"Last Bus to Where",
     kicker:"📖 New Japa thriller · Featured book",
     author:"Jibril Ahmed",
-    price:"$19.99 Paperback / $9.99 eBook",
+    price:"$19.99",
     formats:[
-      {name:"Paperback", price:"$19.99", link:"", note:"📦 Limited stock: ships from Denver, Colorado"},
-      {name:"eBook",     price:"$9.99",  link:""}
+      {name:"Paperback", price:"$19.99", link:"", note:"📦 Limited stock: ships from Denver, Colorado"}
+      // eBook hidden for now. To bring it back, remove the // below:
+      // ,{name:"eBook", price:"$9.99", link:""}
     ],
     images:["images/last-bus-to-where.jpg"],
     emoji:"🚌",
@@ -748,7 +749,7 @@ const PRODUCTS = [
     details:[
       ["Author","Jibril Ahmed, Nigerian-American writer based in Denver, Colorado"],
       ["Genre","Japa Thriller / Contemporary African Fiction / Suspense"],
-      ["Format","Paperback & eBook"],
+      ["Format","Paperback"],
       ["Publisher","Akiliwo Marketplace Books"],
       ["For fans of","Chimamanda Ngozi Adichie, Colson Whitehead, and thrillers about migration"]
     ],
