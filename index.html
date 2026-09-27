@@ -164,6 +164,41 @@ section.block{padding:70px 0}
 .buy-wa:hover{background:#1ebe5a;color:#fff}
 .buy.disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
 .buy.disabled:hover{transform:none}
+/* featured spotlight card (used when a product has featured:true) */
+.prod.featured{grid-column:1/-1;flex-direction:row;border:2px solid var(--gold);box-shadow:var(--shadow)}
+.prod.featured:hover{transform:translateY(-4px)}
+.feat-cover{position:relative;flex:0 0 340px;background:radial-gradient(circle at 50% 35%,#3b2a12,#120d06);display:grid;place-items:center;padding:34px 30px}
+.feat-cover img{width:100%;max-width:270px;border-radius:4px;box-shadow:0 22px 40px -12px rgba(0,0,0,.75);transition:.3s}
+.prod.featured:hover .feat-cover img{transform:scale(1.03) rotate(-1deg)}
+.prod.featured .body{padding:30px 34px 32px}
+.feat-kicker{font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.prod.featured h3{font-size:clamp(1.7rem,3vw,2.3rem);font-weight:900;margin-bottom:4px}
+.feat-author{color:var(--muted);font-weight:600;margin-bottom:16px}
+.feat-tagline{font-family:'Fraunces';font-style:italic;font-size:1.15rem;color:var(--red);line-height:1.35;margin-bottom:16px;border-left:3px solid var(--gold);padding-left:14px}
+.feat-hook{font-family:'Fraunces';font-weight:600;font-size:1.1rem;color:var(--green);margin-bottom:10px}
+.feat-story p{color:var(--ink);font-size:.97rem;margin-bottom:10px}
+.feat-story p strong{color:var(--red)}
+.feat-why{margin:14px 0 6px;background:var(--cream-2);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.feat-why b{display:block;color:var(--green);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.feat-why ul{list-style:none}
+.feat-why li{font-size:.92rem;margin-bottom:5px;padding-left:24px;position:relative}
+.feat-why li::before{content:"✓";position:absolute;left:0;color:#1ea85a;font-weight:900}
+.prod.featured details{margin:12px 0 4px}
+.feat-dl{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;margin-top:10px;font-size:.86rem}
+.feat-dl dt{font-weight:700;color:var(--green)}
+.feat-dl dd{color:var(--muted)}
+.feat-cta{font-weight:700;color:var(--green);margin:14px 0 4px}
+.feat-buy{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:10px}
+.feat-opt{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--cream-2);display:flex;flex-direction:column;gap:10px}
+.feat-opt .fmt{font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.feat-opt .price{font-size:1.7rem;line-height:1}
+.feat-opt .buy{justify-content:center}
+@media(max-width:760px){
+  .prod.featured{flex-direction:column}
+  .feat-cover{flex:none;padding:26px 20px}
+  .feat-cover img{max-width:220px}
+  .prod.featured .body{padding:22px 18px 24px}
+}
 .empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);border:2px dashed var(--line);border-radius:var(--radius)}
 
 /* ---------- PRODUCT IMAGE GALLERY (multiple pictures) ---------- */
@@ -681,6 +716,49 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    featured:true,
+    title:"Last Bus to Where",
+    kicker:"📖 New Japa thriller · Featured book",
+    author:"Jibril Ahmed",
+    price:"$19.99 Paperback / $9.99 eBook",
+    formats:[
+      {name:"Paperback", price:"$19.99", link:""},
+      {name:"eBook",     price:"$9.99",  link:""}
+    ],
+    images:["images/last-bus-to-where.jpg"],
+    emoji:"🚌",
+    tagline:"Some destinations don't exist. Some contracts never end.",
+    hook:"How much of yourself would you trade for a way out?",
+    story:[
+      "Tobi has done the math. Staying in Nigeria means watching his sister die. Leaving could give her a chance.",
+      "So when Red Sand Travels offers him a route to Europe with **no payment upfront**, the offer is impossible to refuse. But Red Sand isn't selling tickets. **It's selling debt.**",
+      "From Lagos to Kano, across the Sahara and into Libya, every kilometer north carries a price, and every promise in the contract means exactly what it says. Among strangers who have become cargo, survival depends on knowing whom to trust, when to obey, and when to break the rules.",
+      "The most dangerous question isn't whether Tobi will make it. It's what will still belong to him if he does."
+    ],
+    highlightsTitle:"Why readers can't put it down",
+    highlights:[
+      "Based on true Japa stories",
+      "Heart-pounding suspense from the first page to the last",
+      "Exposes the hidden world of migration debt and trafficking",
+      "Emotional, timely and unforgettable",
+      "Perfect for fans of thrillers, African fiction and migration stories"
+    ],
+    detailsTitle:"Book details",
+    details:[
+      ["Author","Jibril Ahmed, Nigerian-American writer based in Denver, Colorado"],
+      ["Genre","Japa Thriller / Contemporary African Fiction / Suspense"],
+      ["Format","Paperback & eBook"],
+      ["Publisher","Akiliwo Marketplace Books"],
+      ["For fans of","Chimamanda Ngozi Adichie, Colson Whitehead, and thrillers about migration"]
+    ],
+    cta:"Get your copy and find out where the last bus really goes.",
+    desc:"",
+    benefits:[],
+    link:"",
+    badge:"Bestseller"
+  },
+  {
+    category:"books",
     title:"JUBILLE & JOSIER",
     price:"$5.00",
     images:[],
@@ -949,13 +1027,45 @@ function productCard(p){
     </div>
   </article>`;
 }
+function featuredCard(p){
+  const sold = (p.badge||"").toLowerCase().includes("sold");
+  const badge = p.badge ? `<span class="badge ${sold?'sold':''}">${esc(p.badge)}</span>` : '';
+  const cover = (p.images && p.images[0]) ? `<img src="${p.images[0]}" alt="${esc(p.title)} book cover" loading="lazy">` : `<div class="ph-emoji">${p.emoji||'📚'}</div>`;
+  const story = (p.story||[]).map(t=>`<p>${esc(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}</p>`).join('');
+  const why = (p.highlights||[]).length ? `<div class="feat-why"><b>${esc(p.highlightsTitle||'Why readers love it')}</b><ul>${p.highlights.map(h=>`<li>${esc(h)}</li>`).join('')}</ul></div>` : '';
+  const details = (p.details||[]).length ? `<details><summary>${esc(p.detailsTitle||'Details')}</summary><dl class="feat-dl">${p.details.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl></details>` : '';
+  const opts = (p.formats && p.formats.length) ? p.formats : [{name:'', price:p.price, link:p.link}];
+  const buy = opts.map(o=>{
+    const label = o.name ? `${o.name}` : '';
+    const waMsg = encodeURIComponent("Hello Akiliwo Marketplace, I would like to order: " + p.title + (o.name ? " (" + o.name + ")" : "") + " — " + o.price + ". Is it available?");
+    const wa = `<a class="buy buy-wa" href="https://wa.me/17207994089?text=${waMsg}" target="_blank" rel="noopener">💬 Order ${esc(label||'on WhatsApp')}</a>`;
+    const card = (o.link && o.link.trim()) ? `<a class="buy buy-card" href="${o.link}" target="_blank" rel="noopener">💳 Buy now with card</a>` : '';
+    const act = sold ? `<span class="buy disabled">Sold out</span>` : (card + wa);
+    return `<div class="feat-opt">${label?`<span class="fmt">${esc(label)}</span>`:''}<span class="price">${esc(o.price)}</span>${act}</div>`;
+  }).join('');
+  return `<article class="prod featured">
+    <div class="feat-cover">${badge}${cover}</div>
+    <div class="body">
+      ${p.kicker?`<div class="feat-kicker">${esc(p.kicker)}</div>`:''}
+      <h3>${esc(p.title)}</h3>
+      ${p.author?`<div class="feat-author">by ${esc(p.author)}</div>`:''}
+      ${p.tagline?`<p class="feat-tagline">${esc(p.tagline)}</p>`:''}
+      ${p.hook?`<p class="feat-hook">${esc(p.hook)}</p>`:''}
+      <div class="feat-story">${story}</div>
+      ${why}
+      ${details}
+      ${p.cta?`<p class="feat-cta">${esc(p.cta)}</p>`:''}
+      <div class="feat-buy">${buy}</div>
+    </div>
+  </article>`;
+}
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
 function renderSection(cat,elId){
   const items = PRODUCTS.filter(p=>p.category===cat);
   const el = document.getElementById(elId);
   el.innerHTML = items.length
-    ? items.map(productCard).join('')
+    ? items.map(p=>p.featured?featuredCard(p):productCard(p)).join('')
     : `<div class="empty">No items yet — add some in the PRODUCTS list (or use #admin).</div>`;
 }
 renderSection('shop','grid-shop');
