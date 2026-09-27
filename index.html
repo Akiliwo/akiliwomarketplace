@@ -723,7 +723,7 @@ const PRODUCTS = [
     author:"Jibril Ahmed",
     price:"$19.99",
     formats:[
-      {name:"Paperback", price:"$19.99", link:"", note:"🚚 Shipping included · 📦 Limited stock, ships from Denver, Colorado"}
+      {name:"Paperback", price:"$19.99", link:"https://buy.stripe.com/cNi14o3Ijdgs2I24Mf6sw03", note:"🚚 Shipping included · 📦 Limited stock, ships from Denver, Colorado"}
       // eBook hidden for now. To bring it back, remove the // below:
       // ,{name:"eBook", price:"$9.99", link:""}
     ],
@@ -1040,7 +1040,7 @@ function featuredCard(p){
   const buy = opts.map(o=>{
     const label = o.name ? `${o.name}` : '';
     const waMsg = encodeURIComponent("Hello Akiliwo Marketplace, I would like to order: " + p.title + (o.name ? " (" + o.name + ")" : "") + " — " + o.price + ". Is it available?");
-    const wa = `<a class="buy buy-wa" href="https://wa.me/17207994089?text=${waMsg}" target="_blank" rel="noopener">💬 Order ${esc(label||'on WhatsApp')}</a>`;
+    const wa = `<a class="buy buy-wa" href="https://wa.me/17207994089?text=${waMsg}" target="_blank" rel="noopener">💬 Order ${esc((o.link && o.link.trim()) ? 'on WhatsApp' : (label||'on WhatsApp'))}</a>`;
     const card = (o.link && o.link.trim()) ? `<a class="buy buy-card" href="${o.link}" target="_blank" rel="noopener">💳 Buy now with card</a>` : '';
     const act = sold ? `<span class="buy disabled">Sold out</span>` : (card + wa);
     return `<div class="feat-opt">${label?`<span class="fmt">${esc(label)}</span>`:''}<span class="price">${esc(o.price)}</span>${o.note?`<span class="feat-note">${esc(o.note)}</span>`:''}${act}</div>`;
