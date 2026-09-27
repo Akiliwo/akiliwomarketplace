@@ -328,7 +328,7 @@ footer ul a:hover{color:var(--gold-soft)}
         <a href="#blog" class="btn btn-outline">📰 Read the Blog</a>
       </div>
       <div class="trust anim d5">
-        <div><span>🔒</span> Secure Stripe checkout</div>
+        <div><span>🔒</span> Secure checkout</div>
         <div><span>🚚</span> US-based fulfillment</div>
         <div><span>✓</span> Quality guaranteed</div>
       </div>
@@ -340,7 +340,7 @@ footer ul a:hover{color:var(--gold-soft)}
       </div>
       <div class="card-float cf2">
         <div class="ic">⚡</div>
-        <div><b>Buy in one tap</b><small>Stripe-secured payments</small></div>
+        <div><b>Buy in one tap</b><small>Secure payments</small></div>
       </div>
     </div>
   </div>
@@ -507,7 +507,7 @@ footer ul a:hover{color:var(--gold-soft)}
     </div>
     <div class="foot-bottom">
       <span>© <span id="yr"></span> Akiliwo Marketplace. All rights reserved.</span>
-      <span>Secure payments by Stripe • Denver, Colorado USA</span>
+      <span>Secure payments • Denver, Colorado USA</span>
     </div>
   </div>
 </footer>
@@ -541,8 +541,8 @@ footer ul a:hover{color:var(--gold-soft)}
     <input id="a_emoji" placeholder="e.g. 🎧" value="📦">
     <label>Short description</label>
     <textarea id="a_desc" placeholder="One or two sentences about the item"></textarea>
-    <label>Stripe Payment Link for THIS item (its own fixed-price link)</label>
-    <input id="a_link" placeholder="https://buy.stripe.com/... (leave blank = shows 'Order on WhatsApp')">
+    <label>Payment link for THIS item (optional)</label>
+    <input id="a_link" placeholder="https://... (leave blank = shows 'Order on WhatsApp')">
     <label>Badge (optional)</label>
     <input id="a_badge" placeholder="e.g. New, Sale, Sold out">
     <div class="admin-actions">
@@ -558,11 +558,10 @@ footer ul a:hover{color:var(--gold-soft)}
    ⬇️⬇️⬇️  YOUR PRODUCTS LIVE HERE  ⬇️⬇️⬇️
    To add a new item, copy one block, paste it, and edit it.
    - category: "shop" | "books" | "digital"  (decides which section it shows in)
-   - link:     THIS item's OWN Stripe Payment Link, set to a FIXED price in Stripe.
-               Each product = its own link. Empty link "" shows "Order on WhatsApp" to customers.
-               Create links at dashboard.stripe.com -> Payment Links (choose a fixed price).
-   - price:    the text shown on the card. To CHANGE A PRICE you must update BOTH this
-               text AND the amount on that item's Stripe link, or the charge will be wrong.
+   - link:     optional payment link for THIS item. Each product = its own link.
+               Empty link "" shows "Order on WhatsApp" to customers.
+   - price:    the text shown on the card. If the item has a payment link, update the
+               amount there too when you change the price.
    - images:   list of picture URLs, e.g. ["images/shoe1.jpg","images/shoe2.jpg"]
                (or leave [] to use the emoji placeholder). Customers can flip through them.
    - badge:    optional little tag. Use "Sold out" to grey out the buy button.
