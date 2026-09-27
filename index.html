@@ -193,6 +193,7 @@ section.block{padding:70px 0}
 .feat-opt .fmt{font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .feat-opt .price{font-size:1.7rem;line-height:1}
 .feat-opt .buy{justify-content:center}
+.feat-note{font-size:.8rem;font-weight:700;color:var(--red)}
 @media(max-width:760px){
   .prod.featured{flex-direction:column}
   .feat-cover{flex:none;padding:26px 20px}
@@ -722,7 +723,7 @@ const PRODUCTS = [
     author:"Jibril Ahmed",
     price:"$19.99 Paperback / $9.99 eBook",
     formats:[
-      {name:"Paperback", price:"$19.99", link:""},
+      {name:"Paperback", price:"$19.99", link:"", note:"📦 Limited stock: ships from Denver, Colorado"},
       {name:"eBook",     price:"$9.99",  link:""}
     ],
     images:["images/last-bus-to-where.jpg"],
@@ -1041,7 +1042,7 @@ function featuredCard(p){
     const wa = `<a class="buy buy-wa" href="https://wa.me/17207994089?text=${waMsg}" target="_blank" rel="noopener">💬 Order ${esc(label||'on WhatsApp')}</a>`;
     const card = (o.link && o.link.trim()) ? `<a class="buy buy-card" href="${o.link}" target="_blank" rel="noopener">💳 Buy now with card</a>` : '';
     const act = sold ? `<span class="buy disabled">Sold out</span>` : (card + wa);
-    return `<div class="feat-opt">${label?`<span class="fmt">${esc(label)}</span>`:''}<span class="price">${esc(o.price)}</span>${act}</div>`;
+    return `<div class="feat-opt">${label?`<span class="fmt">${esc(label)}</span>`:''}<span class="price">${esc(o.price)}</span>${o.note?`<span class="feat-note">${esc(o.note)}</span>`:''}${act}</div>`;
   }).join('');
   return `<article class="prod featured">
     <div class="feat-cover">${badge}${cover}</div>
