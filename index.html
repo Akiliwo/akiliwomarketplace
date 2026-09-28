@@ -152,6 +152,7 @@ section.block{padding:70px 0}
 .prod .body{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
 .prod h3{font-family:'Fraunces';font-size:1.18rem;color:var(--green);line-height:1.2;margin-bottom:7px}
 .prod .desc{color:var(--muted);font-size:.9rem;flex:1;margin-bottom:16px}
+.prod .fda{font-size:.72rem;line-height:1.4;color:var(--muted);font-style:italic;margin:0 0 12px}
 .prod .foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .price{font-family:'Fraunces';font-weight:900;font-size:1.4rem;color:var(--ink)}
 .buy-row{display:flex;flex-direction:column;gap:8px;margin-top:12px}
@@ -607,6 +608,7 @@ footer ul a:hover{color:var(--gold-soft)}
    - images:   list of picture URLs, e.g. ["images/shoe-1000.webp"] (with -200/-500 sizes beside it) or Cloudinary links
                (or leave [] to use the emoji placeholder). Customers can flip through them.
    - badge:    optional little tag. Use "Sold out" to grey out the buy button.
+   - disclaimer: optional small print under the benefits (e.g. the FDA line for herbal drinks/supplements).
    Tip: open this site with #admin at the end of the URL to get a form that
         writes these blocks for you.
    ============================================================ */
@@ -617,10 +619,11 @@ const PRODUCTS = [
     price:"$35.00",
     images:["images/dulu-herbal-tonic-500ml-1000.webp"],
     emoji:"🌿",
-    desc:"Traditional herbal wellness tonic made from carefully selected natural ingredients — roots, herbs, vegetables, antioxidants and fruits — to support overall health and vitality.",
+    desc:"Traditional herbal wellness drink made from roots, herbs and fruits. 500ml bottle.",
     benefits:["Supports overall wellness and daily vitality","Helps support a healthy immune system","Provides natural antioxidant support","Helps promote relaxation and emotional well-being","Supports a healthy response to everyday stress","Helps maintain normal nervous system function","Supports reproductive health and wellness","Helps support normal respiratory function","Supports healthy digestion and digestive comfort","Promotes balance and general body wellness"],
     link:"",
-    badge:"New"
+    badge:"New",
+    disclaimer:"These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
   },
   {
     category:"shop",
@@ -631,7 +634,8 @@ const PRODUCTS = [
     desc:"Body-balancing herbal wellness drink crafted from a blend of traditional botanical ingredients to support overall well-being, healthy skin and daily vitality.",
     benefits:["Supports overall wellness and vitality","Helps maintain healthy skin appearance","Provides antioxidant support","Supports healthy aging and general wellness","Helps promote natural beauty from within","Supports daily nutritional wellness","Helps maintain the body's natural balance","Supports an active and healthy lifestyle","Promotes overall health and well-being"],
     link:"",
-    badge:""
+    badge:"",
+    disclaimer:"These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
   },
   {
     category:"shop",
@@ -642,7 +646,8 @@ const PRODUCTS = [
     desc:"Men's wellness supplement in convenient sachets — mix one into half a glass of hot water, milk or pap. Formulated to support vitality, energy and an active lifestyle.",
     benefits:["Supports men's overall wellness","Helps maintain daily vitality and energy","Supports an active lifestyle","Promotes general health and well-being","Provides antioxidant support","Supports physical wellness and stamina","Helps maintain normal body function","Supports nutritional balance","Promotes healthy lifestyle goals"],
     link:"",
-    badge:""
+    badge:"",
+    disclaimer:"These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
   },
   {
     category:"shop",
@@ -653,7 +658,8 @@ const PRODUCTS = [
     desc:"Premium men's wellness supplement formulated with carefully selected natural ingredients to support vitality, stamina and healthy lifestyle goals.",
     benefits:["Supports men's overall wellness","Helps maintain daily vitality and energy","Supports an active and healthy lifestyle","Promotes general well-being","Provides nutritional support","Supports physical wellness and stamina","Helps maintain normal body functions","Supports overall health and vitality","Promotes a balanced and healthy lifestyle"],
     link:"",
-    badge:""
+    badge:"",
+    disclaimer:"These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
   },
   {
     category:"shop",
@@ -697,7 +703,8 @@ const PRODUCTS = [
     desc:"Premium 6-in-1 coffee blend with reishi mushroom, cordyceps and tongkat ali. Simply drink good coffee — rich, smooth and convenient for daily enjoyment.",
     benefits:["Premium coffee blend with selected ingredients","With reishi mushroom, cordyceps and tongkat ali","Supports overall wellness and daily vitality","Provides a satisfying, enjoyable coffee experience","Helps complement an active lifestyle","Rich flavor and smooth taste","Convenient single-serve sachets"],
     link:"",
-    badge:""
+    badge:"",
+    disclaimer:"These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
   },
   {
     category:"shop",
@@ -1315,6 +1322,7 @@ function productCard(p){
       <h3>${esc(p.title)}</h3>
       <p class="desc">${esc(p.desc)}</p>
       ${benefits}
+      ${p.disclaimer ? `<p class="fda">${esc(p.disclaimer)}</p>` : ''}
       <div class="foot"><span class="price">${esc(p.price)}</span></div>
       <div class="buy-row">${actions}</div>
     </div>
