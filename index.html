@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Akiliwo Marketplace</title>
 <meta name="description" content="Akiliwo Marketplace — shop quality products, books, and digital downloads with secure checkout.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Akiliwo Marketplace">
+<meta property="og:url" content="https://www.akiliwomarketplace.com/">
+<meta property="og:title" content="Akiliwo Marketplace — Shop, Books &amp; More">
+<meta property="og:description" content="Crystal hair eraser, camera ear cleaner, herbal soaps, books and more. Watch the demos and order online or on WhatsApp. Ships USA-wide.">
+<meta property="og:image" content="https://www.akiliwomarketplace.com/images/crystal-hair-removal-video-poster.webp">
+<meta name="twitter:card" content="summary_large_image">
 
 <!-- ====== FONTS ====== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -203,6 +210,26 @@ section.block{padding:70px 0}
 }
 .help-line{margin-top:26px;text-align:center;color:var(--muted);font-size:.95rem}
 .help-line a{color:var(--green);font-weight:700;border-bottom:1px solid var(--gold);white-space:nowrap}
+/* ---------- VIDEO DEMOS ---------- */
+.vid-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px;align-items:start}
+.vid-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.vid-frame{position:relative;background:#000}
+.vid-frame.v{aspect-ratio:9/16;max-height:600px;margin:0 auto}
+.vid-frame.h{aspect-ratio:16/9}
+.vid-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.vid-sound{position:absolute;top:12px;right:12px;z-index:2;border:0;border-radius:50px;background:rgba(0,0,0,.6);color:#fff;font-weight:800;font-size:.78rem;padding:7px 12px;cursor:pointer}
+.vid-card .body{padding:16px 18px 18px}
+.vid-card h3{font-family:'Fraunces';color:var(--green);font-size:1.15rem;line-height:1.2;margin-bottom:6px}
+.vid-card .price{font-size:1.3rem}
+.vid-card .buy-row{margin-top:10px}
+.vid-share{margin-top:8px;width:100%;border:1px solid var(--line);background:var(--cream-2);color:var(--green);font-weight:800;font-size:.88rem;padding:10px;border-radius:11px;cursor:pointer}
+.vid-share:hover{border-color:var(--gold)}
+.vid-chip{position:absolute;left:12px;bottom:12px;z-index:3;border:0;border-radius:50px;background:rgba(12,68,52,.92);color:#fff;font-weight:800;font-size:.78rem;padding:7px 13px;cursor:pointer;box-shadow:0 4px 12px -4px rgba(0,0,0,.5)}
+.vid-chip:hover{background:var(--gold);color:var(--green)}
+#vid-dialog{margin:auto;border:0;padding:0;background:transparent;max-width:min(92vw,900px);width:auto}
+#vid-dialog::backdrop{background:rgba(0,0,0,.8)}
+#vid-dialog video{display:block;max-width:min(92vw,900px);max-height:84vh;border-radius:14px;background:#000}
+#vid-dialog .close{position:absolute;top:10px;right:10px;z-index:2;border:0;background:#fff;color:#000;font-weight:800;border-radius:50px;padding:8px 14px;cursor:pointer}
 .empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);border:2px dashed var(--line);border-radius:var(--radius)}
 
 /* ---------- PRODUCT IMAGE GALLERY (multiple pictures) ---------- */
@@ -382,6 +409,18 @@ footer ul a:hover{color:var(--gold-soft)}
         <div><b>Buy in one tap</b><small>Secure payments</small></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ VIDEOS ============ -->
+<section class="block" id="videos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">🎬 See it in action</div>
+      <h2>Watch before you buy</h2>
+      <p>Real demos from Akiliwo Marketplace. Tap a video for sound, then order in one tap.</p>
+    </div>
+    <div class="vid-row" id="vid-row"></div>
   </div>
 </section>
 
@@ -609,6 +648,8 @@ footer ul a:hover{color:var(--gold-soft)}
                (or leave [] to use the emoji placeholder). Customers can flip through them.
    - badge:    optional little tag. Use "Sold out" to grey out the buy button.
    - disclaimer: optional small print under the benefits (e.g. the FDA line for herbal drinks/supplements).
+   - video:    optional demo video (videos/name.mp4) + videoPoster (cover image) + videoShape ("v" vertical, "h" horizontal).
+               Products with a video appear in the "See it in action" section and get a "Watch video" button.
    Tip: open this site with #admin at the end of the URL to get a form that
         writes these blocks for you.
    ============================================================ */
@@ -737,7 +778,10 @@ const PRODUCTS = [
     desc:"Smooth skin in seconds with no razor, no wax and no creams. This reusable crystal hair eraser has a fine nano-crystal surface that gently buffs hair away and exfoliates as you glide it over your skin in small circles. Rinse it, let it dry, and it's ready to use again.",
     benefits:["Removes hair on arms, legs and other body areas in minutes", "Gentle, virtually painless circular motion: no blades, no nicks or cuts", "Exfoliates as it works, leaving skin feeling soft and smooth", "No chemicals, creams or wax, and no batteries or charging", "Reusable: just rinse with water, dry and use again", "Compact and travel-friendly, perfect for quick touch-ups", "Available in two colors: pink or blue", "Tip: use on clean, dry skin, avoid irritated or broken skin, and moisturize afterward"],
     link:"https://buy.stripe.com/3cI5kEemX2BOfuOguX6sw04",
-    badge:""
+    badge:"",
+    video:"videos/crystal-hair-removal-demo.mp4",
+    videoPoster:"images/crystal-hair-removal-video-poster.webp",
+    videoShape:"h"
   },
   {
     category:"shop",
@@ -749,7 +793,10 @@ const PRODUCTS = [
     benefits:["Built-in camera streams a live HD view to your phone at 30 fps", "Wireless: connects over 2.4 GHz Wi-Fi to a phone app for iPhone and Android (QR code on the box)", "Take a picture with one tap to save or share", "Cordless design, powered by 5V USB", "Slim, lightweight handle with simple one-button control",
     "Model Y38, CE, FCC and RoHS marked", "Color: white", "Safety: clean gently near the opening of the ear canal and never push deep. Don't use with ear pain, infection or a perforated eardrum. Children should use it only with adult supervision."],
     link:"https://buy.stripe.com/eVqdRafr11xKfuOa6z6sw05",
-    badge:""
+    badge:"",
+    video:"videos/y38-ear-cleaner-demo.mp4",
+    videoPoster:"images/y38-ear-cleaner-video-poster.webp",
+    videoShape:"v"
   },
   {
     category:"shop",
@@ -1317,7 +1364,7 @@ function productCard(p){
     ? `<details><summary>Benefits &amp; functions</summary><ul>${p.benefits.map(b=>`<li>${esc(b)}</li>`).join('')}</ul></details>`
     : '';
   return `<article class="prod">
-    <div class="imgwrap">${badge}${galleryHTML(p)}</div>
+    <div class="imgwrap">${badge}${galleryHTML(p)}${p.video?`<button class="vid-chip" data-video="${p.video}" data-poster="${p.videoPoster||''}">▶ Watch video</button>`:''}</div>
     <div class="body">
       <h3>${esc(p.title)}</h3>
       <p class="desc">${esc(p.desc)}</p>
@@ -1372,6 +1419,69 @@ function renderSection(cat,elId){
 renderSection('shop','grid-shop');
 renderSection('books','grid-books');
 renderSection('digital','grid-digital');
+
+/* ---- Video demos: built from products that have a video ---- */
+function orderButtons(p){
+  const waMsg = encodeURIComponent("Hello Akiliwo Marketplace, I would like to order: " + p.title + " — " + p.price + ". Is it available?");
+  const card = (p.link && p.link.trim()) ? `<a class="buy buy-card" href="${p.link}" target="_blank" rel="noopener">💳 Buy now with card</a>` : '';
+  return card + `<a class="buy buy-wa" href="https://wa.me/17207994089?text=${waMsg}" target="_blank" rel="noopener">💬 Order on WhatsApp</a>`;
+}
+const VIDEO_PRODUCTS = PRODUCTS.filter(p=>p.video);
+const vidRow = document.getElementById('vid-row');
+if(!VIDEO_PRODUCTS.length){ document.getElementById('videos').style.display='none'; }
+vidRow.innerHTML = VIDEO_PRODUCTS.map((p,i)=>`
+  <article class="vid-card reveal">
+    <div class="vid-frame ${p.videoShape==='v'?'v':'h'}">
+      <video muted loop playsinline preload="none" poster="${p.videoPoster||''}" aria-label="${esc(p.title)} video">
+        <source src="${p.video}" type="video/mp4">
+        <source src="${p.video.replace(/\.mp4$/,'.webm')}" type="video/webm">
+      </video>
+      <button class="vid-sound" type="button">🔇 Tap for sound</button>
+    </div>
+    <div class="body">
+      <h3>${esc(p.title)}</h3>
+      <span class="price">${esc(p.price)}</span>
+      <div class="buy-row">${orderButtons(p)}</div>
+      <button class="vid-share" type="button" data-i="${i}">📤 Share this video</button>
+    </div>
+  </article>`).join('');
+
+// autoplay silently while on screen (like TikTok), pause when scrolled away
+const vidIO = new IntersectionObserver(es=>es.forEach(e=>{
+  const v=e.target;
+  if(e.isIntersecting){ const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); } else { v.pause(); }
+}),{threshold:.6});
+vidRow.querySelectorAll('video').forEach(v=>vidIO.observe(v));
+vidRow.addEventListener('click',e=>{
+  const snd=e.target.closest('.vid-sound');
+  if(snd){ const v=snd.parentElement.querySelector('video'); v.muted=!v.muted; if(!v.muted){v.currentTime=0; v.play().catch(()=>{});} snd.textContent=v.muted?'🔇 Tap for sound':'🔊 Sound on'; return; }
+  const sh=e.target.closest('.vid-share');
+  if(sh){
+    const p=VIDEO_PRODUCTS[+sh.dataset.i];
+    const url=location.origin+location.pathname+'#videos';
+    const text=`Check out this ${p.title} (${p.price}) from Akiliwo Marketplace 👀`;
+    if(navigator.share){ navigator.share({title:p.title,text,url}).catch(()=>{}); }
+    else { window.open('https://wa.me/?text='+encodeURIComponent(text+' '+url),'_blank','noopener'); }
+  }
+});
+
+// "Watch video" on product cards opens a player
+const vidDialog = document.createElement('dialog');
+vidDialog.id='vid-dialog';
+vidDialog.innerHTML='<button class="close" type="button">✕ Close</button><video controls playsinline></video>';
+document.body.appendChild(vidDialog);
+const dlgVideo = vidDialog.querySelector('video');
+function closeVid(){ dlgVideo.pause(); dlgVideo.removeAttribute('src'); dlgVideo.load(); if(vidDialog.open) vidDialog.close(); }
+vidDialog.querySelector('.close').addEventListener('click',closeVid);
+vidDialog.addEventListener('click',e=>{ if(e.target===vidDialog) closeVid(); });
+vidDialog.addEventListener('cancel',()=>{ dlgVideo.pause(); });
+document.addEventListener('click',e=>{
+  const chip=e.target.closest('.vid-chip'); if(!chip) return;
+  e.preventDefault(); e.stopPropagation();
+  dlgVideo.poster=chip.dataset.poster||''; const mp4=chip.dataset.video; dlgVideo.src=(dlgVideo.canPlayType('video/mp4; codecs="avc1.42E01E"')?mp4:mp4.replace(/\.mp4$/,'.webm'));
+  if(vidDialog.showModal) vidDialog.showModal(); else vidDialog.setAttribute('open','');
+  dlgVideo.play().catch(()=>{});
+});
 
 document.getElementById('grid-blog').innerHTML = POSTS.map(b=>`
   <article class="post">
