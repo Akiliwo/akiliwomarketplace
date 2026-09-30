@@ -32,3 +32,19 @@ The Inventory API can't see listings created in Seller Hub, so the script would 
 3. From then on, `publish` **updates** that listing, including the 1.785 oz weight, instead of creating a new one.
 
 Note: that update replaces the listing's title, photos, description, price and quantity with the website + CATALOG values (eBay price $15.99 from `ebay_price`, quantity 1). Run `plan` first, and change `qty` in CATALOG if you have more in stock.
+
+## Publish from GitHub (no computer needed after setup)
+The workflow `.github/workflows/ebay.yml` runs these same scripts on GitHub's servers.
+
+**One-time setup:** GitHub > this repository > **Settings > Secrets and variables > Actions > New repository secret**. Add:
+`EBAY_CLIENT_ID`, `EBAY_CERT_ID`, `EBAY_REFRESH_TOKEN`, `EBAY_FULFILLMENT_POLICY_ID`, `EBAY_PAYMENT_POLICY_ID`, `EBAY_RETURN_POLICY_ID`, `EBAY_LOCATION_CITY`, `EBAY_LOCATION_STATE`, `EBAY_LOCATION_POSTAL`.
+The refresh token comes from running `python ebay_bulk_all_products.py auth` once on your computer (it needs you to sign in to eBay in a browser).
+
+**Every time:** GitHub > **Actions > eBay listings > Run workflow**, then pick a command:
+- `plan`: dry run, changes nothing
+- `policies`: read-only list of your business policy IDs
+- `publish`: type `PUBLISH` in the confirm box (optionally set "Only these SKUs", e.g. `CHAR-001` for a first test)
+- `migrate`: adopt a Seller Hub listing (item number + `PUBLISH`)
+- `book-status` / `book-pause` / `book-resume` (quantity + `PUBLISH`)
+
+Results are in the run log and in the downloadable `ebay-results` file.

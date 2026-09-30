@@ -1,0 +1,116 @@
+# Run the eBay tools on GitHub's servers (PRODUCTION, api.ebay.com).
+# GitHub > this repository > Actions > "eBay listings" > Run workflow.
+# Secrets live in: Settings > Secrets and variables > Actions (never in the code or chat).
+name: eBay listings
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "What to do"
+        type: choice
+        default: plan
+        options:
+          - plan            # dry run: checks every product with eBay, changes nothing
+          - publish         # list/update all READY products (book stays paused, Crystal waits for migrate)
+          - policies        # read-only: show your existing business policy IDs
+          - migrate         # adopt a listing made in Seller Hub (needs item number below)
+          - book-status     # dry run: is Last Bus to Where live on eBay?
+          - book-pause      # end the book's eBay listing, keep it as a draft
+          - book-resume     # relist the book (quantity below)
+      only:
+        description: "Only these SKUs, comma-separated (optional, e.g. CHAR-001)"
+        required: false
+        default: ""
+      item_numbers:
+        description: "migrate: eBay item number(s), space-separated"
+        required: false
+        default: ""
+      quantity:
+        description: "book-resume: how many copies (e.g. 100)"
+        required: false
+        default: ""
+      confirm:
+        description: "Type PUBLISH to allow publish / migrate / book-pause / book-resume"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ebay
+  cancel-in-progress: false
+
+jobs:
+  ebay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: _ebay
+    env:
+      EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
+      EBAY_CERT_ID: ${{ secrets.EBAY_CERT_ID }}
+      EBAY_REFRESH_TOKEN: ${{ secrets.EBAY_REFRESH_TOKEN }}
+      EBAY_FULFILLMENT_POLICY_ID: ${{ secrets.EBAY_FULFILLMENT_POLICY_ID }}
+      EBAY_PAYMENT_POLICY_ID: ${{ secrets.EBAY_PAYMENT_POLICY_ID }}
+      EBAY_RETURN_POLICY_ID: ${{ secrets.EBAY_RETURN_POLICY_ID }}
+      EBAY_LOCATION_KEY: akiliwo-colorado
+      EBAY_LOCATION_CITY: ${{ secrets.EBAY_LOCATION_CITY }}
+      EBAY_LOCATION_STATE: ${{ secrets.EBAY_LOCATION_STATE }}
+      EBAY_LOCATION_POSTAL: ${{ secrets.EBAY_LOCATION_POSTAL }}
+      EBAY_LOCATION_COUNTRY: US
+      CMD: ${{ inputs.command }}
+      ONLY: ${{ inputs.only }}
+      ITEMS: ${{ inputs.item_numbers }}
+      QTY: ${{ inputs.quantity }}
+      CONFIRM: ${{ inputs.confirm }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -r requirements.txt pillow
+
+      - name: Check secrets and confirmation
+        run: |
+          for v in EBAY_CLIENT_ID EBAY_CERT_ID EBAY_REFRESH_TOKEN; do
+            if [ -z "${!v}" ]; then echo "::error::Missing secret $v (Settings > Secrets and variables > Actions)"; exit 1; fi
+          done
+          case "$CMD" in
+            publish|migrate|book-pause|book-resume)
+              if [ "$CONFIRM" != "PUBLISH" ]; then
+                echo "::error::'$CMD' changes your live eBay account. Run again and type PUBLISH in the confirm box."; exit 1
+              fi;;
+          esac
+
+      - name: Run ${{ inputs.command }}
+        run: |
+          set -euo pipefail
+          SRC="--source ../index.html"          # products exactly as committed in this repository
+          ONLY_ARG=""; [ -n "$ONLY" ] && ONLY_ARG="--only $ONLY"
+          case "$CMD" in
+            plan)         python ebay_bulk_all_products.py plan $SRC $ONLY_ARG ;;
+            publish)      python ebay_bulk_all_products.py publish $SRC $ONLY_ARG --yes ;;
+            policies)     python ebay_bulk_all_products.py policies ;;
+            migrate)      [ -n "$ITEMS" ] || { echo "::error::Enter the eBay item number(s)"; exit 1; }
+                          python ebay_bulk_all_products.py migrate $ITEMS ;;
+            book-status)  python pause_book.py status ;;
+            book-pause)   python pause_book.py pause --yes ;;
+            book-resume)  QARG=""; [ -n "$QTY" ] && QARG="--quantity $QTY"
+                          python pause_book.py resume $QARG --yes $SRC ;;
+          esac
+
+      - name: Save results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ebay-results
+          path: |
+            _ebay/ebay_bulk_upload_all.csv
+            _ebay/ebay_publish_results.csv
+          if-no-files-found: ignore
