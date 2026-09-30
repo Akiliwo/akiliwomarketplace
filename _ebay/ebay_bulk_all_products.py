@@ -83,6 +83,7 @@ USED_MEDIA_NOTE = "Pre-owned in good used condition. Please see photos for exact
 #   condition  Inventory API condition enum
 #   weight     REAL package weight in ounces (None = unknown -> skipped by default)
 #   qty        quantity to offer
+#   ebay_price optional eBay-only price, e.g. "15.99" (otherwise the website price is used)
 #   aspects    item specifics; anything eBay marks as required must be here
 #   note       optional condition note for used items
 # Weigh items PACKED for shipping when you can; that is what the label is priced on.
@@ -114,6 +115,7 @@ CATALOG = {
     "Akiliwo Crystal Hair Removal": dict(
         sku="HAIR-005", title="Akiliwo Crystal Hair Eraser Painless Reusable Hair Removal Tool",
         category={"q": "crystal hair eraser hair removal"}, condition="NEW", weight=1.785, qty=1,
+        ebay_price="15.99",   # eBay price (website is $10.99)
         aspects={"Brand": ["Akiliwo"]},
         extra_html="<p><b>Color:</b> pink or blue. Please send your color choice in eBay messages after purchase.</p>"),
     "Y38 Wireless Ear Cleaner with Camera": dict(
@@ -527,7 +529,7 @@ def build_plan(args, ebay):
                              status="PAUSED", reason=PAUSED_ON_EBAY[item["sku"]]))
             continue
         row = dict(site_title=title, item=item, product=p, sku=item["sku"], title=item["title"],
-                   price=money(p), weight=item.get("weight"), qty=args.quantity or item.get("qty", 1),
+                   price=item.get("ebay_price") or money(p), weight=item.get("weight"), qty=args.quantity or item.get("qty", 1),
                    condition=item["condition"], images=image_urls(p, base), problems=[])
         prob = row["problems"]
         if len(item["title"]) > 80:

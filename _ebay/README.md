@@ -31,4 +31,4 @@ The Inventory API can't see listings created in Seller Hub, so the script would 
 2. `python ebay_bulk_all_products.py migrate <eBay item number>`: hands that same listing (same item number, watchers and sales) over to the API. Nothing is ended.
 3. From then on, `publish` **updates** that listing, including the 1.785 oz weight, instead of creating a new one.
 
-Note: that update replaces the listing's title, photos, description, price and quantity with the website + CATALOG values ($10.99, quantity 1). Run `plan` first, and change `qty` in CATALOG if you have more in stock.
+Note: that update replaces the listing's title, photos, description, price and quantity with the website + CATALOG values (eBay price $15.99 from `ebay_price`, quantity 1). Run `plan` first, and change `qty` in CATALOG if you have more in stock.
