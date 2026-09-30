@@ -71,6 +71,7 @@ RESULTS_OUT = HERE / "ebay_publish_results.csv"
 CAT_BOOKS = "261186"     # Books & Magazines > Books
 CAT_DVD = "617"          # Movies & TV > DVDs & Blu-ray Discs
 CAT_CD = "176984"        # Music > CDs
+CAT_RECORDS = "176985"   # Music > Records
 
 USED_BOOK_NOTE = "Pre-owned book in good used condition. Please see photos for exact condition."
 USED_MEDIA_NOTE = "Pre-owned in good used condition. Please see photos for exact condition."
@@ -86,6 +87,7 @@ USED_MEDIA_NOTE = "Pre-owned in good used condition. Please see photos for exact
 #   ebay_price optional eBay-only price, e.g. "15.99" (otherwise the website price is used)
 #   aspects    item specifics; anything eBay marks as required must be here
 #   note       optional condition note for used items
+#   confirm    a question that must be answered before listing (item stays NEEDS INFO)
 # Weigh items PACKED for shipping when you can; that is what the label is priced on.
 def book(sku, title, author, fmt=None, weight=None, **extra):
     aspects = {"Book Title": [extra.pop("book_title")], "Author": [author], "Language": ["English"]}
@@ -151,122 +153,143 @@ CATALOG = {
     # ---------------- Used books (weights not measured yet) ----------------
     "Louise Penny - The Brutal Telling - Hardcover - Chief Inspector Gamache Mystery": book(
         "BK-PENNY-BRUTAL", "The Brutal Telling by Louise Penny Hardcover Chief Inspector Gamache #5",
-        "Louise Penny", "Hardcover", book_title="The Brutal Telling"),
+        "Louise Penny", "Hardcover", weight=22.26, book_title="The Brutal Telling"),
     "Stieg Larsson - The Girl Who Played with Fire - Paperback - Millennium #2": book(
         "BK-LARSSON-FIRE", "The Girl Who Played with Fire by Stieg Larsson Paperback Millennium #2",
-        "Stieg Larsson", "Paperback", book_title="The Girl Who Played with Fire"),
+        "Stieg Larsson", "Paperback", weight=12.8, book_title="The Girl Who Played with Fire"),
     "The House in the Night - Susan Marie Swanson - Board Book - Caldecott Medal": book(
         "BK-HOUSE-NIGHT", "The House in the Night by Susan Marie Swanson Board Book Caldecott",
-        "Susan Marie Swanson", "Board Book", book_title="The House in the Night"),
+        "Susan Marie Swanson", "Board Book", weight=16.26, book_title="The House in the Night"),
     "Amy Tan - The Opposite of Fate: A Book of Musings - Hardcover": book(
         "BK-TAN-FATE", "The Opposite of Fate: A Book of Musings by Amy Tan Hardcover",
-        "Amy Tan", "Hardcover", book_title="The Opposite of Fate"),
+        "Amy Tan", "Hardcover", weight=16.8, book_title="The Opposite of Fate"),
     "Jamie Sams - Dancing the Dream: The Seven Sacred Paths of Human Transformation - Paperback": book(
         "BK-SAMS-DREAM", "Dancing the Dream by Jamie Sams Seven Sacred Paths Paperback",
-        "Jamie Sams", "Paperback", book_title="Dancing the Dream"),
+        "Jamie Sams", "Paperback", weight=8.04, book_title="Dancing the Dream"),
     "Scott Westerfeld - Pretties - Uglies Series Book 2 - Paperback - Used": book(
         "BK-WESTERFELD-PRETTIES", "Pretties by Scott Westerfeld Paperback Uglies Series Book 2",
-        "Scott Westerfeld", "Paperback", book_title="Pretties"),
+        "Scott Westerfeld", "Paperback", weight=11.4, book_title="Pretties"),
     "DIY Wrap Bracelets - Keiko Sakamoto - Paperback - Used": book(
         "BK-WRAP-BRACELETS", "DIY Wrap Bracelets by Keiko Sakamoto 28 Designs Paperback",
-        "Keiko Sakamoto", "Paperback", book_title="DIY Wrap Bracelets"),
+        "Keiko Sakamoto", "Paperback", weight=26.88, book_title="DIY Wrap Bracelets"),
     "Writing Fabulous Sentences & Paragraphs - Evan-Moor - Grades 4-6 - Used": book(
         "BK-EVANMOOR-SENTENCES", "Writing Fabulous Sentences & Paragraphs Evan-Moor Grades 4-6 EMC 575",
-        "Evan-Moor", "Paperback", book_title="Writing Fabulous Sentences & Paragraphs"),
+        "Evan-Moor", "Paperback", weight=11.68, book_title="Writing Fabulous Sentences & Paragraphs"),
     "Baby on the Way - Sears Children's Library - Hardcover - Used": book(
         "BK-SEARS-BABY", "Baby on the Way by William Sears & Martha Sears Hardcover",
-        "William Sears", "Hardcover", book_title="Baby on the Way"),
+        "William Sears", "Hardcover", weight=12.74, book_title="Baby on the Way"),
     "Jack Higgins - On Dangerous Ground - Hardcover - Used": book(
         "BK-HIGGINS-DANGEROUS", "On Dangerous Ground by Jack Higgins Hardcover Sean Dillon Thriller",
-        "Jack Higgins", "Hardcover", book_title="On Dangerous Ground"),
+        "Jack Higgins", "Hardcover", weight=20.02, book_title="On Dangerous Ground"),
     "Carl N. Degler - Out of Our Past: The Forces That Shaped Modern America - Third Edition - Paperback - Used": book(
         "BK-DEGLER-PAST", "Out of Our Past by Carl N. Degler Third Edition Paperback",
-        "Carl N. Degler", "Paperback", book_title="Out of Our Past"),
+        "Carl N. Degler", "Paperback", weight=18.66, book_title="Out of Our Past"),
     "DK Eyewitness Books - Ancient China - Used": book(
         "BK-DK-ANCIENT-CHINA", "DK Eyewitness Books Ancient China",
-        "DK", None, book_title="Ancient China"),
+        "DK", None, weight=19.88, book_title="Ancient China"),
     "Pete the Cat Plays Hide-and-Seek - Kimberly & James Dean - Used": book(
         "BK-PETE-HIDE-SEEK", "Pete the Cat Plays Hide-and-Seek by Kimberly & James Dean",
-        "Kimberly Dean", None, book_title="Pete the Cat Plays Hide-and-Seek"),
+        "Kimberly Dean", None, weight=12.6, book_title="Pete the Cat Plays Hide-and-Seek"),
     "Bill O'Reilly & Martin Dugard - Killing Lincoln - Hardcover - Used": book(
         "BK-OREILLY-LINCOLN", "Killing Lincoln by Bill O'Reilly & Martin Dugard Hardcover",
-        "Bill O'Reilly", "Hardcover", book_title="Killing Lincoln"),
+        "Bill O'Reilly", "Hardcover", weight=19.84, book_title="Killing Lincoln"),
     "Rachael Ray - 30-Minute Meals - Paperback Cookbook - Used": book(
         "BK-RAY-30MIN", "Rachael Ray 30-Minute Meals Paperback Cookbook",
-        "Rachael Ray", "Paperback", book_title="30-Minute Meals"),
+        "Rachael Ray", "Paperback", weight=13.26, book_title="30-Minute Meals"),
     "Bill O'Reilly & Martin Dugard - Killing Patton - Hardcover - Used": book(
         "BK-OREILLY-PATTON", "Killing Patton by Bill O'Reilly & Martin Dugard Hardcover",
-        "Bill O'Reilly", "Hardcover", book_title="Killing Patton"),
+        "Bill O'Reilly", "Hardcover", weight=20.1, book_title="Killing Patton"),
     "The Littlest Family's Big Day - Emily Winfield Martin - Board Book - Used": book(
         "BK-LITTLEST-FAMILY", "The Littlest Family's Big Day by Emily Winfield Martin Board Book",
-        "Emily Winfield Martin", "Board Book", book_title="The Littlest Family's Big Day"),
+        "Emily Winfield Martin", "Board Book", weight=16.06, book_title="The Littlest Family's Big Day"),
     "Touch & Feel Ocean Friends - Baby Board Book - Used": book(
         "BK-OCEAN-FRIENDS", "Touch & Feel Ocean Friends Baby Board Book",
-        "Unknown", "Board Book", book_title="Touch & Feel Ocean Friends"),
+        "Unknown", "Board Book", weight=11.52, book_title="Touch & Feel Ocean Friends"),
     "James Patterson & Maxine Paetro - The 8th Confession - Paperback - Used": book(
         "BK-PATTERSON-8TH", "The 8th Confession by James Patterson & Maxine Paetro Paperback",
-        "James Patterson", "Paperback", book_title="The 8th Confession"),
+        "James Patterson", "Paperback", weight=7.14, book_title="The 8th Confession"),
     "Arthur T. Bradley - The Survivalist: Frontier Justice - Paperback - Used": book(
         "BK-BRADLEY-SURVIVALIST", "The Survivalist: Frontier Justice by Arthur T. Bradley Paperback",
-        "Arthur T. Bradley", "Paperback", book_title="The Survivalist: Frontier Justice"),
+        "Arthur T. Bradley", "Paperback", weight=11.96, book_title="The Survivalist: Frontier Justice"),
     "Dr. Seuss - Oh, the Places You'll Go! - Hardcover - Used": book(
         "BK-SEUSS-PLACES", "Oh, the Places You'll Go! by Dr. Seuss Hardcover",
-        "Dr. Seuss", "Hardcover", book_title="Oh, the Places You'll Go!"),
+        "Dr. Seuss", "Hardcover", weight=13.38, book_title="Oh, the Places You'll Go!"),
     "Getting to Maybe: How to Excel on Law School Exams - Fischl & Paul - Paperback - Used": book(
         "BK-GETTING-TO-MAYBE", "Getting to Maybe How to Excel on Law School Exams Fischl & Paul Paperback",
-        "Richard Michael Fischl", "Paperback", book_title="Getting to Maybe"),
+        "Richard Michael Fischl", "Paperback", weight=16.94, book_title="Getting to Maybe"),
     "Jeanne DuPrau - The City of Ember - Deluxe Edition - Paperback - Used": book(
         "BK-DUPRAU-EMBER", "The City of Ember Deluxe Edition by Jeanne DuPrau Paperback",
-        "Jeanne DuPrau", "Paperback", book_title="The City of Ember"),
+        "Jeanne DuPrau", "Paperback", weight=11.46, book_title="The City of Ember"),
     "Jack Higgins - Day of Reckoning - Hardcover - Used": book(
         "BK-HIGGINS-RECKONING", "Day of Reckoning by Jack Higgins Hardcover Sean Dillon Thriller",
-        "Jack Higgins", "Hardcover", book_title="Day of Reckoning"),
+        "Jack Higgins", "Hardcover", weight=21.52, book_title="Day of Reckoning"),
     "Hannah Brown - God Bless This Mess - Hardcover Memoir - Used": book(
         "BK-BROWN-MESS", "God Bless This Mess by Hannah Brown Hardcover Memoir",
-        "Hannah Brown", "Hardcover", book_title="God Bless This Mess"),
+        "Hannah Brown", "Hardcover", weight=16.9, book_title="God Bless This Mess"),
     "John Saul - The Presence - Hardcover - Used": book(
         "BK-SAUL-PRESENCE", "The Presence by John Saul Hardcover",
-        "John Saul", "Hardcover", book_title="The Presence"),
+        "John Saul", "Hardcover", weight=20.3, book_title="The Presence"),
     "A Framework for Understanding Poverty - Ruby K. Payne, Ph.D. - Paperback - Used": book(
         "BK-PAYNE-POVERTY", "A Framework for Understanding Poverty by Ruby K. Payne Paperback",
-        "Ruby K. Payne", "Paperback", book_title="A Framework for Understanding Poverty"),
+        "Ruby K. Payne", "Paperback", weight=12.62, book_title="A Framework for Understanding Poverty"),
 
     # ---------------- Used DVDs & CDs ----------------
     "Stir of Echoes - Kevin Bacon - DVD - Used": dict(
         sku="DVD-STIR-ECHOES", title="Stir of Echoes DVD Kevin Bacon Supernatural Thriller",
-        category=CAT_DVD, condition="USED_GOOD", weight=None, qty=1, note=USED_MEDIA_NOTE,
+        category=CAT_DVD, condition="USED_GOOD", weight=4.055, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Movie/TV Title": ["Stir of Echoes"], "Format": ["DVD"]}),
     "Mr. & Mrs. Smith - DVD - Widescreen - Used": dict(
         sku="DVD-MR-MRS-SMITH", title="Mr. & Mrs. Smith DVD Widescreen Brad Pitt Angelina Jolie",
-        category=CAT_DVD, condition="USED_GOOD", weight=None, qty=1, note=USED_MEDIA_NOTE,
+        category=CAT_DVD, condition="USED_GOOD", weight=4.545, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Movie/TV Title": ["Mr. & Mrs. Smith"], "Format": ["DVD"]}),
     "True Blood - The Complete First Season - DVD Box Set - Used": dict(
         sku="DVD-TRUE-BLOOD-S1", title="True Blood The Complete First Season DVD Box Set HBO",
-        category=CAT_DVD, condition="USED_GOOD", weight=None, qty=1, note=USED_MEDIA_NOTE,
+        category=CAT_DVD, condition="USED_GOOD", weight=14.64, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Movie/TV Title": ["True Blood"], "Format": ["DVD"], "Season": ["1"]}),
     "Elvis Presley - 2nd to None - CD - Used": dict(
         sku="CD-ELVIS-2ND-TO-NONE", title="Elvis Presley 2nd to None CD Greatest Hits",
-        category=CAT_CD, condition="USED_GOOD", weight=None, qty=1, note=USED_MEDIA_NOTE,
+        category=CAT_CD, condition="USED_GOOD", weight=4.93, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Artist": ["Elvis Presley"], "Release Title": ["2nd to None"], "Format": ["CD"]}),
+    "Jubilee & Josie R&B Vocal Groups Volume Two - CD - Used": dict(
+        sku="CD-JUBILEE-JOSIE-V2", title="Jubilee & Josie R&B Vocal Groups Volume Two CD Orioles Charioteers Doo-Wop",
+        category=CAT_CD, condition="USED_GOOD", weight=3.90, qty=1, note=USED_MEDIA_NOTE,
+        aspects={"Artist": ["Various Artists"], "Release Title": ["Jubilee & Josie R&B Vocal Groups Volume Two"],
+                 "Format": ["CD"], "Genre": ["R&B & Soul"]}),
+    "Rosanne Cash - Seven Year Ache - Vinyl LP Record - Used": dict(
+        sku="LP-CASH-SEVEN-YEAR-ACHE", title="Rosanne Cash Seven Year Ache Vinyl LP Record 1981",
+        category=CAT_RECORDS, condition="USED_GOOD", weight=4.93, qty=1, note=USED_MEDIA_NOTE,
+        confirm="is the vinyl record inside the sleeve? (4.93 oz is light for an LP) - then set confirm=None",
+        aspects={"Artist": ["Rosanne Cash"], "Release Title": ["Seven Year Ache"], "Format": ["Record"]}),
+    "George Carlin - Occupation: Foole - Vinyl LP Record - Used": dict(
+        sku="LP-CARLIN-OCCUPATION-FOOLE", title="George Carlin Occupation: Foole Vinyl LP Comedy Record 1973",
+        category=CAT_RECORDS, condition="USED_GOOD", weight=8.24, qty=1,
+        note="Pre-owned. Cover shows wear, including some water staining and a crease. Please see photos.",
+        confirm="is the vinyl record inside the sleeve? - then set confirm=None",
+        aspects={"Artist": ["George Carlin"], "Release Title": ["Occupation: Foole"], "Format": ["Record"]}),
+    "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box)": dict(
+        sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box",
+        category={"q": "Godzilla action figure"}, condition="NEW", weight=12.62, qty=1,
+        confirm="is it new/unopened or used? - set condition (NEW or USED_EXCELLENT) then confirm=None",
+        aspects={"Character": ["SpaceGodzilla"]}),
     "Alicia Keys - Songs in A Minor - CD - Used": dict(
         sku="CD-KEYS-A-MINOR", title="Alicia Keys Songs in A Minor CD 2001",
-        category=CAT_CD, condition="USED_GOOD", weight=None, qty=1, note=USED_MEDIA_NOTE,
+        category=CAT_CD, condition="USED_GOOD", weight=3.53, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Artist": ["Alicia Keys"], "Release Title": ["Songs in A Minor"], "Format": ["CD"]}),
 
     # ---------------- Vintage Christmas (used) ----------------
     "Department 56 Shingle Creek House (Lighted) - Used": dict(
-        sku="XMAS-D56-SHINGLE-CREEK", title="Department 56 Shingle Creek House Lighted Christmas Village Building",
-        category={"q": "Department 56 village house"}, condition="USED_EXCELLENT", weight=None, qty=1,
+        sku="XMAS-D56-SHINGLE-CREEK", title="Department 56 Heritage Village Shingle Creek House Lighted Christmas Village",
+        category={"q": "Department 56 village house"}, condition="USED_EXCELLENT", weight=28.02, qty=1,
         note="Pre-owned. Comes in protective foam packaging with light cord. Please see photos.",
         aspects={"Brand": ["Department 56"]}),
     "Department 56 Dickens' Village Bell Tower with Children - Used": dict(
         sku="XMAS-D56-DICKENS-BELL", title="Department 56 Dickens' Village Bell Tower with Children in Box",
-        category={"q": "Department 56 Dickens Village"}, condition="USED_EXCELLENT", weight=None, qty=1,
+        category={"q": "Department 56 Dickens Village"}, condition="USED_EXCELLENT", weight=17.18, qty=1,
         note="Pre-owned, in its box. The box shows some shelf wear. Please see photos.",
         aspects={"Brand": ["Department 56"]}),
     "Vintage Christmas Musical Carousel (Merry-Go-Round) - Used": dict(
         sku="XMAS-CAROUSEL", title="Vintage Christmas Musical Carousel Merry-Go-Round Train Holly Decor",
-        category={"q": "christmas musical carousel"}, condition="USED_EXCELLENT", weight=None, qty=1,
+        category={"q": "christmas musical carousel"}, condition="USED_EXCELLENT", weight=42.32, qty=1,
         note="Pre-owned vintage piece. Please see photos for condition.",
         aspects={"Brand": ["Unbranded"]}),
 }
@@ -275,12 +298,8 @@ CATALOG = {
 SKIP = {
     "Kids' Pajama Set — Blue (Top & Bottom)": "website shows a sample drawing, not a real photo",
     "Kids' Pajama Set — Pink (Top & Bottom)": "website shows a sample drawing, not a real photo",
-    "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box)": "confirm new/sealed or used first",
-    "Rosanne Cash - Seven Year Ache - Vinyl LP Record - Used": "confirm the record is in the sleeve and grade the vinyl first",
-    "George Carlin - Occupation: Foole - Vinyl LP Record - Used": "confirm the record is in the sleeve and grade the vinyl first",
-    "JUBILLE & JOSIER": "no photo or description on the website",
     "Big Boxed Special - Used Book / DVD / CD Bundle Lot - Sale": "no photo; contents of the bundle unknown",
-    "Broken Little - Used Book - Memoir / Fiction - $5.00": "no photo; may duplicate The Littlest Family's Big Day",
+    "Broken Little - Used Book - Memoir / Fiction - $5.00": "no photo or author yet (owner weighed 'Broken Little Believer' at 17.34 oz)",
     "Bill O'Reilly - Used Book - Book #2 - Bestselling History Series": "no photo; exact book unknown",
 }
 
@@ -360,6 +379,22 @@ def extract_products(page):
     js = re.sub(r'([{,]\s*)([A-Za-z_$][\w$]*)\s*:', r'\1"\2":', js)
     js = re.sub(r',(\s*[}\]])', r'\1', js)
     return json.loads(js)
+
+
+def small_photo(url):
+    """Longest side in px if a site photo (found locally in the repo) is under eBay's 500px minimum."""
+    if not url.startswith(SITE):
+        return None
+    local = HERE.parent / url[len(SITE):]
+    if not local.exists():
+        return None
+    try:
+        from PIL import Image
+    except ImportError:
+        return None
+    with Image.open(local) as im:
+        longest = max(im.size)
+    return longest if longest < 500 else None
 
 
 def read_site(source):
@@ -540,6 +575,12 @@ def build_plan(args, ebay):
             prob.append("no photos")
         if item["condition"] not in VALID_CONDITIONS:
             prob.append(f"bad condition {item['condition']}")
+        if item.get("confirm"):
+            prob.append("confirm: " + item["confirm"])
+        for u in row["images"]:
+            small = small_photo(u)
+            if small:
+                prob.append(f"photo {u.rsplit('/', 1)[-1]} is only {small}px; eBay needs 500px+ - send a bigger photo")
         if row["weight"] is None and not args.allow_missing_weight:
             prob.append("no weight yet - weigh it and add weight= in CATALOG")
 
