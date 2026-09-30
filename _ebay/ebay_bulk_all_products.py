@@ -248,7 +248,7 @@ CATALOG = {
         aspects={"Movie/TV Title": ["True Blood"], "Format": ["DVD"], "Season": ["1"]}),
     "Elvis Presley - 2nd to None - CD - Used": dict(
         sku="CD-ELVIS-2ND-TO-NONE", title="Elvis Presley 2nd to None CD Greatest Hits",
-        category=CAT_CD, condition="USED_GOOD", weight=4.93, qty=1, note=USED_MEDIA_NOTE,
+        category=CAT_CD, condition="USED_GOOD", weight=4.415, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Artist": ["Elvis Presley"], "Release Title": ["2nd to None"], "Format": ["CD"]}),
     "Jubilee & Josie R&B Vocal Groups Volume Two - CD - Used": dict(
         sku="CD-JUBILEE-JOSIE-V2", title="Jubilee & Josie R&B Vocal Groups Volume Two CD Orioles Charioteers Doo-Wop",
@@ -264,8 +264,17 @@ CATALOG = {
         sku="LP-CARLIN-OCCUPATION-FOOLE", title="George Carlin Occupation: Foole Vinyl LP Comedy Record 1973",
         category=CAT_RECORDS, condition="USED_GOOD", weight=8.24, qty=1,
         note="Pre-owned. Cover shows wear, including some water staining and a crease. Please see photos.",
-        confirm="is the vinyl record inside the sleeve? - then set confirm=None",
         aspects={"Artist": ["George Carlin"], "Release Title": ["Occupation: Foole"], "Format": ["Record"]}),
+    "Jim Reeves - Pure Gold Volume One - Vinyl LP Record - Used": dict(
+        sku="LP-REEVES-PURE-GOLD-V1", title="Jim Reeves Pure Gold Volume One Vinyl LP RCA ANL1-3014 Stereo Country",
+        category=CAT_RECORDS, condition="USED_GOOD", weight=6.02, qty=1, note=USED_MEDIA_NOTE,
+        aspects={"Artist": ["Jim Reeves"], "Release Title": ["Pure Gold Volume One"], "Format": ["Record"],
+                 "Record Label": ["RCA"], "Genre": ["Country"]}),
+    "Alabama - Vinyl LP Record - Used": dict(
+        sku="LP-ALABAMA", title="Alabama Vinyl LP Record Country",
+        category=CAT_RECORDS, condition="USED_GOOD", weight=3.895, qty=1, note=USED_MEDIA_NOTE,
+        confirm="3.895 oz is too light for an LP with its record - is the record inside? And what is the album title? - then set confirm=None",
+        aspects={"Artist": ["Alabama"], "Format": ["Record"], "Genre": ["Country"]}),
     "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box)": dict(
         sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box",
         category={"q": "Godzilla action figure"}, condition="NEW", weight=12.62, qty=1,
