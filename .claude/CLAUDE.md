@@ -33,3 +33,12 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   writing, scratches). No fake reviews, star ratings or unverifiable statistics.
 - No Stripe branding in visible text. A card-payment link goes in `link`
   (button reads "Buy now with card"); without one, customers see "Order on WhatsApp".
+
+## eBay listing tool (`_ebay/`)
+- `_ebay/ebay_bulk_all_products.py` lists website products on eBay PRODUCTION via the
+  Sell Inventory API. When a product is added to or renamed on the site, add/update its
+  entry in the script's `CATALOG` (keyed by the exact website title) or `SKIP`.
+- Use only real, owner-supplied weights and quantities; never guess. Never put website
+  links, WhatsApp or phone numbers in eBay descriptions (eBay off-platform policy).
+- Secrets live only in `_ebay/.env` (git-ignored). Never ask for or print the Cert ID.
+- `_ebay/` starts with `_`, so GitHub Pages (Jekyll) does not publish it. Don't add `.nojekyll`.

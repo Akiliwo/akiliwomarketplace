@@ -1,0 +1,6 @@
+# eBay secrets and run output - never commit
+.env
+*.env
+!.env.example
+_ebay/ebay_publish_results.csv
+__pycache__/
