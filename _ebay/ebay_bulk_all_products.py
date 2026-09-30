@@ -278,9 +278,9 @@ CATALOG = {
         category={"q": "oil lantern garden shepherd hook"}, condition="USED_EXCELLENT", weight=23.82, qty=1,
         note="Pre-owned. The box shows wear. Please see photos and ask about the contents.",
         aspects={"Brand": ["V&O"]}),
-    "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box)": dict(
-        sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box",
-        category={"q": "Godzilla action figure"}, condition="NEW_OTHER", weight=12.62, qty=1,
+    "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box) - Used": dict(
+        sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box Used Never Opened",
+        category={"q": "Godzilla action figure"}, condition="USED_EXCELLENT", weight=12.62, qty=1,
         note="Never opened - still in its original window box. Previously owned, like new. Please see photos of the box.",
         aspects={"Character": ["SpaceGodzilla"]}),
     "Alicia Keys - Songs in A Minor - CD - Used": dict(
