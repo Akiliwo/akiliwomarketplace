@@ -269,10 +269,10 @@ CATALOG = {
         category=CAT_RECORDS, condition="USED_GOOD", weight=6.02, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Artist": ["Jim Reeves"], "Release Title": ["Pure Gold Volume One"], "Format": ["Record"],
                  "Record Label": ["RCA"], "Genre": ["Country"]}),
-    "Alabama - Vinyl LP Record - Used": dict(
-        sku="LP-ALABAMA", title="Alabama Vinyl LP Record Country",
+    "Alabama - Alabama (Self-Titled) - Vinyl LP Record - Used": dict(
+        sku="LP-ALABAMA", title="Alabama Self-Titled Vinyl LP Record Country Album",
         category=CAT_RECORDS, condition="USED_GOOD", weight=3.895, qty=1, note=USED_MEDIA_NOTE,
-        aspects={"Artist": ["Alabama"], "Format": ["Record"], "Genre": ["Country"]}),
+        aspects={"Artist": ["Alabama"], "Release Title": ["Alabama"], "Format": ["Record"], "Genre": ["Country"]}),
     "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box)": dict(
         sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box",
         category={"q": "Godzilla action figure"}, condition="NEW", weight=12.62, qty=1,
