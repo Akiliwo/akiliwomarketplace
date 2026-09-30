@@ -16,3 +16,10 @@ This folder starts with `_`, so GitHub Pages does not publish it on the website.
 - `python ebay_bulk_all_products.py publish`: list everything marked READY. Re-running updates existing listings instead of duplicating them.
 
 Products, SKUs, eBay titles, categories, conditions, **weights** and quantities live in the `CATALOG` at the top of the script. Items without a real weight are skipped until you add one.
+
+## Pause / resume your book (Last Bus to Where, SKU LAST-BUS-978)
+- `python pause_book.py status`: dry run. Shows whether the book is live on eBay. Changes nothing.
+- `python pause_book.py pause`: **ends** the eBay listing (withdraw offer). The inventory item (photos, 9.78 oz weight, item specifics) and the offer (price, category, policies) are **kept as a draft**. Nothing is deleted.
+- `python pause_book.py resume --quantity 100`: puts it back on eBay with 100 copies, in one command.
+
+While the SKU is in `PAUSED_ON_EBAY` (top of `ebay_bulk_all_products.py`), a normal bulk `publish` skips it. Don't use quantity 0 to hide a listing: unless "Out-of-stock control" is on in your eBay account, eBay ends the listing anyway, so the script refuses 0.

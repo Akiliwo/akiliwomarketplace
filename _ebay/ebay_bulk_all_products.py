@@ -18,6 +18,9 @@ Options:
     --allow-missing-weight   also list items that have no weight in the CATALOG
     --offline                plan without calling eBay (skips category/aspect checks)
     --yes                    publish without the typed confirmation
+    --quantity N             with --only: list N copies (e.g. relist your book with 100)
+
+Paused SKUs (PAUSED_ON_EBAY) are never touched by a bulk publish. See pause_book.py.
 
 Secrets come from a .env file next to this script (see .env.example). Never commit .env.
 
@@ -134,7 +137,7 @@ CATALOG = {
     # ---------------- Your own book (new) ----------------
     "Last Bus to Where": dict(
         sku="LAST-BUS-978", title="Last Bus to Where: A Japa Thriller by Jibril Ahmed Paperback NEW",
-        category=CAT_BOOKS, condition="NEW", weight=9.78, qty=50,
+        category=CAT_BOOKS, condition="NEW", weight=9.78, qty=100,   # owner has 100 copies
         isbn=None,   # put the ISBN here (e.g. "9781234567890") if the book has one
         aspects={"Book Title": ["Last Bus to Where"], "Author": ["Jibril Ahmed"],
                  "Language": ["English"], "Format": ["Paperback"],
@@ -274,6 +277,12 @@ SKIP = {
     "Big Boxed Special - Used Book / DVD / CD Bundle Lot - Sale": "no photo; contents of the bundle unknown",
     "Broken Little - Used Book - Memoir / Fiction - $5.00": "no photo; may duplicate The Littlest Family's Big Day",
     "Bill O'Reilly - Used Book - Book #2 - Bestselling History Series": "no photo; exact book unknown",
+}
+
+# SKUs kept OFF eBay for now. A bulk `publish` skips them; they are only relisted when
+# named explicitly (`publish --only SKU`) or with `pause_book.py resume`.
+PAUSED_ON_EBAY = {
+    "LAST-BUS-978": "selling on akiliwomarketplace.com first; relist with pause_book.py resume",
 }
 
 VALID_CONDITIONS = {"NEW", "LIKE_NEW", "NEW_OTHER", "USED_EXCELLENT", "USED_VERY_GOOD",
@@ -501,8 +510,13 @@ def build_plan(args, ebay):
         seen.add(title)
         if only and item["sku"] not in only:
             continue
+        if item["sku"] in PAUSED_ON_EBAY and not only:
+            rows.append(dict(site_title=title, sku=item["sku"], title=item["title"], price=money(p),
+                             weight=item.get("weight"), qty=item.get("qty", 1), condition=item["condition"],
+                             status="PAUSED", reason=PAUSED_ON_EBAY[item["sku"]]))
+            continue
         row = dict(site_title=title, item=item, product=p, sku=item["sku"], title=item["title"],
-                   price=money(p), weight=item.get("weight"), qty=item.get("qty", 1),
+                   price=money(p), weight=item.get("weight"), qty=args.quantity or item.get("qty", 1),
                    condition=item["condition"], images=image_urls(p, base), problems=[])
         prob = row["problems"]
         if len(item["title"]) > 80:
@@ -550,7 +564,7 @@ def write_csv(rows):
 
 
 def print_plan(rows):
-    for st in ("READY", "NEEDS INFO", "SKIP"):
+    for st in ("READY", "NEEDS INFO", "PAUSED", "SKIP"):
         group = [r for r in rows if r["status"] == st]
         if not group:
             continue
@@ -711,7 +725,15 @@ def main():
     ap.add_argument("--allow-missing-weight", action="store_true")
     ap.add_argument("--offline", action="store_true")
     ap.add_argument("--yes", action="store_true")
+    ap.add_argument("--quantity", type=int, default=None,
+                    help="override the quantity for the --only SKUs (e.g. 100 when relisting your book)")
     args = ap.parse_args()
+    if args.quantity is not None:
+        if not args.only:
+            sys.exit("--quantity needs --only SKU (it changes the quantity of specific items).")
+        if args.quantity < 1:
+            sys.exit("Quantity 0 would end or relist the listing, not pause it.\n"
+                     "To take a listing off eBay but keep it ready, run:  python pause_book.py pause")
 
     envfile = load_env()
     ebay = Ebay()
