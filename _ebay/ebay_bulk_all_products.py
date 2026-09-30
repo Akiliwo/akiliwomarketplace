@@ -273,6 +273,11 @@ CATALOG = {
         sku="LP-ALABAMA", title="Alabama Self-Titled Vinyl LP Record Country Album",
         category=CAT_RECORDS, condition="USED_GOOD", weight=3.895, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Artist": ["Alabama"], "Release Title": ["Alabama"], "Format": ["Record"], "Genre": ["Country"]}),
+    "V&O Coach Lantern & 30\" Shepherd's Hook - Used": dict(
+        sku="HOME-VO-COACH-LANTERN", title="V&O Lanterns 8\" Coach Oil Lantern & 30\" Shepherd's Hook Garden Patio",
+        category={"q": "oil lantern garden shepherd hook"}, condition="USED_EXCELLENT", weight=23.82, qty=1,
+        note="Pre-owned. The box shows wear. Please see photos and ask about the contents.",
+        aspects={"Brand": ["V&O"]}),
     "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box)": dict(
         sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box",
         category={"q": "Godzilla action figure"}, condition="NEW_OTHER", weight=12.62, qty=1,
