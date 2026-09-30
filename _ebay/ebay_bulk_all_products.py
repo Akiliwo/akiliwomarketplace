@@ -258,7 +258,6 @@ CATALOG = {
     "Rosanne Cash - Seven Year Ache - Vinyl LP Record - Used": dict(
         sku="LP-CASH-SEVEN-YEAR-ACHE", title="Rosanne Cash Seven Year Ache Vinyl LP Record 1981",
         category=CAT_RECORDS, condition="USED_GOOD", weight=4.93, qty=1, note=USED_MEDIA_NOTE,
-        confirm="is the vinyl record inside the sleeve? (4.93 oz is light for an LP) - then set confirm=None",
         aspects={"Artist": ["Rosanne Cash"], "Release Title": ["Seven Year Ache"], "Format": ["Record"]}),
     "George Carlin - Occupation: Foole - Vinyl LP Record - Used": dict(
         sku="LP-CARLIN-OCCUPATION-FOOLE", title="George Carlin Occupation: Foole Vinyl LP Comedy Record 1973",
@@ -273,7 +272,6 @@ CATALOG = {
     "Alabama - Vinyl LP Record - Used": dict(
         sku="LP-ALABAMA", title="Alabama Vinyl LP Record Country",
         category=CAT_RECORDS, condition="USED_GOOD", weight=3.895, qty=1, note=USED_MEDIA_NOTE,
-        confirm="3.895 oz is too light for an LP with its record - is the record inside? And what is the album title? - then set confirm=None",
         aspects={"Artist": ["Alabama"], "Format": ["Record"], "Genre": ["Country"]}),
     "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box)": dict(
         sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box",
