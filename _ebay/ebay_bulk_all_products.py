@@ -275,8 +275,8 @@ CATALOG = {
         aspects={"Artist": ["Alabama"], "Release Title": ["Alabama"], "Format": ["Record"], "Genre": ["Country"]}),
     "Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box)": dict(
         sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box",
-        category={"q": "Godzilla action figure"}, condition="NEW", weight=12.62, qty=1,
-        confirm="is it new/unopened or used? - set condition (NEW or USED_EXCELLENT) then confirm=None",
+        category={"q": "Godzilla action figure"}, condition="NEW_OTHER", weight=12.62, qty=1,
+        note="Never opened - still in its original window box. Previously owned, like new. Please see photos of the box.",
         aspects={"Character": ["SpaceGodzilla"]}),
     "Alicia Keys - Songs in A Minor - CD - Used": dict(
         sku="CD-KEYS-A-MINOR", title="Alicia Keys Songs in A Minor CD 2001",
