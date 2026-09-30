@@ -116,7 +116,7 @@ CATALOG = {
         aspects={"Brand": ["Unbranded"], "Model": ["Y38"], "Color": ["White"]}),
     "Max Active (10 sachets)": dict(
         sku="SACH-007", title="Maxsuri Max Active Herbal Drink Mix 10 Sachets Men's Wellness",
-        category={"q": "herbal supplement powder sachets"}, condition="NEW", weight=0.42, qty=1,
+        category={"q": "herbal supplement powder sachets"}, condition="NEW", weight=4.2, qty=1,  # 10 sachets x 0.42 oz
         aspects={"Brand": ["Maxsuri"], "Formulation": ["Powder"]}),
     "Maxsuri Premium Herbal Soap — 8-in-1 Pack": dict(
         sku="SOAP8-008", title="Maxsuri Premium Herbal Soap 8 Bar Value Pack Botanical Cleansing Bars",
