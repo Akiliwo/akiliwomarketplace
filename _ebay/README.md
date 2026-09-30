@@ -6,9 +6,10 @@ This folder starts with `_`, so GitHub Pages does not publish it on the website.
 ## One-time setup
 1. `pip install -r requirements.txt`
 2. Copy `.env.example` to `.env` and add your **Cert ID**, **RuName** and ship-from ZIP code.
-3. In Seller Hub, turn on **Business policies** and create a shipping, payment and return policy.
+3. **Business policies:** if you already listed Crystal Hair Removal, your policies already exist, so just run 'policies' to get their IDs and put them in .env. There's no need to create them twice. Policies are **account-wide**: the same shipping, payment and return policy IDs are used for every product, including your book. The script only *reads* policies and never creates any. (No policies yet? Create one of each in Seller Hub > Account > Business policies.)
 4. `python ebay_bulk_all_products.py auth`: sign in to eBay once and approve. This saves a refresh token (valid about 18 months).
-5. `python ebay_bulk_all_products.py policies`: copy the three policy IDs into `.env`.
+5. `python ebay_bulk_all_products.py policies`: lists your existing policies. If you have exactly one of each, it prints the 3 lines to paste into `.env`.
+   Check that your **shipping** policy suits heavier items too. A free or flat-rate policy set up for the 1.8 oz crystal will also apply to the 22 oz soap pack and the 19 oz tonic bottles.
 
 ## Every time
 - `python ebay_bulk_all_products.py plan`: dry run. Reads the website, checks every product with eBay (category + required item specifics) and writes `ebay_bulk_upload_all.csv`. **Creates nothing.**
@@ -23,3 +24,11 @@ Products, SKUs, eBay titles, categories, conditions, **weights** and quantities 
 - `python pause_book.py resume --quantity 100`: puts it back on eBay with 100 copies, in one command.
 
 While the SKU is in `PAUSED_ON_EBAY` (top of `ebay_bulk_all_products.py`), a normal bulk `publish` skips it. Don't use quantity 0 to hide a listing: unless "Out-of-stock control" is on in your eBay account, eBay ends the listing anyway, so the script refuses 0.
+
+## Listings you made by hand in Seller Hub (e.g. Crystal Hair Removal, HAIR-005)
+The Inventory API can't see listings created in Seller Hub, so the script would otherwise make a **duplicate**. SKUs in `SELLER_HUB_LISTINGS` are therefore **skipped** by `publish` until you migrate them:
+1. In Seller Hub, edit the listing and set **Custom label (SKU)** to `HAIR-005`, then save.
+2. `python ebay_bulk_all_products.py migrate <eBay item number>`: hands that same listing (same item number, watchers and sales) over to the API. Nothing is ended.
+3. From then on, `publish` **updates** that listing, including the 1.785 oz weight, instead of creating a new one.
+
+Note: that update replaces the listing's title, photos, description, price and quantity with the website + CATALOG values ($10.99, quantity 1). Run `plan` first, and change `qty` in CATALOG if you have more in stock.

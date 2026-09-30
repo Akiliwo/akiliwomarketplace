@@ -42,3 +42,6 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   links, WhatsApp or phone numbers in eBay descriptions (eBay off-platform policy).
 - Secrets live only in `_ebay/.env` (git-ignored). Never ask for or print the Cert ID.
 - `_ebay/` starts with `_`, so GitHub Pages (Jekyll) does not publish it. Don't add `.nojekyll`.
+- SKUs listed by hand in Seller Hub go in `SELLER_HUB_LISTINGS` (skipped by publish until
+  `migrate`), otherwise publish would create a duplicate. The scripts only READ business
+  policies (account-wide); never add code that creates policies.

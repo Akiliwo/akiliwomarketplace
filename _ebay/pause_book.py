@@ -69,6 +69,9 @@ def describe(item, offer, sku):
     price = offer.get("pricingSummary", {}).get("price", {})
     print(f"  Offer          : {offer['offerId']}  status {offer.get('status')}  "
           f"price {price.get('value')} {price.get('currency', '')}  available {offer.get('availableQuantity')}")
+    pol = offer.get("listingPolicies", {})
+    print(f"  Policies       : shipping {pol.get('fulfillmentPolicyId')}, payment {pol.get('paymentPolicyId')}, "
+          f"return {pol.get('returnPolicyId')}  (resume uses the IDs in .env - the same ones as all products)")
     if offer.get("status") == "PUBLISHED":
         print(f"  Listing        : LIVE  https://www.ebay.com/itm/{listing.get('listingId')}  "
               f"({listing.get('listingStatus', 'ACTIVE')}, sold {listing.get('soldQuantity', 0)})")

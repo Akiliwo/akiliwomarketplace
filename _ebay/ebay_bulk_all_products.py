@@ -9,7 +9,10 @@ weight, quantity), and creates inventory items -> offers -> published listings.
     python ebay_bulk_all_products.py plan        # DEFAULT. Dry run: scrape, validate, write the CSV.
                                                  # Creates NOTHING on eBay.
     python ebay_bulk_all_products.py auth        # One time: log in to eBay and get a refresh token.
-    python ebay_bulk_all_products.py policies    # Show your business policy IDs (shipping/payment/returns).
+    python ebay_bulk_all_products.py policies    # READ-ONLY: find the business policies you already have.
+    python ebay_bulk_all_products.py migrate ITEM_NUMBER
+                                                 # Adopt a listing you made by hand in Seller Hub, so
+                                                 # publish UPDATES it instead of creating a duplicate.
     python ebay_bulk_all_products.py publish     # REAL listings on ebay.com. Asks you to type PUBLISH first.
 
 Options:
@@ -283,6 +286,14 @@ SKIP = {
 # named explicitly (`publish --only SKU`) or with `pause_book.py resume`.
 PAUSED_ON_EBAY = {
     "LAST-BUS-978": "selling on akiliwomarketplace.com first; relist with pause_book.py resume",
+}
+
+# SKUs that are ALREADY LIVE on eBay because you listed them by hand in Seller Hub.
+# The Inventory API cannot see Seller Hub listings, so publishing these would create a
+# DUPLICATE. They are skipped until you run `migrate <listing id>`, which hands the
+# existing listing over to the Inventory API; after that, publish updates it in place.
+SELLER_HUB_LISTINGS = {
+    "HAIR-005": "Akiliwo Crystal Hair Removal (listed by hand in Seller Hub)",
 }
 
 VALID_CONDITIONS = {"NEW", "LIKE_NEW", "NEW_OTHER", "USED_EXCELLENT", "USED_VERY_GOOD",
@@ -640,6 +651,11 @@ def publish(args, ebay, rows):
     results = []
     for r in ready:
         sku = r["sku"]
+        if sku in SELLER_HUB_LISTINGS and not has_api_offer(ebay, token, sku):
+            print(f"  SKIPPED  {sku:24} already live in Seller Hub - not creating a duplicate.\n"
+                  f"           Run:  python ebay_bulk_all_products.py migrate <eBay item number>")
+            results.append([sku, r["title"], r["price"], "", "", "SKIPPED", "Seller Hub listing not migrated"])
+            continue
         try:
             ebay.call("PUT", f"/sell/inventory/v1/inventory_item/{urllib.parse.quote(sku)}", token,
                       inventory_item_body(r), lang=True)
@@ -676,7 +692,8 @@ def publish(args, ebay, rows):
             w.writerow(["SKU", "Title", "Price", "Offer ID", "Listing ID", "Result", "Error"])
         w.writerows(results)
     ok = sum(1 for x in results if x[5] == "LISTED")
-    print(f"\n{ok} listed, {len(results) - ok} failed. Details: {RESULTS_OUT.name}")
+    skipped = sum(1 for x in results if x[5] == "SKIPPED")
+    print(f"\n{ok} listed, {skipped} skipped, {len(results) - ok - skipped} failed. Details: {RESULTS_OUT.name}")
 
 
 # ================================================================== auth / policies
@@ -703,23 +720,81 @@ def do_auth(ebay):
         print(f"\nAdd this line to your .env:\nEBAY_REFRESH_TOKEN={rt}")
 
 
-def do_policies(ebay):
+def has_api_offer(ebay, token, sku):
+    """True if the Inventory API already has an offer for this SKU (e.g. after migrate)."""
+    try:
+        _, found = ebay.call("GET", "/sell/inventory/v1/offer", token,
+                             params={"sku": sku, "marketplace_id": MARKETPLACE})
+        return bool(found.get("offers"))
+    except EbayError as e:
+        if e.status == 404:
+            return False
+        raise
+
+
+def do_migrate(ebay, listing_ids):
+    """Hand listings made in Seller Hub over to the Inventory API (eBay bulkMigrateListing).
+    Nothing is ended or duplicated: the same listing (same item number, watchers, sales
+    history) becomes manageable by this script. Requirement: the listing's Custom label
+    (SKU) in Seller Hub must equal the SKU in CATALOG (e.g. HAIR-005)."""
+    if not listing_ids:
+        sys.exit("Usage: python ebay_bulk_all_products.py migrate <eBay item number> [more item numbers]")
     token = ebay.user_token()
+    known = {i["sku"] for i in CATALOG.values()}
+    _, data = ebay.call("POST", "/sell/inventory/v1/bulk_migrate_listing", token,
+                        {"requests": [{"listingId": x} for x in listing_ids]})
+    for resp in data.get("responses", []):
+        lid = resp.get("listingId")
+        if resp.get("statusCode") == 200:
+            for it in resp.get("inventoryItems", []):
+                sku = it.get("sku")
+                note = "" if sku in known else "   <-- this SKU is not in CATALOG; set Custom label to the CATALOG SKU"
+                print(f"  MIGRATED listing {lid} -> SKU {sku}, offer {it.get('offerId')}{note}")
+        else:
+            for e in resp.get("errors", []):
+                print(f"  FAILED   listing {lid}: [{e.get('errorId')}] {e.get('longMessage') or e.get('message')}")
+    print("\nNext publish of a migrated SKU UPDATES that same listing (weight, title, photos, description,\n"
+          "price and quantity from the website + CATALOG). Run `plan` first to review.")
+
+
+def do_policies(ebay):
+    """READ-ONLY: lists the business policies you already made in Seller Hub. Never creates any."""
+    token = ebay.user_token()
+    lines = []
     for kind, key in (("fulfillment", "fulfillmentPolicies"), ("payment", "paymentPolicies"), ("return", "returnPolicies")):
         try:
             _, data = ebay.call("GET", f"/sell/account/v1/{kind}_policy", token, params={"marketplace_id": MARKETPLACE})
         except EbayError as e:
             print(f"{kind}: {e}\n  (Business policies must be turned on: Seller Hub > Account > Business policies)")
             continue
-        print(f"\n{kind.upper()} policies  ->  EBAY_{kind.upper()}_POLICY_ID")
-        for pol in data.get(key, []):
-            print(f"  {pol[kind + 'PolicyId']:>14}  {pol.get('name')}")
+        pols = data.get(key, [])
+        label = {"fulfillment": "SHIPPING", "payment": "PAYMENT", "return": "RETURN"}[kind]
+        print(f"\n{label} policies ({len(pols)} found)  ->  EBAY_{kind.upper()}_POLICY_ID")
+        for pol in pols:
+            extra = ""
+            if kind == "fulfillment":
+                opts = pol.get("shippingOptions", [])
+                svcs = [sv for o in opts for sv in o.get("shippingServices", [])]
+                cost = ", ".join(sorted({o.get("costType", "") for o in opts}))
+                free = any(sv.get("freeShipping") for sv in svcs)
+                names = ", ".join(sv.get("shippingServiceCode", "") for sv in svcs[:2])
+                extra = f"   [{cost}{', FREE shipping' if free else ''}; {names}]"
+            print(f"  {pol[kind + 'PolicyId']:>14}  {pol.get('name')}{extra}")
+        if len(pols) == 1:
+            lines.append(f"EBAY_{kind.upper()}_POLICY_ID={pols[0][kind + 'PolicyId']}")
+    if len(lines) == 3:
+        print("\nYou have exactly one of each. Paste these 3 lines into .env:\n  " + "\n  ".join(lines))
+    else:
+        print("\nPick the ones your Crystal Hair Removal listing uses (Seller Hub > edit listing > "
+              "Shipping/Payment/Returns show the policy names) and put their IDs in .env.")
+    print("\nPolicies are account-wide: the same 3 IDs are used for every product this script lists.")
 
 
 # ================================================================== main
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", nargs="?", default="plan", choices=["plan", "publish", "auth", "policies"])
+    ap.add_argument("command", nargs="?", default="plan", choices=["plan", "publish", "auth", "policies", "migrate"])
+    ap.add_argument("listing_ids", nargs="*", help="(migrate) eBay item numbers of listings made in Seller Hub")
     ap.add_argument("--source", default=SITE + "index.html")
     ap.add_argument("--only", default="")
     ap.add_argument("--allow-missing-weight", action="store_true")
@@ -742,6 +817,8 @@ def main():
         return do_auth(ebay)
     if args.command == "policies":
         return do_policies(ebay)
+    if args.command == "migrate":
+        return do_migrate(ebay, args.listing_ids)
     if args.command == "publish" and args.offline:
         sys.exit("--offline cannot be used with publish.")
     if not args.offline and not (os.environ.get("EBAY_CLIENT_ID") and os.environ.get("EBAY_CERT_ID")):
