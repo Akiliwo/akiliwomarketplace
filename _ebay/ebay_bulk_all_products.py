@@ -348,8 +348,16 @@ def load_env():
     return None
 
 
+# Public (non-secret) values for the Akiliwo Store eBay app. A value in .env overrides these.
+# The Cert ID and refresh token are secret and are NEVER stored here.
+DEFAULTS = {
+    "EBAY_CLIENT_ID": "Akiliwom-AkiliwoS-PRD-5c897e253-5dcec868",
+    "EBAY_RUNAME": "Akiliwomarketpl-Akiliwom-Akiliw-mubvkv",
+}
+
+
 def env(name, required=True):
-    val = os.environ.get(name, "").strip()
+    val = os.environ.get(name, "").strip() or DEFAULTS.get(name, "")
     if required and not val:
         sys.exit(f"Missing {name} in .env (see .env.example).")
     return val
