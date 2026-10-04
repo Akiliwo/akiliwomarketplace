@@ -1,5 +1,10 @@
 # eBay bulk lister (PRODUCTION)
 
+> **Note (Oct 2026):** the owner's live eBay listings were created with a separate tool on the
+> owner's computer (`Desktop\EBAY`), not with these scripts. Running `publish` here would use
+> different SKUs and create DUPLICATE listings. Only use these scripts again after checking with
+> the owner which tool manages the listings.
+
 Lists the products from akiliwomarketplace.com on **ebay.com** with the Sell Inventory API.
 This folder starts with `_`, so GitHub Pages does not publish it on the website.
 

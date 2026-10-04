@@ -45,3 +45,6 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
 - SKUs listed by hand in Seller Hub go in `SELLER_HUB_LISTINGS` (skipped by publish until
   `migrate`), otherwise publish would create a duplicate. The scripts only READ business
   policies (account-wide); never add code that creates policies.
+- Live eBay listings are managed by the owner's own tool (`Desktop\EBAY`), not `_ebay/`.
+  Do NOT run or trigger `publish` (script or GitHub workflow) unless the owner confirms;
+  it would create duplicate listings under different SKUs.
