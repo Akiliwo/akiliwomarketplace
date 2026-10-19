@@ -111,8 +111,8 @@ EXTRA_DESC = {
 # Country of origin is printed on the CD case ("Made in ..."); the owner reads it off.
 EXTRA_PROPS = {
     "CD-ELVIS-2ND-TO-NONE": {"product_property/100149": None},
-    "CD-KEYS-A-MINOR": {"product_property/100149": None},
-    "CD-JUBILEE-JOSIE-V2": {"product_property/100149": None},
+    "CD-KEYS-A-MINOR": {"product_property/100149": "United states"},      # "Printed in U.S.A."
+    "CD-JUBILEE-JOSIE-V2": {"product_property/100149": "United Kingdom"},  # "Made in England"
 }
 
 # California Prop 65 declarations (mandatory for this category). "No" = the book
