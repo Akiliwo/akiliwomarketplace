@@ -77,6 +77,7 @@ TIKTOK_CATEGORY = {
     "XMAS-D56-DICKENS-BELL": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
     "XMAS-D56-START-TRADITION": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
     "HOME-VO-COACH-LANTERN": "Lights & Lighting/Outdoor Lighting/Decorative lamps",
+    "TOY-SPACEGODZILLA-94": "Entertainment/Figurines, Statues & Bobbleheads/Figurines, Statues & Bobbleheads",
 }
 
 # Package size in inches (length, width, height) by book format, as measured by the
@@ -106,6 +107,7 @@ PACKAGE_BY_SKU = {
     "XMAS-D56-START-TRADITION": (19, 10, 8),
     # owner: 1.5 dollar bills by 1 bill; the box stands tall with a square end; rounded up
     "HOME-VO-COACH-LANTERN": (9.5, 6.5, 6.5),
+    "TOY-SPACEGODZILLA-94": None,
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
@@ -148,6 +150,14 @@ EXTRA_PROPS = {
     # owner: the oil lantern ships empty (no lamp oil or fuel), so no dangerous goods
     "HOME-VO-COACH-LANTERN": {"product_property/101619": "No", "product_property/101610": "None",
                               "product_property/100560": "Lanterns"},
+    # Figurines: boxed collectible for collectors, not a children's toy; the small-parts
+    # warning is the cautious choice. Manufacturer is printed on the box (owner reads it).
+    "TOY-SPACEGODZILLA-94": {"product_property/100492": None,
+                             "product_property/101125": "Pre-owned",
+                             "product_property/101637": "No",
+                             "product_property/102291": "Choking hazard small parts",
+                             "product_property/102333": "No",
+                             "product_property/101630": "No"},
 }
 
 # California Prop 65 declarations (mandatory for this category). "No" = the book
