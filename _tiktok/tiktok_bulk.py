@@ -94,7 +94,9 @@ PACKAGE_BY_SKU = {
     # the owner gave only the weight, 9.86 oz, which is used as is)
     "CD-BIG-BAND-WAR-YEARS": (10, 7, 2),
     "XMAS-CAROUSEL": None,
-    "XMAS-D56-SHINGLE-CREEK": None,
+    # owner measured with a dollar bill (~6 in): about 1 bill + a few inches each way,
+    # end of the box roughly square; rounded up
+    "XMAS-D56-SHINGLE-CREEK": (9, 7, 7),
     "XMAS-D56-DICKENS-BELL": None,
 }
 
