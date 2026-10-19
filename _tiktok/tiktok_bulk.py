@@ -67,6 +67,9 @@ TIKTOK_CATEGORY = {
     "DVD-STIR-ECHOES": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
     "DVD-MR-MRS-SMITH": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
     "DVD-TRUE-BLOOD-S1": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
+    "CD-ELVIS-2ND-TO-NONE": "Video & Music/CDs",
+    "CD-KEYS-A-MINOR": "Video & Music/CDs",
+    "CD-JUBILEE-JOSIE-V2": "Video & Music/CDs",
 }
 
 # Package size in inches (length, width, height) by book format, as measured by the
@@ -76,6 +79,7 @@ PACKAGE_INCHES = {
     "Paperback": (8.5, 5.5, 0.57),
     "Record": (12.5, 12.5, 0.5),
     "DVD": (10, 7, 1),
+    "CD": None,
 }
 
 # Package size for single products that don't fit their format's standard mailer.
@@ -101,6 +105,14 @@ PACKED_OZ = {
 EXTRA_DESC = {
     "LAST-BUS-978": "Last Bus to Where: A Japa Thriller by Jibril Ahmed.\n"
                     "Brand-new paperback. Fiction / thriller, in English.",
+}
+
+# Extra category attributes per SKU, keyed by the template's row-1 column name.
+# Country of origin is printed on the CD case ("Made in ..."); the owner reads it off.
+EXTRA_PROPS = {
+    "CD-ELVIS-2ND-TO-NONE": {"product_property/100149": None},
+    "CD-KEYS-A-MINOR": {"product_property/100149": None},
+    "CD-JUBILEE-JOSIE-V2": {"product_property/100149": None},
 }
 
 # California Prop 65 declarations (mandatory for this category). "No" = the book
@@ -184,6 +196,10 @@ def main():
     ws = wb["Template"]
     cols = {c.value: c.column for c in ws[1] if c.value}
     allowed = {r[0].value for r in wb["Category"].iter_rows() if r[0].value}
+    # columns TikTok marks Mandatory for each category (hidden sheet in the template)
+    keys = {c: k for k, c in cols.items()}
+    mandatory = {r[0].value: [keys[c.column] for c in r[1:] if c.value == "Mandatory" and c.column in keys]
+                 for r in wb["HiddenStyle"].iter_rows() if r[0].value}
 
     rows, needs = [], []
     for p in products:
@@ -207,16 +223,11 @@ def main():
             needs.append((sku, p["title"], ", ".join(problems)))
             continue
 
-        urls = []
-        for n, img in enumerate(p["images"][:9], 1):
-            name = f"{sku.lower()}-{n}.jpg"
-            tiktok_photo(ROOT / img, IMG_DIR / name)
-            urls.append(IMG_BASE + name)
-        rows.append({
+        row = {
             "category": TIKTOK_CATEGORY[sku],
             "product_name": product_name(entry),
             "product_description": description(p, entry),
-            **{("main_image" if i == 0 else f"image_{i + 1}"): u for i, u in enumerate(urls)},
+            "main_image": "(photo)",
             "parcel_weight": math.ceil(weight / 16 * 100) / 100,   # oz -> lb, round up
             "parcel_length": dims[0], "parcel_width": dims[1], "parcel_height": dims[2],
             "price": float(p["price"].lstrip("$")),
@@ -225,7 +236,19 @@ def main():
             "special_product_listing_type": "Fixed price",
             "product_property/101395": PROP65["repro"],
             "product_property/101400": PROP65["carcinogen"],
-        })
+            **EXTRA_PROPS.get(sku, {}),
+        }
+        missing = [ws.cell(3, cols[k]).value for k in mandatory.get(row["category"], [])
+                   if row.get(k) in (None, "")]
+        if missing:
+            needs.append((sku, p["title"], "no " + ", ".join(missing)))
+            continue
+
+        for n, img in enumerate(p["images"][:9], 1):
+            name = f"{sku.lower()}-{n}.jpg"
+            tiktok_photo(ROOT / img, IMG_DIR / name)
+            row["main_image" if n == 1 else f"image_{n}"] = IMG_BASE + name
+        rows.append(row)
 
     # clear TikTok's pre-filled first data row, then write ours
     for c in ws[FIRST_ROW]:
