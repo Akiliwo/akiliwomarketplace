@@ -97,7 +97,9 @@ PACKAGE_BY_SKU = {
     # owner measured with a dollar bill (~6 in): about 1 bill + a few inches each way,
     # end of the box roughly square; rounded up
     "XMAS-D56-SHINGLE-CREEK": (9, 7, 7),
-    "XMAS-D56-DICKENS-BELL": None,
+    # owner: "same" as Shingle Creek (about 1 dollar bill + a few inches); photos show a
+    # front taller than wide and an end wider than tall; rounded up
+    "XMAS-D56-DICKENS-BELL": (9, 7, 8),
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
