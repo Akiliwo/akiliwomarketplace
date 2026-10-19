@@ -71,7 +71,16 @@ TIKTOK_CATEGORY = {
 PACKAGE_INCHES = {
     "Hardcover": (8.75, 5.75, 0.75),
     "Paperback": (8.5, 5.5, 0.57),
-    "Record": None,
+    "Record": (12.5, 12.5, 0.5),
+}
+
+# Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
+# (owner-supplied: a record packed in its mailer weighs 14 oz).
+PACKED_OZ = {
+    "LP-CASH-SEVEN-YEAR-ACHE": 14,
+    "LP-CARLIN-OCCUPATION-FOOLE": 14,
+    "LP-REEVES-PURE-GOLD-V1": 14,
+    "LP-ALABAMA": 14,
 }
 
 # Website products with no description of their own (TikTok requires one).
@@ -171,7 +180,8 @@ def main():
         fmt = entry.get("aspects", {}).get("Format", [None])[0]
         dims = PACKAGE_INCHES.get(fmt)
         problems = []
-        if entry.get("weight") is None:
+        weight = PACKED_OZ.get(sku, entry.get("weight"))
+        if weight is None:
             problems.append("no package weight")
         if not dims:
             problems.append(f"no package size for {fmt or 'this format'}")
@@ -193,7 +203,7 @@ def main():
             "product_name": product_name(entry),
             "product_description": description(p, entry),
             **{("main_image" if i == 0 else f"image_{i + 1}"): u for i, u in enumerate(urls)},
-            "parcel_weight": math.ceil(entry["weight"] / 16 * 100) / 100,   # oz -> lb, round up
+            "parcel_weight": math.ceil(weight / 16 * 100) / 100,   # oz -> lb, round up
             "parcel_length": dims[0], "parcel_width": dims[1], "parcel_height": dims[2],
             "price": float(p["price"].lstrip("$")),
             "quantity": entry.get("qty", 1),
