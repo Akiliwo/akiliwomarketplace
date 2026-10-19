@@ -65,8 +65,8 @@ TIKTOK_CATEGORY = {
 # Package size in inches (length, width, height) by book format, as measured by the
 # owner. None = not supplied yet: those products are left out and listed as NEEDS INFO.
 PACKAGE_INCHES = {
-    "Hardcover": None,
-    "Paperback": None,
+    "Hardcover": (8.75, 5.75, 0.75),
+    "Paperback": (8.5, 5.5, 0.57),
 }
 
 # Website products with no description of their own (TikTok requires one).
