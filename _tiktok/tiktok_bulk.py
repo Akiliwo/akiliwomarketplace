@@ -107,7 +107,9 @@ PACKAGE_BY_SKU = {
     "XMAS-D56-START-TRADITION": (19, 10, 8),
     # owner: 1.5 dollar bills by 1 bill; the box stands tall with a square end; rounded up
     "HOME-VO-COACH-LANTERN": (9.5, 6.5, 6.5),
-    "TOY-SPACEGODZILLA-94": None,
+    # owner: about 1 dollar bill + a few inches long, half a bill deep; the front of the
+    # window box is nearly square in the photo; rounded up
+    "TOY-SPACEGODZILLA-94": (8.5, 8.5, 3.5),
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
