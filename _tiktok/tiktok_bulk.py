@@ -153,8 +153,8 @@ EXTRA_PROPS = {
     "HOME-VO-COACH-LANTERN": {"product_property/101619": "No", "product_property/101610": "None",
                               "product_property/100560": "Lanterns"},
     # Figurines: boxed collectible for collectors, not a children's toy; the small-parts
-    # warning is the cautious choice. Manufacturer is printed on the box (owner reads it).
-    "TOY-SPACEGODZILLA-94": {"product_property/100492": None,
+    # warning matches the box ("not a toy... may contain small parts", ages 14+).
+    "TOY-SPACEGODZILLA-94": {"product_property/100492": "Super7",   # box: Super7 OpCo LLC, 14+
                              "product_property/101125": "Pre-owned",
                              "product_property/101637": "No",
                              "product_property/102291": "Choking hazard small parts",
@@ -224,6 +224,8 @@ def description(p, entry):
 
 def product_name(entry):
     name = re.sub(r"\s+NEW$", "", entry["title"])
+    if entry.get("condition", "NEW") != "NEW":
+        name = re.sub(r"\s+Used\b", "", name)    # " - Pre-owned" is added below
     if entry.get("condition", "NEW") != "NEW" and "pre-owned" not in name.lower():
         name += " - Pre-owned"
     return name

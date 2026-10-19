@@ -287,7 +287,7 @@ CATALOG = {
         sku="TOY-SPACEGODZILLA-94", title="Godzilla Super Kaiju SpaceGodzilla '94 Action Figure in Box Used Never Opened",
         category={"q": "Godzilla action figure"}, condition="USED_EXCELLENT", weight=12.62, qty=1,
         note="Never opened - still in its original window box. Previously owned, like new. Please see photos of the box.",
-        aspects={"Character": ["SpaceGodzilla"]}),
+        aspects={"Character": ["SpaceGodzilla"], "Brand": ["Super7"]}),
     "Alicia Keys - Songs in A Minor - CD - Used": dict(
         sku="CD-KEYS-A-MINOR", title="Alicia Keys Songs in A Minor CD 2001",
         category=CAT_CD, condition="USED_GOOD", weight=3.53, qty=1, note=USED_MEDIA_NOTE,
