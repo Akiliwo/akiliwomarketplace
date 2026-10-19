@@ -75,7 +75,12 @@ PACKAGE_INCHES = {
     "Hardcover": (8.75, 5.75, 0.75),
     "Paperback": (8.5, 5.5, 0.57),
     "Record": (12.5, 12.5, 0.5),
-    "DVD": None,
+    "DVD": (10, 7, 1),
+}
+
+# Package size for single products that don't fit their format's standard mailer.
+PACKAGE_BY_SKU = {
+    "DVD-TRUE-BLOOD-S1": (10, 8, 4),
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
@@ -85,6 +90,11 @@ PACKED_OZ = {
     "LP-CARLIN-OCCUPATION-FOOLE": 14,
     "LP-REEVES-PURE-GOLD-V1": 14,
     "LP-ALABAMA": 14,
+    # owner: a DVD packs at 6-7 oz, the True Blood box set at 2-2.5 lb; the top of
+    # each range is used so shipping is never under-declared
+    "DVD-STIR-ECHOES": 7,
+    "DVD-MR-MRS-SMITH": 7,
+    "DVD-TRUE-BLOOD-S1": 40,
 }
 
 # Website products with no description of their own (TikTok requires one).
@@ -182,7 +192,7 @@ def main():
             continue
         sku = entry["sku"]
         fmt = entry.get("aspects", {}).get("Format", [None])[0]
-        dims = PACKAGE_INCHES.get(fmt)
+        dims = PACKAGE_BY_SKU.get(sku) or PACKAGE_INCHES.get(fmt)
         problems = []
         weight = PACKED_OZ.get(sku, entry.get("weight"))
         if weight is None:
