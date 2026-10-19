@@ -305,9 +305,9 @@ CATALOG = {
         category={"q": "Department 56 village house"}, condition="USED_EXCELLENT", weight=28.02, qty=1,
         note="Pre-owned. Comes in protective foam packaging with light cord. Please see photos.",
         aspects={"Brand": ["Department 56"]}),
-    "Department 56 Dickens' Village Bell Tower with Children - Used": dict(
-        sku="XMAS-D56-DICKENS-BELL", title="Department 56 Dickens' Village Bell Tower with Children in Box",
-        category={"q": "Department 56 Dickens Village"}, condition="USED_EXCELLENT", weight=17.18, qty=1,
+    "Department 56 Christmas Bells #98711 - 1996 Special Event Piece - Used": dict(
+        sku="XMAS-D56-DICKENS-BELL", title="Department 56 Christmas Bells 98711 1996 Special Event Piece Heritage Village",
+        category={"q": "Department 56 Heritage Village accessory"}, condition="USED_EXCELLENT", weight=17.18, qty=1,
         note="Pre-owned, in its box. The box shows some shelf wear. Please see photos.",
         aspects={"Brand": ["Department 56"]}),
     "Vintage Christmas Musical Carousel (Merry-Go-Round) - Used": dict(
