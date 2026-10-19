@@ -60,6 +60,10 @@ TIKTOK_CATEGORY = {
     "BK-BRADLEY-SURVIVALIST": "Literature & Art/Novel",
     "BK-DUPRAU-EMBER": "Literature & Art/Novel",
     "BK-SAUL-PRESENCE": "Literature & Art/Novel",
+    "LP-CASH-SEVEN-YEAR-ACHE": "Entertainment/CDs, DVDs, & Vinyl Records/Vinyl Records",
+    "LP-CARLIN-OCCUPATION-FOOLE": "Entertainment/CDs, DVDs, & Vinyl Records/Vinyl Records",
+    "LP-REEVES-PURE-GOLD-V1": "Entertainment/CDs, DVDs, & Vinyl Records/Vinyl Records",
+    "LP-ALABAMA": "Entertainment/CDs, DVDs, & Vinyl Records/Vinyl Records",
 }
 
 # Package size in inches (length, width, height) by book format, as measured by the
@@ -67,6 +71,7 @@ TIKTOK_CATEGORY = {
 PACKAGE_INCHES = {
     "Hardcover": (8.75, 5.75, 0.75),
     "Paperback": (8.5, 5.5, 0.57),
+    "Record": None,
 }
 
 # Website products with no description of their own (TikTok requires one).
