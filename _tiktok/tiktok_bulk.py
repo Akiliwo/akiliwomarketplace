@@ -96,7 +96,10 @@ PACKAGE_BY_SKU = {
     # 3-CD box is thicker than a single CD: DVD mailer footprint, 2 in tall (estimate;
     # the owner gave only the weight, 9.86 oz, which is used as is)
     "CD-BIG-BAND-WAR-YEARS": (10, 7, 2),
-    "XMAS-CAROUSEL": None,
+    # owner measured the carousel itself (no box): ~1.5 dollar bills tall (~9.2 in), base
+    # ~2.5 bills around; the canopy is about 7 in across in the photo. Shipping box allows
+    # ~1.5 in of padding on every side for the porcelain.
+    "XMAS-CAROUSEL": (10, 10, 12),
     # owner measured with a dollar bill (~6.1 in): 1.5 bills long and wide (~9.2 in);
     # height from the photo of the box front; rounded up
     "XMAS-D56-SHINGLE-CREEK": (10, 10, 7),
