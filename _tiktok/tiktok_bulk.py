@@ -129,9 +129,9 @@ EXTRA_PROPS = {
     "CD-JUBILEE-JOSIE-V2": {"product_property/100149": "United Kingdom"},  # "Made in England"
     "CD-BIG-BAND-WAR-YEARS": {"product_property/100149": "United states"},  # "Made In USA"
     # Christmas Decor asks about dangerous goods and batteries. The Dept 56 house lights
-    # up from a plug-in light cord; the bell tower has no electrics. The musical
-    # carousel's power (wind-up or batteries) is for the owner to say.
-    "XMAS-CAROUSEL": {"product_property/101619": "No", "product_property/101610": None},
+    # up from a plug-in light cord; the bell tower has no electrics; the owner says the
+    # musical carousel takes no batteries.
+    "XMAS-CAROUSEL": {"product_property/101619": "No", "product_property/101610": "None"},  # owner: no batteries
     "XMAS-D56-SHINGLE-CREEK": {"product_property/101619": "No", "product_property/101610": "None"},
     "XMAS-D56-DICKENS-BELL": {"product_property/101619": "No", "product_property/101610": "None"},
 }
