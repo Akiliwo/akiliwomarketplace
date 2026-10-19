@@ -81,7 +81,7 @@ PACKAGE_INCHES = {
     "Paperback": (8.5, 5.5, 0.57),
     "Record": (12.5, 12.5, 0.5),
     "DVD": (10, 7, 1),
-    "CD": None,
+    "CD": (10, 7, 1),      # owner: single CDs ship in the DVD mailer
 }
 
 # Package size for single products that don't fit their format's standard mailer.
@@ -101,6 +101,8 @@ PACKED_OZ = {
     "DVD-STIR-ECHOES": 7,
     "DVD-MR-MRS-SMITH": 7,
     "DVD-SWEET-HOME-ALABAMA": 7,
+    "CD-KEYS-A-MINOR": 7,
+    "CD-JUBILEE-JOSIE-V2": 7,
     "DVD-TRUE-BLOOD-S1": 40,
 }
 
