@@ -103,6 +103,8 @@ PACKAGE_BY_SKU = {
     "XMAS-D56-DICKENS-BELL": (9, 7, 8),
     # owner: 3 dollar bills long, 1.5 wide; height from the photo of the box end; rounded up
     "XMAS-D56-START-TRADITION": (19, 10, 8),
+    # owner: 1.5 dollar bills by 1 bill; the box stands tall with a square end; rounded up
+    "HOME-VO-COACH-LANTERN": (9.5, 6.5, 6.5),
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
