@@ -87,6 +87,9 @@ PACKAGE_INCHES = {
 # Package size for single products that don't fit their format's standard mailer.
 PACKAGE_BY_SKU = {
     "DVD-TRUE-BLOOD-S1": (10, 8, 4),
+    # 3-CD box is thicker than a single CD: DVD mailer footprint, 2 in tall (estimate;
+    # the owner gave only the weight, 9.86 oz, which is used as is)
+    "CD-BIG-BAND-WAR-YEARS": (10, 7, 2),
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
