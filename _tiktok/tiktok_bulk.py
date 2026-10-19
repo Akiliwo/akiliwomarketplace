@@ -72,6 +72,9 @@ TIKTOK_CATEGORY = {
     "CD-KEYS-A-MINOR": "Video & Music/CDs",
     "CD-JUBILEE-JOSIE-V2": "Video & Music/CDs",
     "CD-BIG-BAND-WAR-YEARS": "Video & Music/CDs",
+    "XMAS-CAROUSEL": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
+    "XMAS-D56-SHINGLE-CREEK": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
+    "XMAS-D56-DICKENS-BELL": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
 }
 
 # Package size in inches (length, width, height) by book format, as measured by the
@@ -90,6 +93,9 @@ PACKAGE_BY_SKU = {
     # 3-CD box is thicker than a single CD: DVD mailer footprint, 2 in tall (estimate;
     # the owner gave only the weight, 9.86 oz, which is used as is)
     "CD-BIG-BAND-WAR-YEARS": (10, 7, 2),
+    "XMAS-CAROUSEL": None,
+    "XMAS-D56-SHINGLE-CREEK": None,
+    "XMAS-D56-DICKENS-BELL": None,
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
@@ -122,6 +128,12 @@ EXTRA_PROPS = {
     "CD-KEYS-A-MINOR": {"product_property/100149": "United states"},      # "Printed in U.S.A."
     "CD-JUBILEE-JOSIE-V2": {"product_property/100149": "United Kingdom"},  # "Made in England"
     "CD-BIG-BAND-WAR-YEARS": {"product_property/100149": "United states"},  # "Made In USA"
+    # Christmas Decor asks about dangerous goods and batteries. The Dept 56 house lights
+    # up from a plug-in light cord; the bell tower has no electrics. The musical
+    # carousel's power (wind-up or batteries) is for the owner to say.
+    "XMAS-CAROUSEL": {"product_property/101619": "No", "product_property/101610": None},
+    "XMAS-D56-SHINGLE-CREEK": {"product_property/101619": "No", "product_property/101610": "None"},
+    "XMAS-D56-DICKENS-BELL": {"product_property/101619": "No", "product_property/101610": "None"},
 }
 
 # California Prop 65 declarations (mandatory for this category). "No" = the book
