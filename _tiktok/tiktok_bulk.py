@@ -75,6 +75,7 @@ TIKTOK_CATEGORY = {
     "XMAS-CAROUSEL": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
     "XMAS-D56-SHINGLE-CREEK": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
     "XMAS-D56-DICKENS-BELL": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
+    "XMAS-D56-START-TRADITION": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
 }
 
 # Package size in inches (length, width, height) by book format, as measured by the
@@ -100,6 +101,8 @@ PACKAGE_BY_SKU = {
     # owner: "same" as Shingle Creek (about 1 dollar bill + a few inches); photos show a
     # front taller than wide and an end wider than tall; rounded up
     "XMAS-D56-DICKENS-BELL": (9, 7, 8),
+    # owner: 3 dollar bills long, 1.5 wide; height from the photo of the box end; rounded up
+    "XMAS-D56-START-TRADITION": (19, 10, 8),
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
@@ -138,6 +141,7 @@ EXTRA_PROPS = {
     "XMAS-CAROUSEL": {"product_property/101619": "No", "product_property/101610": "None"},  # owner: no batteries
     "XMAS-D56-SHINGLE-CREEK": {"product_property/101619": "No", "product_property/101610": "None"},
     "XMAS-D56-DICKENS-BELL": {"product_property/101619": "No", "product_property/101610": "None"},
+    "XMAS-D56-START-TRADITION": {"product_property/101619": "No", "product_property/101610": "None"},  # lighted by cord
 }
 
 # California Prop 65 declarations (mandatory for this category). "No" = the book

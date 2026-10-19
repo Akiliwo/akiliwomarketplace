@@ -310,6 +310,11 @@ CATALOG = {
         category={"q": "Department 56 Heritage Village accessory"}, condition="USED_EXCELLENT", weight=17.18, qty=1,
         note="Pre-owned, in its box. The box shows some shelf wear. Please see photos.",
         aspects={"Brand": ["Department 56"]}),
+    "Department 56 Dickens' Village Start A Tradition Set (Set of 13) - Used": dict(
+        sku="XMAS-D56-START-TRADITION", title="Department 56 Dickens Village Start A Tradition Set of 13 Morston Faversham",
+        category={"q": "Department 56 Dickens Village"}, condition="USED_GOOD", weight=68.85, qty=1,  # 4 lb 4.85 oz packed
+        note="Pre-owned, complete set of 13 in the original box. The box has torn flaps and creases on the top. Please see photos.",
+        aspects={"Brand": ["Department 56"]}),
     "Vintage Christmas Musical Carousel (Merry-Go-Round) - Used": dict(
         sku="XMAS-CAROUSEL", title="Vintage Christmas Musical Carousel Merry-Go-Round Train Holly Decor",
         category={"q": "christmas musical carousel"}, condition="USED_EXCELLENT", weight=42.32, qty=1,
