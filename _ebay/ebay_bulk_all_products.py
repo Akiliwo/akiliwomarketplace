@@ -292,6 +292,12 @@ CATALOG = {
         sku="CD-KEYS-A-MINOR", title="Alicia Keys Songs in A Minor CD 2001",
         category=CAT_CD, condition="USED_GOOD", weight=3.53, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Artist": ["Alicia Keys"], "Release Title": ["Songs in A Minor"], "Format": ["CD"]}),
+    "Big Band Special - Remembering the War Years - 3-CD Set - Used": dict(
+        sku="CD-BIG-BAND-WAR-YEARS", title="Big Band Special Remembering the War Years 3 CD Set Glenn Miller Goodman",
+        category=CAT_CD, condition="USED_GOOD", weight=9.86, qty=1,
+        note="Pre-owned. Name written in marker on the front; box shows stains and worn edges. Please see photos.",
+        aspects={"Artist": ["Various Artists"], "Release Title": ["Big Band Special: Remembering the War Years"],
+                 "Format": ["CD"], "Genre": ["Jazz"], "Record Label": ["MasterTone"]}),
 
     # ---------------- Vintage Christmas (used) ----------------
     "Department 56 Shingle Creek House (Lighted) - Used": dict(

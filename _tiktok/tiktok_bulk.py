@@ -71,6 +71,7 @@ TIKTOK_CATEGORY = {
     "CD-ELVIS-2ND-TO-NONE": "Video & Music/CDs",
     "CD-KEYS-A-MINOR": "Video & Music/CDs",
     "CD-JUBILEE-JOSIE-V2": "Video & Music/CDs",
+    "CD-BIG-BAND-WAR-YEARS": "Video & Music/CDs",
 }
 
 # Package size in inches (length, width, height) by book format, as measured by the
@@ -115,6 +116,7 @@ EXTRA_PROPS = {
     "CD-ELVIS-2ND-TO-NONE": {"product_property/100149": None},
     "CD-KEYS-A-MINOR": {"product_property/100149": "United states"},      # "Printed in U.S.A."
     "CD-JUBILEE-JOSIE-V2": {"product_property/100149": "United Kingdom"},  # "Made in England"
+    "CD-BIG-BAND-WAR-YEARS": {"product_property/100149": "United states"},  # "Made In USA"
 }
 
 # California Prop 65 declarations (mandatory for this category). "No" = the book
