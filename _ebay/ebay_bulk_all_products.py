@@ -242,6 +242,11 @@ CATALOG = {
         sku="DVD-MR-MRS-SMITH", title="Mr. & Mrs. Smith DVD Widescreen Brad Pitt Angelina Jolie",
         category=CAT_DVD, condition="USED_GOOD", weight=4.545, qty=1, note=USED_MEDIA_NOTE,
         aspects={"Movie/TV Title": ["Mr. & Mrs. Smith"], "Format": ["DVD"]}),
+    "Sweet Home Alabama - Reese Witherspoon - DVD - Widescreen - Used": dict(
+        sku="DVD-SWEET-HOME-ALABAMA", title="Sweet Home Alabama DVD Widescreen Reese Witherspoon Josh Lucas",
+        category=CAT_DVD, condition="USED_GOOD", weight=7, qty=1,   # owner: a DVD packs at 6-7 oz
+        note="Pre-owned. Store price sticker on the front and wear along the top edge of the cover. Please see photos.",
+        aspects={"Movie/TV Title": ["Sweet Home Alabama"], "Format": ["DVD"]}),
     "True Blood - The Complete First Season - DVD Box Set - Used": dict(
         sku="DVD-TRUE-BLOOD-S1", title="True Blood The Complete First Season DVD Box Set HBO",
         category=CAT_DVD, condition="USED_GOOD", weight=14.64, qty=1, note=USED_MEDIA_NOTE,

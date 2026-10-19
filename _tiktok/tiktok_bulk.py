@@ -67,6 +67,7 @@ TIKTOK_CATEGORY = {
     "DVD-STIR-ECHOES": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
     "DVD-MR-MRS-SMITH": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
     "DVD-TRUE-BLOOD-S1": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
+    "DVD-SWEET-HOME-ALABAMA": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
     "CD-ELVIS-2ND-TO-NONE": "Video & Music/CDs",
     "CD-KEYS-A-MINOR": "Video & Music/CDs",
     "CD-JUBILEE-JOSIE-V2": "Video & Music/CDs",
@@ -98,6 +99,7 @@ PACKED_OZ = {
     # each range is used so shipping is never under-declared
     "DVD-STIR-ECHOES": 7,
     "DVD-MR-MRS-SMITH": 7,
+    "DVD-SWEET-HOME-ALABAMA": 7,
     "DVD-TRUE-BLOOD-S1": 40,
 }
 
@@ -188,6 +190,7 @@ def main():
     ap.add_argument("--source", default=str(ROOT / "index.html"),
                     help="local index.html or the website URL")
     ap.add_argument("--out", help="output .xlsx (default: next to this script)")
+    ap.add_argument("--only", help="comma-separated SKUs, e.g. for products added after an upload")
     args = ap.parse_args()
 
     eb = load_ebay()
@@ -207,6 +210,8 @@ def main():
         if not entry or TIKTOK_CATEGORY.get(entry["sku"]) not in allowed:
             continue
         sku = entry["sku"]
+        if args.only and sku not in args.only.split(","):
+            continue
         fmt = entry.get("aspects", {}).get("Format", [None])[0]
         dims = PACKAGE_BY_SKU.get(sku) or PACKAGE_INCHES.get(fmt)
         problems = []
