@@ -64,6 +64,9 @@ TIKTOK_CATEGORY = {
     "LP-CARLIN-OCCUPATION-FOOLE": "Entertainment/CDs, DVDs, & Vinyl Records/Vinyl Records",
     "LP-REEVES-PURE-GOLD-V1": "Entertainment/CDs, DVDs, & Vinyl Records/Vinyl Records",
     "LP-ALABAMA": "Entertainment/CDs, DVDs, & Vinyl Records/Vinyl Records",
+    "DVD-STIR-ECHOES": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
+    "DVD-MR-MRS-SMITH": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
+    "DVD-TRUE-BLOOD-S1": "Entertainment/CDs, DVDs, & Vinyl Records/DVD",
 }
 
 # Package size in inches (length, width, height) by book format, as measured by the
@@ -72,6 +75,7 @@ PACKAGE_INCHES = {
     "Hardcover": (8.75, 5.75, 0.75),
     "Paperback": (8.5, 5.5, 0.57),
     "Record": (12.5, 12.5, 0.5),
+    "DVD": None,
 }
 
 # Packed weight in ounces for TikTok when it differs from the eBay CATALOG weight
