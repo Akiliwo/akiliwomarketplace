@@ -144,6 +144,8 @@ EXTRA_PROPS = {
     "XMAS-D56-SHINGLE-CREEK": {"product_property/101619": "No", "product_property/101610": "None"},
     "XMAS-D56-DICKENS-BELL": {"product_property/101619": "No", "product_property/101610": "None"},
     "XMAS-D56-START-TRADITION": {"product_property/101619": "No", "product_property/101610": "None"},  # lighted by cord
+    # owner: the oil lantern ships empty (no lamp oil or fuel), so no dangerous goods
+    "HOME-VO-COACH-LANTERN": {"product_property/101619": "No", "product_property/101610": "None"},
 }
 
 # California Prop 65 declarations (mandatory for this category). "No" = the book
