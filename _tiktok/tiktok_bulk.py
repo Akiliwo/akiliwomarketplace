@@ -76,6 +76,7 @@ TIKTOK_CATEGORY = {
     "XMAS-D56-SHINGLE-CREEK": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
     "XMAS-D56-DICKENS-BELL": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
     "XMAS-D56-START-TRADITION": "Festive & Party Supplies/Festive Decorations/Christmas Decor",
+    "HOME-VO-COACH-LANTERN": "Lights & Lighting/Outdoor Lighting/Decorative lamps",
 }
 
 # Package size in inches (length, width, height) by book format, as measured by the
@@ -145,7 +146,8 @@ EXTRA_PROPS = {
     "XMAS-D56-DICKENS-BELL": {"product_property/101619": "No", "product_property/101610": "None"},
     "XMAS-D56-START-TRADITION": {"product_property/101619": "No", "product_property/101610": "None"},  # lighted by cord
     # owner: the oil lantern ships empty (no lamp oil or fuel), so no dangerous goods
-    "HOME-VO-COACH-LANTERN": {"product_property/101619": "No", "product_property/101610": "None"},
+    "HOME-VO-COACH-LANTERN": {"product_property/101619": "No", "product_property/101610": "None",
+                              "product_property/100560": "Lanterns"},
 }
 
 # California Prop 65 declarations (mandatory for this category). "No" = the book
