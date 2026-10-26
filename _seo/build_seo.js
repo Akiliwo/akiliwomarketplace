@@ -12,6 +12,7 @@
  *   robots.txt              lets search engines crawl everything and points to the sitemap
  *   google-shopping-feed.xml  product feed for Google Merchant Center (free Shopping listings)
  *   facebook-catalog.csv      product feed for Meta Commerce Manager (Facebook/Instagram catalog)
+ *   assets/checkout-products.json  product lookup for checkout.html (Facebook shop checkout URL)
  *   index.html              the plain-HTML product directory between the SEO-DIRECTORY markers
  *                           (links search engines can follow even without running JavaScript)
  *
@@ -221,6 +222,15 @@ fs.writeFileSync(path.join(ROOT, 'facebook-catalog.csv'),
   ['id,title,description,availability,condition,price,link,image_link,additional_image_link,brand,product_type',
    ...feed.filter(f => !META_EXCLUDED_SUBS.has(f.p.sub)).map(f => [f.id, f.title, f.desc, f.inStock ? 'in stock' : 'out of stock', f.condition, f.price, f.p._url,
      feedJpg(f.images[0]), f.images.slice(1).map(feedJpg).join(','), f.brand || 'Akiliwo Marketplace', f.type].map(csv).join(','))].join('\n') + '\n');
+
+// ---- checkout data: Facebook/Instagram shop "Buy" sends buyers to checkout.html?products=<id>:<qty>,...
+// The ids are the feed ids above, so checkout.html can look each product up here.
+fs.writeFileSync(path.join(ROOT, 'assets', 'checkout-products.json'), JSON.stringify(Object.fromEntries(feed.map(f => [f.id, {
+  title: f.p.title, price: priceNum(f.p.price), page: `p/${f.p._slug}.html`,
+  image: f.p.images[0] ? imgVariant(f.p.images[0], 200) : '',
+  link: ((f.p.formats && f.p.formats[0] && f.p.formats[0].link) || f.p.link || '').trim(),
+  sold: isSold(f.p),
+}]))) + '\n');
 
 // ---- plain-HTML product directory inside index.html ----
 const groups = [];

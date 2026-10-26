@@ -19,6 +19,8 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   (Meta Commerce Manager catalog; its JPEG photo copies in `images/feed/` are made by
   `_seo/feed_jpg.py` because Meta rejects WebP). Herbal Wellness (ingestible supplements) is
   kept out of the Facebook feed on the owner's instruction (`META_EXCLUDED_SUBS`).
+  `checkout.html` is the Facebook/Instagram shop checkout URL; it reads the generated
+  `assets/checkout-products.json` (feed id → product).
   These are GENERATED: after adding/editing a product run `node _seo/build_seo.js` and commit
   the results. Never hand-edit `p/*.html` or the directory block.
 - Every product needs a `sub` (sub-category) — reuse an existing one (see `CAT_ICONS` in
