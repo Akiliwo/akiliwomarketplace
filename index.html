@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akiliwo Marketplace</title>
-<meta name="description" content="Akiliwo Marketplace — shop quality products, books, and digital downloads with secure checkout.">
+<title>Akiliwo Marketplace — Herbal Wellness, Books, Vinyl, DVDs &amp; Christmas Decor</title>
+<meta name="description" content="Akiliwo Marketplace (Denver, CO): shop herbal wellness drinks, soap &amp; oral care, beauty gadgets, kids' pajamas, Christmas &amp; Department 56 decor, collectibles, used books, kids' books, vinyl records, music CDs and DVDs. Secure checkout, US shipping, 30-day returns.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Akiliwo Marketplace">
 <meta property="og:url" content="https://www.akiliwomarketplace.com/">
@@ -242,6 +242,28 @@ section.block{padding:70px 0}
 .policy-notes ul{padding-left:20px}
 .policy-notes li{color:var(--muted);font-size:.93rem;margin-bottom:8px}
 .policy-notes a{color:var(--green);font-weight:700}
+/* ---------- CATEGORIES, FILTER CHIPS & SEARCH ---------- */
+.browse{padding-bottom:30px}
+.search-box{display:flex;align-items:center;gap:10px;background:var(--white);border:2px solid var(--line);border-radius:999px;padding:6px 8px 6px 18px;max-width:640px}
+.search-box:focus-within{border-color:var(--gold)}
+.search-box input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:1.05rem;padding:8px 0;color:var(--ink)}
+.search-box button{border:0;background:var(--cream-2);color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem}
+.search-box button[hidden]{display:none}
+.search-status{min-height:1.4em;margin:10px 4px 0;color:var(--muted);font-size:.95rem}
+.cat-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:18px}
+.cat-tile{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--green);font-weight:700;text-decoration:none;cursor:pointer;transition:transform .15s,border-color .15s}
+.cat-tile:hover{transform:translateY(-2px);border-color:var(--gold)}
+.cat-tile .ic{font-size:1.5rem}
+.cat-tile small{display:block;color:var(--muted);font-weight:600;font-size:.8rem}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 12px;margin:-18px 0 14px;scrollbar-width:thin}
+.chips:empty{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--white);color:var(--green);border-radius:999px;padding:8px 14px;font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.chip span{color:var(--muted);font-weight:600;margin-left:4px}
+.chip.on{background:var(--green);border-color:var(--green);color:var(--white)}
+.chip.on span{color:var(--gold-soft)}
+.cat-label{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.prod[hidden],.no-match[hidden]{display:none}
+.no-match{grid-column:1/-1;text-align:center;padding:30px 20px;color:var(--muted)}
 .empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);border:2px dashed var(--line);border-radius:var(--radius)}
 
 /* ---------- PRODUCT IMAGE GALLERY (multiple pictures) ---------- */
@@ -381,7 +403,8 @@ footer ul a:hover{color:var(--gold-soft)}
       <span>Akiliwo Marketplace<small>Shop • Books • Digital</small></span>
     </a>
     <nav class="navlinks" id="navlinks">
-      <a href="#books">📚 Books</a>
+      <a href="#browse">🔎 Categories</a>
+      <a href="#books">📚 Books &amp; Media</a>
       <a href="#shop">🛒 Shop</a>
       <a href="#digital">💻 Digital</a>
       <a href="#connect">❤️ Akiliwo Connect</a>
@@ -426,6 +449,24 @@ footer ul a:hover{color:var(--gold-soft)}
   </div>
 </section>
 
+<!-- ============ BROWSE BY CATEGORY + SEARCH ============ -->
+<section class="block browse" id="browse" aria-label="Browse by category">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">🔎 Find it fast</div>
+      <h2>Shop by category</h2>
+      <p>Pick a category or search by name — e.g. “Christmas”, “vinyl”, “soap”, “kids”.</p>
+    </div>
+    <div class="search-box">
+      <span aria-hidden="true">🔎</span>
+      <input type="search" id="q" placeholder="Search all products…" aria-label="Search all products" autocomplete="off">
+      <button type="button" id="q-clear" aria-label="Clear search" hidden>✕</button>
+    </div>
+    <p class="search-status" id="q-status" aria-live="polite"></p>
+    <div class="cat-tiles" id="cat-tiles"></div>
+  </div>
+</section>
+
 <!-- ============ VIDEOS ============ -->
 <section class="block" id="videos">
   <div class="wrap">
@@ -446,6 +487,7 @@ footer ul a:hover{color:var(--gold-soft)}
       <h2>Shop the marketplace</h2>
       <p>Hand-picked products, ready to ship. New items added regularly — check back often.</p>
     </div>
+    <div class="chips" id="chips-shop" role="group" aria-label="Filter by category"></div>
     <div class="grid" id="grid-shop"></div>
     <p class="help-line">❓ Have a question about a product? Call or text <a href="tel:+17207994089">+1 720 799 4089</a> or email <a href="mailto:info@akiliwomarketplace.com?subject=Product%20question">info@akiliwomarketplace.com</a></p>
   </div>
@@ -456,9 +498,10 @@ footer ul a:hover{color:var(--gold-soft)}
   <div class="wrap">
     <div class="sec-head reveal">
       <div class="sec-tag">📚 Akiliwo Books</div>
-      <h2>Read, learn, grow</h2>
-      <p>Books and publications from the Akiliwo family. Order your copy with secure checkout.</p>
+      <h2>Books, music &amp; movies</h2>
+      <p>Books from the Akiliwo family plus pre-owned books, kids' books, vinyl records, music CDs and DVDs. Order with secure checkout.</p>
     </div>
+    <div class="chips" id="chips-books" role="group" aria-label="Filter by category"></div>
     <div class="grid" id="grid-books"></div>
     <p class="help-line">❓ Have a question about a product? Call or text <a href="tel:+17207994089">+1 720 799 4089</a> or email <a href="mailto:info@akiliwomarketplace.com?subject=Product%20question">info@akiliwomarketplace.com</a></p>
   </div>
@@ -716,6 +759,7 @@ footer ul a:hover{color:var(--gold-soft)}
 const PRODUCTS = [
   {
     category:"shop",
+    sub:"Herbal Wellness",
     title:"DULU Herbal Tonic (500ml)",
     price:"$35.00",
     images:["images/dulu-herbal-tonic-500ml-1000.webp"],
@@ -728,6 +772,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Herbal Wellness",
     title:"SURI Herbal Drink (500ml)",
     price:"$35.00",
     images:["images/suri-herbal-drink-500ml-1000.webp"],
@@ -740,6 +785,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Herbal Wellness",
     title:"Max Active (10 sachets)",
     price:"$15.00",
     images:["images/max-active-10-sachets-1000.webp"],
@@ -752,6 +798,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Herbal Wellness",
     title:"Maxactive Plus (125ml)",
     price:"$15.00",
     images:["images/maxactive-plus-125ml-1000.webp"],
@@ -764,6 +811,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Soap & Oral Care",
     title:"Maxsuri Premium Herbal Soap (Single)",
     price:"$4.00",
     images:["images/maxsuri-premium-herbal-soap-single-1000.webp"],
@@ -775,6 +823,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Soap & Oral Care",
     title:"Maxsuri Premium Herbal Soap — 8-in-1 Pack",
     price:"$25.00",
     images:["images/maxsuri-premium-herbal-soap-8-in-1-pack-1000.webp"],
@@ -786,6 +835,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Soap & Oral Care",
     title:"Maxsuri Charcoal Toothpaste (150g)",
     price:"$8.00",
     images:["images/maxsuri-charcoal-toothpaste-150g-1000.webp"],
@@ -797,6 +847,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Herbal Wellness",
     title:"Maxsuri 6-in-1 Coffee (10 sachets)",
     price:"$15.00",
     images:["images/maxsuri-6-in-1-coffee-10-sachets-1000.webp"],
@@ -809,6 +860,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Kids' Clothing",
     title:"Kids' Pajama Set — Blue (Top & Bottom)",
     price:"$8.00",
     images:["data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNlYWYzZmIiLz4KPCEtLSBUT1AgLS0+CjxyZWN0IHg9IjU4IiB5PSI5MiIgd2lkdGg9IjM0IiBoZWlnaHQ9IjUyIiByeD0iOSIgZmlsbD0iIzViOWJkNSIvPgo8cmVjdCB4PSIxNzgiIHk9IjkyIiB3aWR0aD0iMzQiIGhlaWdodD0iNTIiIHJ4PSI5IiBmaWxsPSIjNWI5YmQ1Ii8+CjxwYXRoIGQ9Ik05MiA5NiBxNDMgLTI2IDg2IDAgbC02IDEwOCBxLTM3IDEyIC03NCAwIHoiIGZpbGw9IiM1YjliZDUiLz4KPHBhdGggZD0iTTEyMCA5MCBxMTUgMTQgMzAgMCBsLTQgMTQgcS0xMSA3IC0yMiAwIHoiIGZpbGw9IiNlYWYzZmIiLz4KPHJlY3QgeD0iNTgiIHk9IjEzOCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjM2Y3Y2I4Ii8+CjxyZWN0IHg9IjE3OCIgeT0iMTM4IiB3aWR0aD0iMzQiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMzZjdjYjgiLz4KPHJlY3QgeD0iOTYiIHk9IjE5NiIgd2lkdGg9Ijc4IiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjM2Y3Y2I4Ii8+CjwhLS0gQk9UVE9NUyAtLT4KPHBhdGggZD0iTTIzMiA5NiBoOTYgdjIyIHEwIDYgLTYgNiBoLTg0IHEtNiAwIC02IC02IHoiIGZpbGw9IiM1YjliZDUiLz4KPHBhdGggZD0iTTIzMiAxMjIgaDQ0IGwtNCA4NiBxLTE4IDggLTM0IDAgeiIgZmlsbD0iIzViOWJkNSIvPgo8cGF0aCBkPSJNMjg0IDEyMiBoNDQgbC02IDg2IHEtMTYgOCAtMzQgMCB6IiBmaWxsPSIjNWI5YmQ1Ii8+CjxyZWN0IHg9IjIzNiIgeT0iMTk4IiB3aWR0aD0iMzQiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiMzZjdjYjgiLz4KPHJlY3QgeD0iMjkwIiB5PSIxOTgiIHdpZHRoPSIzNCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iIzNmN2NiOCIvPgo8cGF0aCBkPSJNOTUgMTA0IGwxLjggNC4yIDQuNi40IC0zLjUgMyAxLjEgNC41IC00LTIuNCAtNCAyLjQgMS4xLTQuNSAtMy41LTMgNC42LS40eiIgZmlsbD0iI2Q2ZTdmOCIvPjxwYXRoIGQ9Ik0xMzUgMTI5IGwxLjggNC4yIDQuNi40IC0zLjUgMyAxLjEgNC41IC00LTIuNCAtNCAyLjQgMS4xLTQuNSAtMy41LTMgNC42LS40eiIgZmlsbD0iI2Q2ZTdmOCIvPjxwYXRoIGQ9Ik0xMTAgMTU5IGwxLjggNC4yIDQuNi40IC0zLjUgMyAxLjEgNC41IC00LTIuNCAtNCAyLjQgMS4xLTQuNSAtMy41LTMgNC42LS40eiIgZmlsbD0iI2Q2ZTdmOCIvPjxwYXRoIGQ9Ik0xNTAgOTQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZDZlN2Y4Ii8+PHBhdGggZD0iTTEyMCAxODQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZDZlN2Y4Ii8+PHBhdGggZD0iTTI1NSAxMzQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZDZlN2Y4Ii8+PHBhdGggZD0iTTMwMCAxMTQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZDZlN2Y4Ii8+PHBhdGggZD0iTTI3NSAxNjQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZDZlN2Y4Ii8+PHBhdGggZD0iTTMxMCAxNTQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZDZlN2Y4Ii8+PHBhdGggZD0iTTI4NSAxODkgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZDZlN2Y4Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMjQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjM2Y3Y2I4Ij5CbHVlIFBhamFtYSBTZXQ8L3RleHQ+Cjx0ZXh0IHg9IjIwMCIgeT0iMjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM5YTlhOWEiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZSB3aXRoIHlvdXIgb3duIHBob3RvPC90ZXh0Pgo8L3N2Zz4="],
@@ -820,6 +872,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Kids' Clothing",
     title:"Kids' Pajama Set — Pink (Top & Bottom)",
     price:"$8.00",
     images:["data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIj4KPHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNmZGVlZjQiLz4KPCEtLSBUT1AgLS0+CjxyZWN0IHg9IjU4IiB5PSI5MiIgd2lkdGg9IjM0IiBoZWlnaHQ9IjUyIiByeD0iOSIgZmlsbD0iI2U4N2ZhOCIvPgo8cmVjdCB4PSIxNzgiIHk9IjkyIiB3aWR0aD0iMzQiIGhlaWdodD0iNTIiIHJ4PSI5IiBmaWxsPSIjZTg3ZmE4Ii8+CjxwYXRoIGQ9Ik05MiA5NiBxNDMgLTI2IDg2IDAgbC02IDEwOCBxLTM3IDEyIC03NCAwIHoiIGZpbGw9IiNlODdmYTgiLz4KPHBhdGggZD0iTTEyMCA5MCBxMTUgMTQgMzAgMCBsLTQgMTQgcS0xMSA3IC0yMiAwIHoiIGZpbGw9IiNmZGVlZjQiLz4KPHJlY3QgeD0iNTgiIHk9IjEzOCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjY2Y1ZDhjIi8+CjxyZWN0IHg9IjE3OCIgeT0iMTM4IiB3aWR0aD0iMzQiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNjZjVkOGMiLz4KPHJlY3QgeD0iOTYiIHk9IjE5NiIgd2lkdGg9Ijc4IiBoZWlnaHQ9IjkiIHJ4PSI0IiBmaWxsPSIjY2Y1ZDhjIi8+CjwhLS0gQk9UVE9NUyAtLT4KPHBhdGggZD0iTTIzMiA5NiBoOTYgdjIyIHEwIDYgLTYgNiBoLTg0IHEtNiAwIC02IC02IHoiIGZpbGw9IiNlODdmYTgiLz4KPHBhdGggZD0iTTIzMiAxMjIgaDQ0IGwtNCA4NiBxLTE4IDggLTM0IDAgeiIgZmlsbD0iI2U4N2ZhOCIvPgo8cGF0aCBkPSJNMjg0IDEyMiBoNDQgbC02IDg2IHEtMTYgOCAtMzQgMCB6IiBmaWxsPSIjZTg3ZmE4Ii8+CjxyZWN0IHg9IjIzNiIgeT0iMTk4IiB3aWR0aD0iMzQiIGhlaWdodD0iOSIgcng9IjQiIGZpbGw9IiNjZjVkOGMiLz4KPHJlY3QgeD0iMjkwIiB5PSIxOTgiIHdpZHRoPSIzNCIgaGVpZ2h0PSI5IiByeD0iNCIgZmlsbD0iI2NmNWQ4YyIvPgo8cGF0aCBkPSJNOTUgMTA0IGwxLjggNC4yIDQuNi40IC0zLjUgMyAxLjEgNC41IC00LTIuNCAtNCAyLjQgMS4xLTQuNSAtMy41LTMgNC42LS40eiIgZmlsbD0iI2ZiZGNlOCIvPjxwYXRoIGQ9Ik0xMzUgMTI5IGwxLjggNC4yIDQuNi40IC0zLjUgMyAxLjEgNC41IC00LTIuNCAtNCAyLjQgMS4xLTQuNSAtMy41LTMgNC42LS40eiIgZmlsbD0iI2ZiZGNlOCIvPjxwYXRoIGQ9Ik0xMTAgMTU5IGwxLjggNC4yIDQuNi40IC0zLjUgMyAxLjEgNC41IC00LTIuNCAtNCAyLjQgMS4xLTQuNSAtMy41LTMgNC42LS40eiIgZmlsbD0iI2ZiZGNlOCIvPjxwYXRoIGQ9Ik0xNTAgOTQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZmJkY2U4Ii8+PHBhdGggZD0iTTEyMCAxODQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZmJkY2U4Ii8+PHBhdGggZD0iTTI1NSAxMzQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZmJkY2U4Ii8+PHBhdGggZD0iTTMwMCAxMTQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZmJkY2U4Ii8+PHBhdGggZD0iTTI3NSAxNjQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZmJkY2U4Ii8+PHBhdGggZD0iTTMxMCAxNTQgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZmJkY2U4Ii8+PHBhdGggZD0iTTI4NSAxODkgbDEuOCA0LjIgNC42LjQgLTMuNSAzIDEuMSA0LjUgLTQtMi40IC00IDIuNCAxLjEtNC41IC0zLjUtMyA0LjYtLjR6IiBmaWxsPSIjZmJkY2U4Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMjQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjY2Y1ZDhjIj5QaW5rIFBhamFtYSBTZXQ8L3RleHQ+Cjx0ZXh0IHg9IjIwMCIgeT0iMjcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiM5YTlhOWEiPnNhbXBsZSBpbWFnZSDigJQgcmVwbGFjZSB3aXRoIHlvdXIgb3duIHBob3RvPC90ZXh0Pgo8L3N2Zz4="],
@@ -831,6 +884,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Beauty Gadgets",
     title:"Akiliwo Crystal Hair Removal",
     price:"$10.99",
     images:["images/crystal-hair-removal-1000.webp"],
@@ -845,6 +899,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Beauty Gadgets",
     title:"Y38 Wireless Ear Cleaner with Camera",
     price:"$12.99",
     images:["images/y38-ear-cleaner-front-1000.webp", "images/y38-ear-cleaner-side-1000.webp", "images/y38-ear-cleaner-back-1000.webp"],
@@ -862,6 +917,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Christmas & Home",
     title:"Vintage Christmas Musical Carousel (Merry-Go-Round) - Used",
     price:"$25.00",
     images:["images/vintage-christmas-musical-carousel-1000.webp"],
@@ -873,6 +929,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Christmas & Home",
     title:"Department 56 Shingle Creek House (Lighted) - Used",
     price:"$23.00",
     images:["images/dept56-shingle-creek-house-1000.webp"],
@@ -884,6 +941,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Christmas & Home",
     title:"Department 56 Christmas Bells #98711 - 1996 Special Event Piece - Used",
     price:"$84.00",
     images:["images/dept56-dickens-village-bell-tower-1000.webp"],
@@ -895,6 +953,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Christmas & Home",
     title:"Department 56 Dickens' Village Start A Tradition Set (Set of 13) - Used",
     price:"$90.00",
     images:["images/dept56-dickens-start-a-tradition-set-1000.webp","images/dept56-dickens-start-a-tradition-set-box-end-1000.webp"],
@@ -906,6 +965,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Toys & Collectibles",
     title:"Godzilla Super Kaiju SpaceGodzilla '94 Action Figure (in Box) - Used",
     price:"$25.00",
     images:["images/godzilla-spacegodzilla-94-figure-1000.webp"],
@@ -917,6 +977,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
+    sub:"Christmas & Home",
     title:"V&O Coach Lantern & 30\" Shepherd's Hook - Used",
     price:"$10.00",
     images:["images/vo-coach-lantern-shepherds-hook-1000.webp"],
@@ -928,6 +989,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Akiliwo Books",
     featured:true,
     title:"Last Bus to Where",
     kicker:"📖 New Japa thriller · Featured book",
@@ -972,6 +1034,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Vinyl Records",
     title:"Rosanne Cash - Seven Year Ache - Vinyl LP Record - Used",
     price:"$10.00",
     images:["images/lp-rosanne-cash-seven-year-ache-2-1000.webp", "images/lp-rosanne-cash-seven-year-ache-1000.webp"],
@@ -983,6 +1046,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Vinyl Records",
     title:"George Carlin - Occupation: Foole - Vinyl LP Record - Used",
     price:"$8.00",
     images:["images/lp-george-carlin-occupation-foole-2-1000.webp", "images/lp-george-carlin-occupation-foole-1000.webp"],
@@ -994,6 +1058,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Vinyl Records",
     title:"Jim Reeves - Pure Gold Volume One - Vinyl LP Record - Used",
     price:"$8.00",
     images:["images/lp-jim-reeves-pure-gold-v1-1000.webp"],
@@ -1005,6 +1070,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Vinyl Records",
     title:"Alabama - Alabama (Self-Titled) - Vinyl LP Record - Used",
     price:"$10.00",
     images:["images/lp-alabama-1000.webp"],
@@ -1016,6 +1082,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"Louise Penny - The Brutal Telling - Hardcover - Chief Inspector Gamache Mystery",
     price:"$6.00",
     images:["images/louise-penny-the-brutal-telling-1000.webp"],
@@ -1027,6 +1094,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"Stieg Larsson - The Girl Who Played with Fire - Paperback - Millennium #2",
     price:"$5.00",
     images:["images/larsson-girl-who-played-with-fire-1000.webp"],
@@ -1038,6 +1106,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"The House in the Night - Susan Marie Swanson - Board Book - Caldecott Medal",
     price:"$6.00",
     images:["images/house-in-the-night-board-book-1000.webp"],
@@ -1049,6 +1118,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Amy Tan - The Opposite of Fate: A Book of Musings - Hardcover",
     price:"$6.00",
     images:["images/amy-tan-opposite-of-fate-1000.webp"],
@@ -1060,6 +1130,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Jamie Sams - Dancing the Dream: The Seven Sacred Paths of Human Transformation - Paperback",
     price:"$10.00",
     images:["images/sams-dancing-the-dream-1000.webp"],
@@ -1071,6 +1142,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"Scott Westerfeld - Pretties - Uglies Series Book 2 - Paperback - Used",
     price:"$5.00",
     images:["images/westerfeld-pretties-1000.webp"],
@@ -1082,6 +1154,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"DIY Wrap Bracelets - Keiko Sakamoto - Paperback - Used",
     price:"$7.00",
     images:["images/diy-wrap-bracelets-1000.webp"],
@@ -1093,6 +1166,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"Writing Fabulous Sentences & Paragraphs - Evan-Moor - Grades 4-6 - Used",
     price:"$5.00",
     images:["images/writing-fabulous-sentences-paragraphs-1000.webp"],
@@ -1104,6 +1178,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"Baby on the Way - Sears Children's Library - Hardcover - Used",
     price:"$5.00",
     images:["images/baby-on-the-way-sears-1000.webp"],
@@ -1115,6 +1190,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"Jack Higgins - On Dangerous Ground - Hardcover - Used",
     price:"$8.00",
     images:["images/higgins-on-dangerous-ground-1000.webp"],
@@ -1126,6 +1202,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Carl N. Degler - Out of Our Past: The Forces That Shaped Modern America - Third Edition - Paperback - Used",
     price:"$5.00",
     images:["images/degler-out-of-our-past-1000.webp"],
@@ -1137,6 +1214,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"DK Eyewitness Books - Ancient China - Used",
     price:"$10.00",
     images:["images/dk-eyewitness-ancient-china-1000.webp"],
@@ -1148,6 +1226,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"Pete the Cat Plays Hide-and-Seek - Kimberly & James Dean - Used",
     price:"$10.00",
     images:["images/pete-the-cat-hide-and-seek-1000.webp"],
@@ -1159,6 +1238,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Bill O'Reilly & Martin Dugard - Killing Lincoln - Hardcover - Used",
     price:"$8.00",
     images:["images/oreilly-killing-lincoln-1000.webp"],
@@ -1170,6 +1250,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Rachael Ray - 30-Minute Meals - Paperback Cookbook - Used",
     price:"$9.00",
     images:["images/rachael-ray-30-minute-meals-1000.webp"],
@@ -1181,6 +1262,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Bill O'Reilly & Martin Dugard - Killing Patton - Hardcover - Used",
     price:"$9.00",
     images:["images/oreilly-killing-patton-1000.webp"],
@@ -1192,6 +1274,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Music CDs",
     title:"Jubilee & Josie R&B Vocal Groups Volume Two - CD - Used",
     price:"$6.00",
     images:["images/cd-jubilee-josie-rb-vocal-groups-v2-1000.webp"],
@@ -1203,6 +1286,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Bundles",
     title:"Big Boxed Special - Used Book / DVD / CD Bundle Lot - Sale",
     price:"$10.00",
     images:[],
@@ -1214,6 +1298,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Movies & TV",
     title:"Stir of Echoes - Kevin Bacon - DVD - Used",
     price:"$10.00",
     images:["images/dvd-stir-of-echoes-1000.webp"],
@@ -1225,6 +1310,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Movies & TV",
     title:"Mr. & Mrs. Smith - DVD - Widescreen - Used",
     price:"$7.99",
     images:["images/dvd-mr-and-mrs-smith-1000.webp"],
@@ -1236,6 +1322,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Movies & TV",
     title:"Sweet Home Alabama - Reese Witherspoon - DVD - Widescreen - Used",
     price:"$5.00",
     images:["images/dvd-sweet-home-alabama-1000.webp","images/dvd-sweet-home-alabama-back-1000.webp"],
@@ -1247,6 +1334,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Music CDs",
     title:"Elvis Presley - 2nd to None - CD - Used",
     price:"$5.00",
     images:["images/cd-elvis-2nd-to-none-1000.webp", "images/cd-elvis-2nd-to-none-back-1000.webp"],
@@ -1258,6 +1346,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Music CDs",
     title:"Alicia Keys - Songs in A Minor - CD - Used",
     price:"$5.00",
     images:["images/cd-alicia-keys-songs-in-a-minor-1000.webp"],
@@ -1269,6 +1358,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Music CDs",
     title:"Big Band Special - Remembering the War Years - 3-CD Set - Used",
     price:"$10.00",
     images:["images/cd-big-band-special-war-years-1000.webp","images/cd-big-band-special-war-years-back-1000.webp"],
@@ -1280,6 +1370,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"The Littlest Family's Big Day - Emily Winfield Martin - Board Book - Used",
     price:"$5.00",
     images:["images/littlest-familys-big-day-1000.webp"],
@@ -1291,6 +1382,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"Broken Little - Used Book - Memoir / Fiction - $5.00",
     price:"$5.00",
     images:[],
@@ -1302,6 +1394,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"Touch & Feel Ocean Friends - Baby Board Book - Used",
     price:"$7.00",
     images:["images/touch-and-feel-ocean-friends-1000.webp"],
@@ -1313,6 +1406,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"James Patterson & Maxine Paetro - The 8th Confession - Paperback - Used",
     price:"$8.00",
     images:["images/patterson-8th-confession-1000.webp"],
@@ -1324,6 +1418,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"Arthur T. Bradley - The Survivalist: Frontier Justice - Paperback - Used",
     price:"$8.00",
     images:["images/bradley-survivalist-frontier-justice-1000.webp"],
@@ -1335,6 +1430,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"Dr. Seuss - Oh, the Places You'll Go! - Hardcover - Used",
     price:"$10.00",
     images:["images/dr-seuss-oh-the-places-youll-go-1000.webp"],
@@ -1346,6 +1442,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Getting to Maybe: How to Excel on Law School Exams - Fischl & Paul - Paperback - Used",
     price:"$15.00",
     images:["images/getting-to-maybe-law-school-exams-1000.webp"],
@@ -1357,6 +1454,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Kids' Books",
     title:"Jeanne DuPrau - The City of Ember - Deluxe Edition - Paperback - Used",
     price:"$5.00",
     images:["images/duprau-city-of-ember-deluxe-1000.webp"],
@@ -1368,6 +1466,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"Jack Higgins - Day of Reckoning - Hardcover - Used",
     price:"$10.00",
     images:["images/higgins-day-of-reckoning-1000.webp"],
@@ -1379,6 +1478,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Movies & TV",
     title:"True Blood - The Complete First Season - DVD Box Set - Used",
     price:"$5.00",
     images:["images/true-blood-season-1-dvd-1000.webp"],
@@ -1390,6 +1490,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Hannah Brown - God Bless This Mess - Hardcover Memoir - Used",
     price:"$5.00",
     images:["images/hannah-brown-god-bless-this-mess-1000.webp"],
@@ -1401,6 +1502,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Fiction & Mystery",
     title:"John Saul - The Presence - Hardcover - Used",
     price:"$12.00",
     images:["images/saul-the-presence-1000.webp"],
@@ -1412,6 +1514,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"A Framework for Understanding Poverty - Ruby K. Payne, Ph.D. - Paperback - Used",
     price:"$10.00",
     images:["images/payne-framework-understanding-poverty-1000.webp"],
@@ -1423,6 +1526,7 @@ const PRODUCTS = [
   },
   {
     category:"books",
+    sub:"Nonfiction & How-To",
     title:"Bill O'Reilly - Used Book - Book #2 - Bestselling History Series",
     price:"$8.00",
     images:[],
@@ -1494,6 +1598,7 @@ function productCard(p){
   return `<article class="prod">
     <div class="imgwrap">${badge}${galleryHTML(p)}${(p.videos&&p.videos.length)?`<button class="vid-chip" data-video="${p.videos[0].src}" data-poster="${p.videos[0].poster||''}">▶ Watch video</button>`:''}</div>
     <div class="body">
+      ${p.sub?`<span class="cat-label">${esc(p.sub)}</span>`:''}
       <h3>${esc(p.title)}</h3>
       <p class="desc">${esc(p.desc)}</p>
       ${benefits}
@@ -1537,16 +1642,118 @@ function featuredCard(p){
 }
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
+/* ---- Categories: each product has a `sub` (sub-category). Cards are filtered by
+   the chips above each grid and by the site-wide search box (#q). ---- */
+const CAT_ICONS = {"Herbal Wellness":"🌿","Soap & Oral Care":"🧼","Beauty Gadgets":"✨","Kids' Clothing":"🧸",
+  "Christmas & Home":"🎄","Toys & Collectibles":"🦖","Akiliwo Books":"⭐","Fiction & Mystery":"🕵️","Nonfiction & How-To":"📖","Kids' Books":"🧒","Vinyl Records":"💿",
+  "Music CDs":"🎵","Movies & TV":"🎬","Bundles":"📦"};
+const slug = s => (s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const SECTIONS = {shop:'grid-shop', books:'grid-books', digital:'grid-digital'};
+const activeSub = {};   // cat -> selected sub ('' = all)
+
+function subsOf(cat){
+  const out = [];
+  PRODUCTS.filter(p=>p.category===cat && p.sub).forEach(p=>{
+    const s = out.find(x=>x.name===p.sub);
+    s ? s.n++ : out.push({name:p.sub, n:1});
+  });
+  return out;
+}
 function renderSection(cat,elId){
   const items = PRODUCTS.filter(p=>p.category===cat);
   const el = document.getElementById(elId);
   el.innerHTML = items.length
-    ? items.map(p=>p.featured?featuredCard(p):productCard(p)).join('')
+    ? items.map(p=>{
+        const html = p.featured?featuredCard(p):productCard(p);
+        const q = [p.title,p.sub,p.desc,p.author,p.badge].join(' ').toLowerCase();
+        return html.replace('<article class="prod', `<article data-sub="${esc(p.sub||'')}" data-q="${esc(q)}" class="prod`);
+      }).join('') + `<div class="no-match" hidden>No matching items here.</div>`
     : `<div class="empty">No items yet — add some in the PRODUCTS list (or use #admin).</div>`;
+  const chips = document.getElementById('chips-'+cat);
+  if(chips){
+    const subs = subsOf(cat);
+    chips.innerHTML = subs.length > 1
+      ? `<button type="button" class="chip on" data-cat="${cat}" data-sub="">All<span>${items.length}</span></button>` +
+        subs.map(s=>`<button type="button" class="chip" data-cat="${cat}" data-sub="${esc(s.name)}">${CAT_ICONS[s.name]||''} ${esc(s.name)}<span>${s.n}</span></button>`).join('')
+      : '';
+  }
 }
-renderSection('shop','grid-shop');
-renderSection('books','grid-books');
-renderSection('digital','grid-digital');
+Object.entries(SECTIONS).forEach(([c,id])=>renderSection(c,id));
+
+function applyFilters(){
+  const q = (document.getElementById('q').value||'').trim().toLowerCase();
+  const words = q.split(/\s+/).filter(Boolean);
+  let total = 0;
+  Object.entries(SECTIONS).forEach(([cat,id])=>{
+    const grid = document.getElementById(id);
+    let shown = 0;
+    grid.querySelectorAll('article.prod').forEach(a=>{
+      const okSub = !activeSub[cat] || a.dataset.sub===activeSub[cat];
+      const okQ = words.every(w=>a.dataset.q.includes(w));
+      a.hidden = !(okSub && okQ);
+      if(!a.hidden) shown++;
+    });
+    total += shown;
+    const nm = grid.querySelector('.no-match');
+    if(nm) nm.hidden = shown>0;
+  });
+  const st = document.getElementById('q-status');
+  st.textContent = q ? (total ? `${total} item${total>1?'s':''} found for “${q}” — scroll down to see them.` : `Nothing found for “${q}”. Try another word, or ask us on WhatsApp.`) : '';
+  document.getElementById('q-clear').hidden = !q;
+}
+function selectSub(cat, sub, scroll){
+  activeSub[cat] = sub;
+  document.querySelectorAll(`#chips-${cat} .chip`).forEach(c=>{
+    c.classList.toggle('on', c.dataset.sub===sub);
+    if(c.dataset.sub===sub) c.parentNode.scrollLeft = c.offsetLeft - c.parentNode.offsetLeft - 16;   // keep the chosen chip visible on phones
+  });
+  applyFilters();
+  if(scroll){
+    const t = document.getElementById('chips-'+cat) || document.getElementById(cat);
+    window.scrollTo({top:t.getBoundingClientRect().top + window.pageYOffset - 90, behavior:'smooth'});
+  }
+}
+document.addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(chip){ selectSub(chip.dataset.cat, chip.dataset.sub, false); history.replaceState(null,'', chip.dataset.sub ? '#cat-'+slug(chip.dataset.sub) : '#'+chip.dataset.cat); return; }
+  const tile = e.target.closest('.cat-tile');
+  if(tile){ e.preventDefault(); e.stopPropagation(); selectSub(tile.dataset.cat, tile.dataset.sub, true); history.replaceState(null,'','#cat-'+slug(tile.dataset.sub)); }
+}, true);
+document.getElementById('cat-tiles').innerHTML = Object.keys(SECTIONS).flatMap(cat=>subsOf(cat).map(s=>
+  `<a class="cat-tile" href="#cat-${slug(s.name)}" data-cat="${cat}" data-sub="${esc(s.name)}"><span class="ic">${CAT_ICONS[s.name]||'🛍️'}</span><span>${esc(s.name)}<small>${s.n} item${s.n>1?'s':''}</small></span></a>`)).join('');
+document.getElementById('q').addEventListener('input', applyFilters);
+document.getElementById('q-clear').addEventListener('click', ()=>{ const i=document.getElementById('q'); i.value=''; applyFilters(); i.focus(); });
+/* deep links like #cat-vinyl-records open that category */
+function openCatFromHash(){
+  const m = location.hash.match(/^#cat-(.+)$/);
+  if(!m) return;
+  for(const cat of Object.keys(SECTIONS)){
+    const s = subsOf(cat).find(x=>slug(x.name)===m[1]);
+    if(s){ setTimeout(()=>selectSub(cat, s.name, true), 50); return; }
+  }
+}
+openCatFromHash();
+
+/* ---- Structured data for Google & other search engines (schema.org Product list) ---- */
+(function(){
+  const abs = u => new URL(u, location.href).href;
+  const items = PRODUCTS.map((p,i)=>{
+    const m = String(p.price||'').replace(/,/g,'').match(/\d+(\.\d+)?/);
+    const prod = {"@type":"Product", name:p.title, description:p.desc||p.tagline||'', category:p.sub||p.category};
+    if(p.images && p.images[0]) prod.image = abs(p.images[0]);
+    if(m){
+      const offer = {"@type":"Offer", price:m[0], priceCurrency:"USD", url:location.origin+location.pathname+'#cat-'+slug(p.sub||p.category),
+        availability:/sold/i.test(p.badge||'') ? "https://schema.org/SoldOut" : "https://schema.org/InStock"};
+      if(/\b(used|pre-owned)\b/i.test([p.title,p.badge,p.desc].join(' '))) offer.itemCondition = "https://schema.org/UsedCondition";
+      prod.offers = offer;
+    }
+    return {"@type":"ListItem", position:i+1, item:prod};
+  });
+  const ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({"@context":"https://schema.org","@type":"ItemList",name:"Akiliwo Marketplace products",itemListElement:items});
+  document.head.appendChild(ld);
+})();
 
 /* ---- Video demos: built from products that have a video ---- */
 function orderButtons(p){
