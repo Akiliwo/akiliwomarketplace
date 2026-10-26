@@ -231,6 +231,17 @@ section.block{padding:70px 0}
 #vid-dialog::backdrop{background:rgba(0,0,0,.8)}
 #vid-dialog video{display:block;max-width:min(92vw,900px);max-height:84vh;border-radius:14px;background:#000}
 #vid-dialog .close{position:absolute;top:10px;right:10px;z-index:2;border:0;background:#fff;color:#000;font-weight:800;border-radius:50px;padding:8px 14px;cursor:pointer}
+/* ---------- RETURN POLICY ---------- */
+.policy{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.policy-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.policy-card .ic{font-size:1.8rem;margin-bottom:8px}
+.policy-card h3{font-family:'Fraunces';color:var(--green);font-size:1.2rem;margin-bottom:6px}
+.policy-card p{color:var(--muted);font-size:.95rem}
+.policy-notes{margin-top:22px;background:var(--cream-2);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px}
+.policy-notes h3{font-family:'Fraunces';color:var(--green);font-size:1.1rem;margin-bottom:8px}
+.policy-notes ul{padding-left:20px}
+.policy-notes li{color:var(--muted);font-size:.93rem;margin-bottom:8px}
+.policy-notes a{color:var(--green);font-weight:700}
 .empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);border:2px dashed var(--line);border-radius:var(--radius)}
 
 /* ---------- PRODUCT IMAGE GALLERY (multiple pictures) ---------- */
@@ -375,6 +386,7 @@ footer ul a:hover{color:var(--gold-soft)}
       <a href="#digital">💻 Digital</a>
       <a href="#connect">❤️ Akiliwo Connect</a>
       <a href="#blog">📰 Blog</a>
+      <a href="#returns">↩️ Returns</a>
       <a href="#contact">📞 Contact</a>
     </nav>
     <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
@@ -397,7 +409,7 @@ footer ul a:hover{color:var(--gold-soft)}
       <div class="trust anim d5">
         <div><span>🔒</span> Secure checkout</div>
         <div><span>🚚</span> US-based fulfillment</div>
-        <div><span>✓</span> Quality guaranteed</div>
+        <div><span>↩️</span> <a href="#returns" style="text-decoration:underline">30-day returns</a></div>
         <div><span>🛍️</span> <a href="https://www.ebay.com/sch/i.html?_ssn=jib1504" target="_blank" rel="noopener" style="text-decoration:underline">Also on eBay (jib1504)</a></div>
       </div>
     </div>
@@ -494,6 +506,43 @@ footer ul a:hover{color:var(--gold-soft)}
   </div>
 </section>
 
+<!-- ============ RETURNS ============ -->
+<section class="block" id="returns">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">↩️ Shop with confidence</div>
+      <h2>Return &amp; refund policy</h2>
+      <p>Simple, fair and clear, so you can order with peace of mind.</p>
+    </div>
+    <div class="policy reveal">
+      <div class="policy-card">
+        <div class="ic">📅</div>
+        <h3>30-day returns</h3>
+        <p>Changed your mind? Contact us within <b>30 days of delivery</b> to start a return. Items must be returned in the same condition you received them.</p>
+      </div>
+      <div class="policy-card">
+        <div class="ic">📦</div>
+        <h3>Return shipping</h3>
+        <p>The buyer pays return shipping. If your item arrives <b>damaged, defective or not as described</b>, we cover return shipping or send a replacement.</p>
+      </div>
+      <div class="policy-card">
+        <div class="ic">💳</div>
+        <h3>Refunds</h3>
+        <p>Once we receive and check your return, we refund the item price to your original payment method within <b>5 business days</b>.</p>
+      </div>
+    </div>
+    <div class="policy-notes reveal">
+      <h3>Good to know</h3>
+      <ul>
+        <li>For hygiene and safety reasons, <b>opened</b> herbal drinks, supplements, coffee, soap, toothpaste and personal-care tools (such as the ear cleaner and crystal hair remover) can only be returned if they arrived damaged, defective or not as described. Unopened items are fine to return.</li>
+        <li>Used books, records, CDs, DVDs and collectibles are described honestly with photos; if your item doesn't match its description, we'll make it right.</li>
+        <li>Orders placed on eBay or TikTok Shop follow that platform's return policy and buyer protection.</li>
+        <li>To start a return, email <a href="mailto:info@akiliwomarketplace.com?subject=Return%20request">info@akiliwomarketplace.com</a> or call/text <a href="tel:+17207994089">+1 720 799 4089</a> with your name and order details.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ============ CONTACT ============ -->
 <section class="block alt" id="contact">
   <div class="wrap">
@@ -585,6 +634,7 @@ footer ul a:hover{color:var(--gold-soft)}
         <h4>Company</h4>
         <ul>
           <li><a href="#blog">📰 Blog</a></li>
+          <li><a href="#returns">↩️ Return policy</a></li>
           <li><a href="#contact">📞 Contact</a></li>
           <li><a href="https://delivery.akiliwoconnect.com" target="_blank" rel="noopener">❤️ Akiliwo Connect</a></li>
         </ul>
