@@ -884,7 +884,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
-    sub:"Beauty Gadgets",
+    sub:"Beauty & Health",
     title:"Akiliwo Crystal Hair Removal",
     price:"$10.99",
     images:["images/crystal-hair-removal-1000.webp"],
@@ -899,7 +899,7 @@ const PRODUCTS = [
   },
   {
     category:"shop",
-    sub:"Beauty Gadgets",
+    sub:"Beauty & Health",
     title:"Y38 Wireless Ear Cleaner with Camera",
     price:"$12.99",
     images:["images/y38-ear-cleaner-front-1000.webp", "images/y38-ear-cleaner-side-1000.webp", "images/y38-ear-cleaner-back-1000.webp"],
@@ -1644,7 +1644,7 @@ function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>'
 
 /* ---- Categories: each product has a `sub` (sub-category). Cards are filtered by
    the chips above each grid and by the site-wide search box (#q). ---- */
-const CAT_ICONS = {"Herbal Wellness":"🌿","Soap & Oral Care":"🧼","Beauty Gadgets":"✨","Kids' Clothing":"🧸",
+const CAT_ICONS = {"Herbal Wellness":"🌿","Soap & Oral Care":"🧼","Beauty & Health":"✨","Kids' Clothing":"🧸",
   "Christmas & Home":"🎄","Toys & Collectibles":"🦖","Akiliwo Books":"⭐","Fiction & Mystery":"🕵️","Nonfiction & How-To":"📖","Kids' Books":"🧒","Vinyl Records":"💿",
   "Music CDs":"🎵","Movies & TV":"🎬","Bundles":"📦"};
 const slug = s => (s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
