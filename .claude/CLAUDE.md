@@ -17,7 +17,8 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   "All products A–Z" directory in `index.html` (between the `SEO-DIRECTORY` markers) and
   `google-shopping-feed.xml` (Google Merchant Center free listings) and `facebook-catalog.csv`
   (Meta Commerce Manager catalog; its JPEG photo copies in `images/feed/` are made by
-  `_seo/feed_jpg.py` because Meta rejects WebP).
+  `_seo/feed_jpg.py` because Meta rejects WebP). Herbal Wellness (ingestible supplements) is
+  kept out of the Facebook feed on the owner's instruction (`META_EXCLUDED_SUBS`).
   These are GENERATED: after adding/editing a product run `node _seo/build_seo.js` and commit
   the results. Never hand-edit `p/*.html` or the directory block.
 - Every product needs a `sub` (sub-category) — reuse an existing one (see `CAT_ICONS` in

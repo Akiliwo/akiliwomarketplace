@@ -203,6 +203,9 @@ ${f.images.slice(1).map(i => `      <g:additional_image_link>${esc(i)}</g:additi
 ${f.brand ? `      <g:brand>${f.brand}</g:brand>\n` : ''}      <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>${esc(f.type)}</g:product_type>
     </item>`).join('\n') + `\n  </channel>\n</rss>\n`);
+// Meta's Commerce Policies prohibit ingestible supplements, so these sub-categories stay off
+// the Facebook/Instagram catalog (they remain on the website and in the Google feed).
+const META_EXCLUDED_SUBS = new Set(['Herbal Wellness']);
 // Meta requires a brand on every item; items without a real brand carry the seller's name.
 // Meta accepts only JPEG/PNG photos, so the Facebook feed points at JPEG copies in images/feed/.
 const {execFileSync} = require('child_process');
@@ -216,7 +219,7 @@ const feedJpg = url => {
 const csv = v => /[",\n]/.test(v) ? `"${String(v).replace(/"/g, '""')}"` : String(v);
 fs.writeFileSync(path.join(ROOT, 'facebook-catalog.csv'),
   ['id,title,description,availability,condition,price,link,image_link,additional_image_link,brand,product_type',
-   ...feed.map(f => [f.id, f.title, f.desc, f.inStock ? 'in stock' : 'out of stock', f.condition, f.price, f.p._url,
+   ...feed.filter(f => !META_EXCLUDED_SUBS.has(f.p.sub)).map(f => [f.id, f.title, f.desc, f.inStock ? 'in stock' : 'out of stock', f.condition, f.price, f.p._url,
      feedJpg(f.images[0]), f.images.slice(1).map(feedJpg).join(','), f.brand || 'Akiliwo Marketplace', f.type].map(csv).join(','))].join('\n') + '\n');
 
 // ---- plain-HTML product directory inside index.html ----
