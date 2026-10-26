@@ -54,7 +54,7 @@ const shippingOption = (name, cents) => ({
   },
 });
 
-export async function handle(request, env, fetchImpl = fetch) {
+async function handle(request, env, fetchImpl = fetch) {
   const origin = request.headers.get('Origin') || '';
   if (request.method === 'OPTIONS') return new Response(null, {status: 204, headers: cors(origin)});
   if (request.method !== 'POST') return json({error: 'POST only'}, 405, origin);
