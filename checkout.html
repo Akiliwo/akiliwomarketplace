@@ -7,6 +7,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0c4434">
 <link rel="stylesheet" href="assets/product.css">
+<script src="assets/shop-config.js"></script>
 <style>
 .cart{max-width:720px;margin:24px auto 0}
 .cart h1{margin-bottom:16px}
@@ -23,6 +24,9 @@
 .btn.mail{background:var(--white);color:var(--green);border:2px solid var(--green)}
 .note{font-size:.9rem;color:var(--muted)}
 .empty{text-align:center;padding:40px 10px;color:var(--muted)}
+.sum{display:flex;justify-content:space-between;margin:6px 4px;color:var(--muted);font-weight:600}
+.btn[disabled]{opacity:.6;cursor:wait}
+.err{color:#b5402f;font-weight:700;margin-top:6px}
 </style>
 </head>
 <body>
@@ -48,6 +52,52 @@ const wanted = (params.get('products') || '').split(',').map(x => x.trim()).filt
 });
 const coupon = (params.get('coupon') || '').trim();
 const el = document.getElementById('cart');
+// Card checkout Worker (assets/shop-config.js). Shipping rules must match _stripe/worker.js.
+const CARD_API = String(window.AKILIWO_CARD_CHECKOUT || '').trim();
+const SHIPPING = 5.99, FREE_FROM = 50, MAX_QTY = 10;
+
+function renderCardCheckout(lines) {
+  lines.forEach(l => { l.qty = Math.min(l.qty, MAX_QTY); });
+  const avail = lines.filter(l => !l.p.sold);
+  const subtotal = avail.reduce((t, l) => t + Number(l.p.price) * l.qty, 0);
+  const ship = subtotal >= FREE_FROM ? 0 : SHIPPING;
+  el.innerHTML = `<h1>Your order</h1>
+    ${lines.map(l => `<div class="line">
+      ${l.p.image ? `<img src="${esc(l.p.image)}" alt="">` : '<span></span>'}
+      <div><a href="${esc(l.p.page)}">${esc(l.p.title)}</a><small>Qty ${l.qty} × ${money(Number(l.p.price))}${l.p.sold ? ' · Sold out (not charged)' : ''}</small></div>
+      <span class="amt">${l.p.sold ? '—' : money(Number(l.p.price) * l.qty)}</span>
+    </div>`).join('')}
+    <div class="sum"><span>Subtotal</span><span>${money(subtotal)}</span></div>
+    <div class="sum"><span>Shipping (USA, 5–8 business days)</span><span>${ship ? money(ship) : 'FREE'}</span></div>
+    <div class="total"><span>Total</span><span class="price">${money(subtotal + ship)}</span></div>
+    ${ship ? `<p class="note">Add ${money(FREE_FROM - subtotal)} more for FREE shipping.</p>` : ''}
+    <div class="pay">
+      ${avail.length ? '<button type="button" class="btn card" id="pay">💳 Pay securely by card</button>' : '<span class="btn off">Sold out</span>'}
+      <p class="err" id="pay-err" role="alert" hidden></p>
+    </div>
+    <p class="note">You'll enter your card and shipping address on the next, secure payment page. Questions? Call or text <a href="tel:+17207994089">+1 720 799 4089</a> or email <a href="mailto:info@akiliwomarketplace.com">info@akiliwomarketplace.com</a>.</p>
+    <ul class="trust"><li>🔒 Secure card checkout</li><li>🚚 Ships from Denver, Colorado (USA)</li><li><a href="./#returns">↩️ 30-day returns</a></li></ul>`;
+  const btn = document.getElementById('pay');
+  if (!btn) return;
+  btn.addEventListener('click', async () => {
+    const err = document.getElementById('pay-err');
+    err.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Opening secure payment…';
+    try {
+      const r = await fetch(CARD_API, {method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({items: avail.map(l => ({id: l.id, qty: l.qty}))})});
+      const data = await r.json();
+      if (!r.ok || !data.url) throw new Error(data.error || 'Payment page unavailable');
+      location.href = data.url;
+    } catch (e) {
+      err.textContent = `${e.message || 'Something went wrong'}. Please try again, or call +1 720 799 4089.`;
+      err.hidden = false;
+      btn.disabled = false;
+      btn.textContent = '💳 Pay securely by card';
+    }
+  });
+}
 
 fetch('assets/checkout-products.json').then(r => r.json()).then(catalog => {
   const lines = wanted.map(w => ({...w, p: catalog[w.id]})).filter(l => l.p);
@@ -55,6 +105,7 @@ fetch('assets/checkout-products.json').then(r => r.json()).then(catalog => {
     el.innerHTML = `<h1>Your order</h1><p class="empty">We couldn't find those items. <a href="./#browse">Browse all products</a> or message us on <a href="https://wa.me/${WA}">WhatsApp</a>.</p>`;
     return;
   }
+  if (CARD_API) return renderCardCheckout(lines);
   const total = lines.reduce((t, l) => t + Number(l.p.price) * l.qty, 0);
   const orderText = 'Hello Akiliwo Marketplace, I would like to order:\n' +
     lines.map(l => `- ${l.qty} x ${l.p.title} (${money(Number(l.p.price))} each)`).join('\n') +

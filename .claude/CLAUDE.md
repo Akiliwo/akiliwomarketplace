@@ -48,6 +48,11 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   writing, scratches). No fake reviews, star ratings or unverifiable statistics.
 - No Stripe branding in visible text. A card-payment link goes in `link`
   (button reads "Buy now with card"); without one, customers see "Order on WhatsApp".
+- Card checkout for every product: when `assets/shop-config.js` sets `AKILIWO_CARD_CHECKOUT`
+  (the Cloudflare Worker in `_stripe/`, see `_stripe/README.md`), all buy buttons go to
+  `checkout.html` → Stripe and WhatsApp order buttons are hidden (owner: "no WhatsApp").
+  The Stripe secret key lives only in Cloudflare; never ask for it or commit it.
+  Shipping ($5.99, free from $50) is set in `_stripe/worker.js` and mirrored in `checkout.html`.
 
 ## eBay listing tool (`_ebay/`)
 - `_ebay/ebay_bulk_all_products.py` lists website products on eBay PRODUCTION via the

@@ -789,6 +789,7 @@ footer ul a:hover{color:var(--gold-soft)}
   </div>
 </div>
 
+<script src="assets/shop-config.js"></script>
 <script>
 /* ============================================================
    ⬇️⬇️⬇️  YOUR PRODUCTS LIVE HERE  ⬇️⬇️⬇️
@@ -1644,6 +1645,15 @@ const PAGE_SLUGS = (()=>{
   return map;
 })();
 const pageOf = p => `p/${PAGE_SLUGS.get(p)}.html`;
+/* Card checkout: when assets/shop-config.js sets AKILIWO_CARD_CHECKOUT, every product is paid by card
+   through checkout.html and the WhatsApp order buttons are hidden. Ids must match _seo/build_seo.js. */
+const CARD_CHECKOUT = !!String(window.AKILIWO_CARD_CHECKOUT||'').trim();
+const CHECKOUT_IDS = (()=>{
+  const used = new Set(), map = new Map();
+  PRODUCTS.forEach(p=>{ const s = PAGE_SLUGS.get(p); let id = s.slice(0,50).replace(/-$/,''), n = 2; while(used.has(id)) id = `${s.slice(0,46)}-${n++}`; used.add(id); map.set(p, id); });
+  return map;
+})();
+const checkoutBtn = p => `<a class="buy buy-card" href="checkout.html?products=${encodeURIComponent(CHECKOUT_IDS.get(p)+':1')}">💳 Buy now with card</a>`;
 function productCard(p){
   const sold = (p.badge||"").toLowerCase().includes("sold");
   const hasLink = p.link && p.link.trim().length > 0;
@@ -1652,7 +1662,7 @@ function productCard(p){
   const waHref = "https://wa.me/17207994089?text=" + waMsg;
   const waBtn = `<a class="buy buy-wa" href="${waHref}" target="_blank" rel="noopener">💬 Order on WhatsApp</a>`;
   const cardBtn = hasLink ? `<a class="buy buy-card" href="${p.link}" target="_blank" rel="noopener">💳 Buy now with card</a>` : '';
-  const actions = sold ? `<span class="buy disabled">Sold out</span>` : (cardBtn + waBtn);
+  const actions = sold ? `<span class="buy disabled">Sold out</span>` : (CARD_CHECKOUT ? checkoutBtn(p) : cardBtn + waBtn);
   const benefits = (Array.isArray(p.benefits) && p.benefits.length)
     ? `<details><summary>Benefits &amp; functions</summary><ul>${p.benefits.map(b=>`<li>${esc(b)}</li>`).join('')}</ul></details>`
     : '';
@@ -1683,7 +1693,7 @@ function featuredCard(p){
     const waMsg = encodeURIComponent("Hello Akiliwo Marketplace, I would like to order: " + p.title + (o.name ? " (" + o.name + ")" : "") + " — " + o.price + ". Is it available?");
     const wa = `<a class="buy buy-wa" href="https://wa.me/17207994089?text=${waMsg}" target="_blank" rel="noopener">💬 Order ${esc((o.link && o.link.trim()) ? 'on WhatsApp' : (label||'on WhatsApp'))}</a>`;
     const card = (o.link && o.link.trim()) ? `<a class="buy buy-card" href="${o.link}" target="_blank" rel="noopener">💳 Buy now with card</a>` : '';
-    const act = sold ? `<span class="buy disabled">Sold out</span>` : (card + wa);
+    const act = sold ? `<span class="buy disabled">Sold out</span>` : (CARD_CHECKOUT ? checkoutBtn(p) : card + wa);
     return `<div class="feat-opt">${label?`<span class="fmt">${esc(label)}</span>`:''}<span class="price">${esc(o.price)}</span>${o.note?`<span class="feat-note">${esc(o.note)}</span>`:''}${act}</div>`;
   }).join('');
   return `<article class="prod featured">
@@ -1819,6 +1829,7 @@ openCatFromHash();
 
 /* ---- Video demos: built from products that have a video ---- */
 function orderButtons(p){
+  if(CARD_CHECKOUT) return checkoutBtn(p);
   const waMsg = encodeURIComponent("Hello Akiliwo Marketplace, I would like to order: " + p.title + " — " + p.price + ". Is it available?");
   const card = (p.link && p.link.trim()) ? `<a class="buy buy-card" href="${p.link}" target="_blank" rel="noopener">💳 Buy now with card</a>` : '';
   return card + `<a class="buy buy-wa" href="https://wa.me/17207994089?text=${waMsg}" target="_blank" rel="noopener">💬 Order on WhatsApp</a>`;

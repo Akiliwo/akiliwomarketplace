@@ -40,6 +40,8 @@ const priceNum = s => { const m = String(s || '').replace(/,/g, '').match(/\d+(\
 const isUsed = p => /\b(used|pre-owned)\b/i.test([p.title, p.badge, p.desc].join(' '));
 const isSold = p => /sold/i.test(p.badge || '');
 const SECTION = {shop: 'Shop', books: 'Books & Media', digital: 'Digital'};
+// card checkout Worker address from assets/shop-config.js ('' = not set up yet: keep card link / WhatsApp buttons)
+const CARD_CHECKOUT = ((fs.readFileSync(path.join(ROOT, 'assets', 'shop-config.js'), 'utf8').match(/AKILIWO_CARD_CHECKOUT\s*=\s*'([^']*)'/) || [])[1] || '').trim();
 const abs = u => /^https?:/.test(u) ? u : `${SITE}/${u}`;
 function imgVariant(src, w) {
   const m = src.match(/^(images\/.+)-1000\.webp$/);
@@ -65,6 +67,14 @@ PRODUCTS.forEach(p => {
   p._url = `${SITE}/p/${s}.html`;
 });
 
+// Every product gets a short stable id (max 50 chars): used by both feeds, checkout.html and the card checkout.
+const usedIds = new Set();
+PRODUCTS.forEach(p => {
+  let id = p._slug.slice(0, 50).replace(/-$/, ''), n = 2;
+  while (usedIds.has(id)) id = `${p._slug.slice(0, 46)}-${n++}`;
+  usedIds.add(id);
+  p._id = id;
+});
 function productLD(p) {
   const opts = (p.formats && p.formats.length) ? p.formats : [{price: p.price, link: p.link}];
   const offers = opts.map(o => priceNum(o.price)).filter(Boolean).map(price => {
@@ -85,7 +95,9 @@ function productLD(p) {
 function page(p) {
   const imgs = (p.images || []);
   const opts = (p.formats && p.formats.length) ? p.formats : [{name: '', price: p.price, link: p.link}];
-  const buy = isSold(p) ? '<span class="btn off">Sold out</span>' : opts.map(o => {
+  const buy = isSold(p) ? '<span class="btn off">Sold out</span>' : CARD_CHECKOUT
+    ? `<div class="opt"><span class="price">${esc(p.price)}</span><a class="btn card" href="../checkout.html?products=${encodeURIComponent(p._id + ':1')}" rel="nofollow">💳 Buy now with card</a></div>`
+    : opts.map(o => {
     const wa = `https://wa.me/${WA}?text=` + encodeURIComponent(`Hello Akiliwo Marketplace, I would like to order: ${p.title}${o.name ? ' (' + o.name + ')' : ''} — ${o.price}. Is it available?`);
     return `<div class="opt">${o.name ? `<b>${esc(o.name)}</b> ` : ''}<span class="price">${esc(o.price)}</span>${o.note ? `<small>${esc(o.note)}</small>` : ''}
         ${o.link && o.link.trim() ? `<a class="btn card" href="${esc(o.link)}" rel="nofollow noopener" target="_blank">💳 Buy now with card</a>` : ''}
@@ -172,13 +184,9 @@ fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSite
 // ---- Product feeds: Google Merchant Center (free Shopping listings) + Meta catalog (Facebook/Instagram) ----
 // Shipping and returns are set in the Merchant Center / Commerce Manager accounts, not here.
 // Products without a real photo are left out (both platforms reject them).
-const feedIds = new Set();
 const feed = PRODUCTS.filter(p => p.images.length && priceNum(p.price)).map(p => {
-  let id = p._slug.slice(0, 50).replace(/-$/, ''), n = 2;
-  while (feedIds.has(id)) id = `${p._slug.slice(0, 46)}-${n++}`;
-  feedIds.add(id);
   return {
-    id, p,
+    id: p._id, p,
     title: p.title.slice(0, 150),
     desc: plain([p.desc || [p.tagline, ...(p.story || [])].filter(Boolean).join(' '), ...(p.benefits || []), p.disclaimer].filter(Boolean).map(t => /[.!?…]$/.test(t.trim()) ? t.trim() : t.trim() + '.').join(' ')).replace(/\s+/g, ' ').slice(0, 4900),
     images: p.images.slice(0, 10).map(abs),
@@ -225,11 +233,13 @@ fs.writeFileSync(path.join(ROOT, 'facebook-catalog.csv'),
 
 // ---- checkout data: Facebook/Instagram shop "Buy" sends buyers to checkout.html?products=<id>:<qty>,...
 // The ids are the feed ids above, so checkout.html can look each product up here.
-fs.writeFileSync(path.join(ROOT, 'assets', 'checkout-products.json'), JSON.stringify(Object.fromEntries(feed.map(f => [f.id, {
-  title: f.p.title, price: priceNum(f.p.price), page: `p/${f.p._slug}.html`,
-  image: f.p.images[0] ? imgVariant(f.p.images[0], 200) : '',
-  link: ((f.p.formats && f.p.formats[0] && f.p.formats[0].link) || f.p.link || '').trim(),
-  sold: isSold(f.p),
+fs.writeFileSync(path.join(ROOT, 'assets', 'checkout-products.json'), JSON.stringify(Object.fromEntries(PRODUCTS.filter(p => priceNum(p.price)).map(p => [p._id, {
+  title: p.title, price: priceNum(p.price), page: `p/${p._slug}.html`,
+  image: p.images[0] ? imgVariant(p.images[0], 200) : '',
+  // full-size photo for the card checkout page (JPEG copy when one exists)
+  photo: p.images[0] ? (fs.existsSync(path.join(ROOT, 'images/feed', path.basename(p.images[0], '.webp').replace(/-1000$/, '') + '.jpg')) ? `images/feed/${path.basename(p.images[0], '.webp').replace(/-1000$/, '')}.jpg` : p.images[0]) : '',
+  link: ((p.formats && p.formats[0] && p.formats[0].link) || p.link || '').trim(),
+  sold: isSold(p),
 }]))) + '\n');
 
 // ---- plain-HTML product directory inside index.html ----
