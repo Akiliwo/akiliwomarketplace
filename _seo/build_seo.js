@@ -10,6 +10,7 @@
  *                           price, buy buttons, schema.org Product data)
  *   sitemap.xml             every page + its photos, for Google Search Console
  *   robots.txt              lets search engines crawl everything and points to the sitemap
+ *   google-shopping-feed.xml  product feed for Google Merchant Center (free Shopping listings)
  *   index.html              the plain-HTML product directory between the SEO-DIRECTORY markers
  *                           (links search engines can follow even without running JavaScript)
  *
@@ -166,6 +167,33 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   [urlXml(SITE + '/'), ...PRODUCTS.map(p => urlXml(p._url, p.images))].join('\n') + '\n</urlset>\n');
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
+// ---- Google Merchant Center product feed (free listings in the Google Shopping tab) ----
+// Shipping and returns are set in the Merchant Center account itself, not here.
+// Products without a real photo are left out (Google rejects them).
+const feedIds = new Set();
+const feedItems = PRODUCTS.filter(p => p.images.length && priceNum(p.price)).map(p => {
+  let id = p._slug.slice(0, 50).replace(/-$/, ''), n = 2;
+  while (feedIds.has(id)) id = `${p._slug.slice(0, 46)}-${n++}`;
+  feedIds.add(id);
+  const desc = plain([p.desc || [p.tagline, ...(p.story || [])].filter(Boolean).join(' '), ...(p.benefits || []), p.disclaimer].filter(Boolean).map(t => /[.!?…]$/.test(t.trim()) ? t.trim() : t.trim() + '.').join(' ')).replace(/\s+/g, ' ').slice(0, 4900);
+  const extra = p.images.slice(1, 10).map(i => `      <g:additional_image_link>${esc(abs(i))}</g:additional_image_link>\n`).join('');
+  const brand = /^Akiliwo\b/.test(p.title) || p.featured ? '      <g:brand>Akiliwo</g:brand>\n' : '';
+  return `    <item>
+      <g:id>${esc(id)}</g:id>
+      <g:title>${esc(p.title.slice(0, 150))}</g:title>
+      <g:description>${esc(desc)}</g:description>
+      <g:link>${esc(p._url)}</g:link>
+      <g:image_link>${esc(abs(p.images[0]))}</g:image_link>
+${extra}      <g:availability>${isSold(p) ? 'out_of_stock' : 'in_stock'}</g:availability>
+      <g:price>${priceNum(p.price)} USD</g:price>
+      <g:condition>${isUsed(p) ? 'used' : 'new'}</g:condition>
+${brand}      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>${esc((SECTION[p.category] || '') + ' > ' + (p.sub || ''))}</g:product_type>
+    </item>`;
+});
+fs.writeFileSync(path.join(ROOT, 'google-shopping-feed.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n  <channel>\n    <title>Akiliwo Marketplace</title>\n    <link>${SITE}/</link>\n    <description>Akiliwo Marketplace products</description>\n${feedItems.join('\n')}\n  </channel>\n</rss>\n`);
+
 // ---- plain-HTML product directory inside index.html ----
 const groups = [];
 PRODUCTS.forEach(p => {
@@ -190,4 +218,4 @@ const re = /<!-- SEO-DIRECTORY:START[\s\S]*?<!-- SEO-DIRECTORY:END -->/;
 if (!re.test(html)) throw new Error('SEO-DIRECTORY markers not found in index.html');
 fs.writeFileSync(INDEX, html.replace(re, () => dir));
 
-console.log(`Wrote ${PRODUCTS.length} product pages in p/, sitemap.xml, robots.txt and the index.html directory.`);
+console.log(`Wrote ${PRODUCTS.length} product pages in p/, sitemap.xml, robots.txt, google-shopping-feed.xml and the index.html directory.`);
