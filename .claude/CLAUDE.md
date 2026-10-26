@@ -12,6 +12,15 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   no JS errors, no broken images, no horizontal scroll; after pushing, confirm
   `CNAME` is still on `origin/main`.
 
+## SEO pages — run after every product change
+- Every product has its own page `p/<slug>.html`, plus `sitemap.xml`, `robots.txt` and the
+  "All products A–Z" directory in `index.html` (between the `SEO-DIRECTORY` markers).
+  These are GENERATED: after adding/editing a product run `node _seo/build_seo.js` and commit
+  the results. Never hand-edit `p/*.html` or the directory block.
+- Every product needs a `sub` (sub-category) — reuse an existing one (see `CAT_ICONS` in
+  `index.html`) unless the owner asks for a new category.
+- Slugs come from the title; the slug logic in `index.html` (`PAGE_SLUGS`) must match the script.
+
 ## "Add product" — image rules (owner's standing instruction)
 - Never commit raw photos (JPG/PNG/HEIC straight from a phone) and never embed
   images in `index.html` as `data:` URIs.
