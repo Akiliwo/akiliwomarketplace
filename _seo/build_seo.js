@@ -129,6 +129,9 @@ ${imgs[0] ? `<meta property="og:image" content="${abs(imgs[0])}">\n` : ''}<meta 
 <script type="application/ld+json">${JSON.stringify(productLD(p))}</script>
 <script type="application/ld+json">${JSON.stringify(crumbs)}</script>
 <link rel="stylesheet" href="../assets/product.css">
+<script src="../assets/shop-config.js"></script>
+<script src="../assets/pixel.js"></script>
+<script>window.akTrack('ViewContent', ${JSON.stringify({content_ids: [p._id], content_type: 'product', content_name: p.title, currency: 'USD', ...(priceNum(p.price) ? {value: Number(priceNum(p.price))} : {})}).replace(/</g, '\\u003c')});</script>
 </head>
 <body>
 <header><div class="wrap"><a class="brand" href="../"><span class="mark">A</span> Akiliwo Marketplace</a><a class="back" href="../${catHash}">← All ${esc(p.sub || SECTION[p.category])}</a></div></header>

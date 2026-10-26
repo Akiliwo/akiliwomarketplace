@@ -7,6 +7,18 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0c4434">
 <link rel="stylesheet" href="assets/product.css">
+<script src="assets/shop-config.js"></script>
+<script src="assets/pixel.js"></script>
+<script>
+/* Purchase event: the order total was saved by checkout.html before going to Stripe. Sent once. */
+try {
+  var o = JSON.parse(sessionStorage.getItem('ak_purchase') || 'null');
+  if (o && /[?&]order=cs_/.test(location.search)) {
+    window.akTrack('Purchase', {content_ids: o.ids, content_type: 'product', currency: 'USD', value: o.value, num_items: o.n});
+    sessionStorage.removeItem('ak_purchase');
+  }
+} catch (e) {}
+</script>
 <style>.thanks{max-width:640px;margin:40px auto;text-align:center}.thanks .big{font-size:3.5rem}.thanks p{margin:12px 0}.thanks .btn{margin-top:14px}</style>
 </head>
 <body>

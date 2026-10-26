@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#0c4434">
 <link rel="stylesheet" href="assets/product.css">
 <script src="assets/shop-config.js"></script>
+<script src="assets/pixel.js"></script>
 <style>
 .cart{max-width:720px;margin:24px auto 0}
 .cart h1{margin-bottom:16px}
@@ -89,6 +90,8 @@ function renderCardCheckout(lines) {
         body: JSON.stringify({items: avail.map(l => ({id: l.id, qty: l.qty}))})});
       const data = await r.json();
       if (!r.ok || !data.url) throw new Error(data.error || 'Payment page unavailable');
+      // remembered for the Purchase event on thank-you.html (same tab, back from Stripe)
+      try { sessionStorage.setItem('ak_purchase', JSON.stringify({ids: avail.map(l => l.id), value: +(subtotal + ship).toFixed(2), n: avail.reduce((t, l) => t + l.qty, 0)})); } catch (e) {}
       location.href = data.url;
     } catch (e) {
       err.textContent = `${e.message || 'Something went wrong'}. Please try again, or call +1 720 799 4089.`;
@@ -105,6 +108,8 @@ fetch('assets/checkout-products.json').then(r => r.json()).then(catalog => {
     el.innerHTML = `<h1>Your order</h1><p class="empty">We couldn't find those items. <a href="./#browse">Browse all products</a> or message us on <a href="https://wa.me/${WA}">WhatsApp</a>.</p>`;
     return;
   }
+  window.akTrack('InitiateCheckout', {content_ids: lines.map(l => l.id), content_type: 'product', currency: 'USD',
+    value: +lines.reduce((t, l) => t + Number(l.p.price) * l.qty, 0).toFixed(2), num_items: lines.reduce((t, l) => t + l.qty, 0)});
   if (CARD_API) return renderCardCheckout(lines);
   const total = lines.reduce((t, l) => t + Number(l.p.price) * l.qty, 0);
   const orderText = 'Hello Akiliwo Marketplace, I would like to order:\n' +

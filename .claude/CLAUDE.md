@@ -53,6 +53,10 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   `checkout.html` → Stripe and WhatsApp order buttons are hidden (owner: "no WhatsApp").
   The Stripe secret key lives only in Cloudflare; never ask for it or commit it.
   Shipping ($5.99, free from $50) is set in `_stripe/worker.js` and mirrored in `checkout.html`.
+- Meta Pixel: `assets/pixel.js` + `AKILIWO_META_PIXEL` in `assets/shop-config.js` (empty = off).
+  Events: PageView (all pages), ViewContent (product pages), InitiateCheckout (`checkout.html`),
+  Purchase (`thank-you.html`, total saved in sessionStorage before Stripe). content_ids = feed ids.
+  New pages must load `assets/shop-config.js` then `assets/pixel.js`.
 
 ## eBay listing tool (`_ebay/`)
 - `_ebay/ebay_bulk_all_products.py` lists website products on eBay PRODUCTION via the
