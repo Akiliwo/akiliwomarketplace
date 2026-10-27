@@ -62,6 +62,9 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   Events: PageView (all pages), ViewContent (product pages), InitiateCheckout (`checkout.html`),
   Purchase (`thank-you.html`, total saved in sessionStorage before Stripe). content_ids = feed ids.
   New pages must load `assets/shop-config.js` then `assets/pixel.js`.
+- Policy pages `privacy.html`, `shipping.html` (Shipping & FAQ), `terms.html` and the "Why shop with us"
+  section (`#trust` in `index.html`) state the shipping rules, 30-day returns and that ads use the
+  Meta Pixel / Google tag. If shipping, returns or tracking change, update them too.
 
 ## eBay listing tool (`_ebay/`)
 - `_ebay/ebay_bulk_all_products.py` lists website products on eBay PRODUCTION via the

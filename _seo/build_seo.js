@@ -157,13 +157,13 @@ ${imgs[0] ? `<meta property="og:image" content="${abs(imgs[0])}">\n` : ''}<meta 
       ${(p.highlights || []).length ? `<h2>${esc(p.highlightsTitle || 'Highlights')}</h2><ul>${p.highlights.map(b => `<li>${esc(b)}</li>`).join('')}</ul>` : ''}
       ${(p.details || []).length ? `<h2>${esc(p.detailsTitle || 'Details')}</h2><dl>${p.details.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>` : ''}
       ${p.disclaimer ? `<p class="fda">${esc(p.disclaimer)}</p>` : ''}
-      <ul class="trust"><li>🔒 Secure checkout</li><li>🚚 Ships from Denver, Colorado (USA)</li><li><a href="../#returns">↩️ 30-day returns</a></li></ul>
+      <ul class="trust"><li>🔒 Secure card checkout</li><li><a href="../shipping.html">🚚 $5.99 shipping · FREE on $50+ · 5–8 business days</a></li><li>📍 Ships from Denver, Colorado (USA)</li><li><a href="../#returns">↩️ 30-day returns</a></li></ul>
       <p class="ask">Questions? Call or text <a href="tel:+17207994089">+1 720 799 4089</a> or email <a href="mailto:info@akiliwomarketplace.com">info@akiliwomarketplace.com</a></p>
     </div>
   </article>
   ${related.length ? `<section class="related"><h2>More ${esc(p.sub)}</h2><div class="rel-grid">${related.map(q => `<a href="${q._slug}.html">${q.images && q.images[0] ? `<img src="../${imgVariant(q.images[0], 200)}" alt="" loading="lazy" width="200" height="200">` : `<span class="emoji">${q.emoji || '📦'}</span>`}<span>${esc(q.title)}</span><b>${esc(q.price)}</b></a>`).join('')}</div></section>` : ''}
 </main>
-<footer><div class="wrap">© Akiliwo Marketplace LLC · Denver, Colorado · <a href="../">Home</a> · <a href="../#browse">All categories</a> · <a href="../#returns">Returns</a> · <a href="../#contact">Contact</a></div></footer>
+<footer><div class="wrap">© Akiliwo Marketplace LLC · Denver, Colorado · <a href="../">Home</a> · <a href="../#browse">All categories</a> · <a href="../shipping.html">Shipping &amp; FAQ</a> · <a href="../#returns">Returns</a> · <a href="../privacy.html">Privacy</a> · <a href="../terms.html">Terms</a> · <a href="../#contact">Contact</a></div></footer>
 </body>
 </html>
 `;
@@ -181,7 +181,7 @@ const today = new Date().toISOString().slice(0, 10);
 const urlXml = (loc, imgs) => `  <url>\n    <loc>${esc(loc)}</loc>\n    <lastmod>${today}</lastmod>\n${(imgs || []).map(i => `    <image:image><image:loc>${esc(abs(i))}</image:loc></image:image>\n`).join('')}  </url>`;
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n` +
-  [urlXml(SITE + '/'), ...PRODUCTS.map(p => urlXml(p._url, p.images))].join('\n') + '\n</urlset>\n');
+  [urlXml(SITE + '/'), ...['shipping.html', 'privacy.html', 'terms.html'].map(f => urlXml(`${SITE}/${f}`)), ...PRODUCTS.map(p => urlXml(p._url, p.images))].join('\n') + '\n</urlset>\n');
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 // ---- Product feeds: Google Merchant Center (free Shopping listings) + Meta catalog (Facebook/Instagram) ----
