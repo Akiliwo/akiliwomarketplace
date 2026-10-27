@@ -8,3 +8,9 @@ window.AKILIWO_CARD_CHECKOUT = 'https://akiliwo-checkout.sweet-bread-5fc6.worker
    tracking. assets/pixel.js loads it on every page and sends PageView, ViewContent,
    InitiateCheckout and Purchase with the same product ids as facebook-catalog.csv. */
 window.AKILIWO_META_PIXEL = '';
+
+/* GOOGLE_TAG: Google Analytics 4 ID (G-XXXXXXXXXX) and/or Google Ads ID (AW-XXXXXXXXX),
+   comma-separated. GOOGLE_ADS_PURCHASE: the Google Ads purchase conversion 'AW-XXXXXXXXX/label'.
+   Empty = off. */
+window.AKILIWO_GOOGLE_TAG = '';
+window.AKILIWO_GOOGLE_ADS_PURCHASE = '';

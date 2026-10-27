@@ -53,7 +53,12 @@ www.akiliwomarketplace.com. Products live in the `PRODUCTS` array in `index.html
   `checkout.html` → Stripe and WhatsApp order buttons are hidden (owner: "no WhatsApp").
   The Stripe secret key lives only in Cloudflare; never ask for it or commit it.
   Shipping ($5.99, free from $50) is set in `_stripe/worker.js` and mirrored in `checkout.html`.
-- Meta Pixel: `assets/pixel.js` + `AKILIWO_META_PIXEL` in `assets/shop-config.js` (empty = off).
+- Sponsored products: `ads.json` (product ids from `assets/checkout-products.json`, optional
+  start/end dates, label). Listed products show first in their section and in the Sponsored row
+  at the top of `index.html`. `node _seo/build_seo.js` warns about unknown ids.
+- Ad tracking (`assets/pixel.js`, loaded in every page's <head>): Meta Pixel via `AKILIWO_META_PIXEL`,
+  Google tag via `AKILIWO_GOOGLE_TAG` (+ `AKILIWO_GOOGLE_ADS_PURCHASE`) in `assets/shop-config.js`
+  (empty = off; only real IDs from the owner).
   Events: PageView (all pages), ViewContent (product pages), InitiateCheckout (`checkout.html`),
   Purchase (`thank-you.html`, total saved in sessionStorage before Stripe). content_ids = feed ids.
   New pages must load `assets/shop-config.js` then `assets/pixel.js`.

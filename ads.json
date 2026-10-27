@@ -1,0 +1,9 @@
+{
+  "_how_to_use": "Products listed here show first in their section and in the Sponsored row at the top of the home page, with the label below. 'id' is the product id from assets/checkout-products.json (also the end of each product page address: p/<id>.html). 'start' and 'end' (YYYY-MM-DD, optional) limit the dates. Order in this list = order on the page. Remove an entry to stop sponsoring it.",
+  "label": "Sponsored",
+  "sponsored": [
+    {"id": "akiliwo-crystal-hair-removal", "start": "2026-10-27", "end": "2026-12-31"},
+    {"id": "y38-wireless-ear-cleaner-with-camera", "start": "2026-10-27", "end": "2026-12-31"},
+    {"id": "last-bus-to-where", "start": "2026-10-27", "end": "2026-12-31"}
+  ]
+}

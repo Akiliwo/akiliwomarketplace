@@ -269,4 +269,11 @@ const re = /<!-- SEO-DIRECTORY:START[\s\S]*?<!-- SEO-DIRECTORY:END -->/;
 if (!re.test(html)) throw new Error('SEO-DIRECTORY markers not found in index.html');
 fs.writeFileSync(INDEX, html.replace(re, () => dir));
 
+// ---- check ads.json (sponsored products) points at real products ----
+if (fs.existsSync(path.join(ROOT, 'ads.json'))) {
+  const ads = JSON.parse(fs.readFileSync(path.join(ROOT, 'ads.json'), 'utf8'));   // throws on broken JSON
+  (ads.sponsored || []).filter(a => !PRODUCTS.some(p => p._id === a.id))
+    .forEach(a => console.warn(`ads.json: unknown product id "${a.id}" (see assets/checkout-products.json)`));
+}
+
 console.log(`Wrote ${PRODUCTS.length} product pages in p/, sitemap.xml, robots.txt, the Google + Facebook feeds and the index.html directory.`);

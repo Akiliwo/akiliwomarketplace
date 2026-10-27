@@ -289,6 +289,20 @@ section.block{padding:70px 0}
 .prod h3 a{color:inherit;text-decoration:none}
 .prod h3 a:hover{text-decoration:underline}
 .more-link{display:inline-block;margin-top:6px;font-size:.88rem;font-weight:700;color:var(--green)}
+.sp-block{padding:30px 0 6px}
+.sp-block[hidden]{display:none}
+.sp-block h2{font-family:'Fraunces',serif;color:var(--green);font-size:1.35rem;margin-bottom:14px}
+.sp-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.sp-card{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:10px;min-width:0}
+.sp-img{flex:0 0 92px;height:92px;border-radius:10px;overflow:hidden;background:var(--cream-2);display:grid;place-items:center;font-size:2.4rem;text-decoration:none}
+.sp-img img{width:100%;height:100%;object-fit:cover}
+.sp-body{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
+.sp-title{font-weight:700;color:var(--ink);text-decoration:none;font-size:.95rem;line-height:1.3;overflow-wrap:anywhere}
+.sp-title:hover{text-decoration:underline}
+.sp-price{font-weight:800;color:var(--green)}
+.sp-card .buy{padding:7px 12px;font-size:.85rem;width:auto}
+.sp-badge{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#5c4a12;background:#f3e3b5;border:1px solid #e3cf8f;border-radius:4px;padding:1px 6px;margin-bottom:6px}
+.sp-card .sp-badge{margin-bottom:0}
 .empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);border:2px dashed var(--line);border-radius:var(--radius)}
 
 /* ---------- PRODUCT IMAGE GALLERY (multiple pictures) ---------- */
@@ -417,6 +431,9 @@ footer ul a:hover{color:var(--gold-soft)}
   .cta-row .btn{width:100%;justify-content:center}
 }
 </style>
+<!-- ad tracking (Meta Pixel + Google tag): IDs in assets/shop-config.js -->
+<script src="assets/shop-config.js"></script>
+<script src="assets/pixel.js"></script>
 </head>
 <body>
 
@@ -471,6 +488,14 @@ footer ul a:hover{color:var(--gold-soft)}
         <div><b>Buy in one tap</b><small>Secure payments</small></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ SPONSORED PRODUCTS (controlled by ads.json) ============ -->
+<section class="sp-block" id="sponsored" aria-label="Sponsored products" hidden>
+  <div class="wrap">
+    <h2 id="sp-title">Sponsored products</h2>
+    <div class="sp-row" id="sp-row"></div>
   </div>
 </section>
 
@@ -789,8 +814,6 @@ footer ul a:hover{color:var(--gold-soft)}
   </div>
 </div>
 
-<script src="assets/shop-config.js"></script>
-<script src="assets/pixel.js"></script>
 <script>
 /* ============================================================
    ⬇️⬇️⬇️  YOUR PRODUCTS LIVE HERE  ⬇️⬇️⬇️
@@ -1732,12 +1755,52 @@ function subsOf(cat){
   });
   return out;
 }
+/* ---- Sponsored products: ads.json lists product ids (CHECKOUT_IDS) with optional start/end dates.
+   They show first in their section and in the Sponsored row above "Shop by category". ---- */
+const ADS = {label:'Sponsored', rank:new Map()};
+const adRank = p => ADS.rank.has(CHECKOUT_IDS.get(p)) ? ADS.rank.get(CHECKOUT_IDS.get(p)) : Infinity;
+function renderSponsored(){
+  const list = PRODUCTS.filter(p=>adRank(p) < Infinity).sort((a,b)=>adRank(a)-adRank(b));
+  const box = document.getElementById('sponsored');
+  box.hidden = !list.length;
+  document.getElementById('sp-title').textContent = ADS.label + ' products';
+  document.getElementById('sp-row').innerHTML = list.map(p=>{
+    const img = (p.images||[]).find(x=>!/^data:/.test(x));
+    const sold = /sold/i.test(p.badge||'');
+    return `<article class="sp-card">
+      <a class="sp-img" href="${pageOf(p)}" aria-hidden="true" tabindex="-1">${img ? `<img ${imgAttrs(img,'92px')} alt="">` : (p.emoji||'📦')}</a>
+      <div class="sp-body">
+        <span class="sp-badge">${esc(ADS.label)}</span>
+        <a class="sp-title" href="${pageOf(p)}">${esc(p.title)}</a>
+        <span class="sp-price">${esc(p.price)}</span>
+        ${sold ? '<span class="buy disabled">Sold out</span>' : (CARD_CHECKOUT ? checkoutBtn(p) : `<a class="buy buy-card" href="${pageOf(p)}">View product</a>`)}
+      </div>
+    </article>`;
+  }).join('');
+}
+function loadAds(){
+  fetch('ads.json', {cache:'no-cache'}).then(r=>r.ok ? r.json() : null).then(d=>{
+    if(!d || !Array.isArray(d.sponsored)) return;
+    const now = new Date(), today = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+    if(d.label) ADS.label = String(d.label).slice(0,30);
+    d.sponsored.filter(a=>a && a.id && (!a.start || a.start <= today) && (!a.end || today <= a.end))
+      .forEach((a,i)=>{ if(!ADS.rank.has(a.id)) ADS.rank.set(String(a.id), i); });
+    if(!ADS.rank.size) return;
+    renderSponsored();
+    Object.entries(SECTIONS).forEach(([c,id])=>renderSection(c,id));
+    Object.keys(SECTIONS).forEach(c=>{ if(activeSub[c]) selectSub(c, activeSub[c], false); });
+    applyFilters();
+  }).catch(()=>{});
+}
 function renderSection(cat,elId){
-  const items = PRODUCTS.filter(p=>p.category===cat);
+  // sponsored products (ads.json) first, in ads.json order; the rest keep their order
+  const items = PRODUCTS.filter(p=>p.category===cat).map((p,i)=>[p,i])
+    .sort((a,b)=>(adRank(a[0])-adRank(b[0])) || (a[1]-b[1])).map(x=>x[0]);
   const el = document.getElementById(elId);
   el.innerHTML = items.length
     ? items.map(p=>{
-        const html = p.featured?featuredCard(p):productCard(p);
+        let html = p.featured?featuredCard(p):productCard(p);
+        if(adRank(p) < Infinity) html = html.replace('<div class="body">', `<div class="body"><span class="sp-badge">${esc(ADS.label)}</span>`);
         const q = [p.title,p.sub,p.desc,p.author,p.badge].join(' ').toLowerCase();
         return html.replace('<article class="prod', `<article data-sub="${esc(p.sub||'')}" data-q="${esc(q)}" class="prod`);
       }).join('') + `<div class="no-match" hidden>No matching items here.</div>`
@@ -1806,6 +1869,7 @@ function openCatFromHash(){
   }
 }
 openCatFromHash();
+loadAds();
 
 /* ---- Structured data for Google & other search engines (schema.org Product list) ---- */
 (function(){

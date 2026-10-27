@@ -14,7 +14,8 @@
 try {
   var o = JSON.parse(sessionStorage.getItem('ak_purchase') || 'null');
   if (o && /[?&]order=cs_/.test(location.search)) {
-    window.akTrack('Purchase', {content_ids: o.ids, content_type: 'product', currency: 'USD', value: o.value, num_items: o.n});
+    window.akTrack('Purchase', {content_ids: o.ids, content_type: 'product', currency: 'USD', value: o.value, num_items: o.n,
+      order_id: (location.search.match(/[?&]order=(cs_[\w]+)/) || [])[1]});
     sessionStorage.removeItem('ak_purchase');
   }
 } catch (e) {}
