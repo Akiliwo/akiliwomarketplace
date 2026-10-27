@@ -85,7 +85,7 @@ header{
   border-bottom:1px solid var(--line);
 }
 .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
-.brand{display:flex;align-items:center;gap:11px;font-family:'Fraunces',serif;font-weight:900;font-size:1.32rem;color:var(--green)}
+.brand{display:flex;align-items:center;gap:11px;white-space:nowrap;flex-shrink:0;font-family:'Fraunces',serif;font-weight:900;font-size:1.32rem;color:var(--green)}
 .brand .mark{
   width:38px;height:38px;border-radius:11px;flex:none;
   background:linear-gradient(140deg,var(--green),var(--green-2));
@@ -93,9 +93,9 @@ header{
   font-weight:900;font-size:1.15rem;box-shadow:inset 0 0 0 1.5px rgba(231,181,88,.35);
 }
 .brand small{display:block;font-family:'Plus Jakarta Sans';font-weight:500;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:1px}
-.navlinks{display:flex;gap:6px;align-items:center}
+.navlinks{display:flex;gap:2px;align-items:center}
 .navlinks a{
-  font-weight:600;font-size:.92rem;color:var(--ink);padding:9px 13px;border-radius:10px;transition:.18s;white-space:nowrap;
+  font-weight:600;font-size:.9rem;color:var(--ink);padding:9px 10px;border-radius:10px;transition:.18s;white-space:nowrap;
 }
 .navlinks a:hover{background:rgba(12,68,52,.07);color:var(--green)}
 .menu-btn{display:none;background:var(--green);color:var(--cream);border:0;width:44px;height:44px;border-radius:11px;font-size:1.3rem;cursor:pointer}
@@ -414,11 +414,13 @@ footer ul a:hover{color:var(--gold-soft)}
 .reveal.in{opacity:1;transform:none}
 
 /* ---------- RESPONSIVE ---------- */
-@media(max-width:880px){
+@media(max-width:1180px){
   .navlinks{position:fixed;top:72px;left:0;right:0;background:var(--cream-2);flex-direction:column;align-items:stretch;padding:14px 18px;gap:4px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:.28s;box-shadow:var(--shadow)}
   .navlinks.show{transform:translateY(0)}
   .navlinks a{padding:13px}
   .menu-btn{display:block}
+}
+@media(max-width:880px){
   .hero-grid{grid-template-columns:1fr}
   .hero-art{display:none}
   .connect-grid{grid-template-columns:1fr}
