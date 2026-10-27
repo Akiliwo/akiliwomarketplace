@@ -7,7 +7,7 @@ window.AKILIWO_CARD_CHECKOUT = 'https://akiliwo-checkout.sweet-bread-5fc6.worker
 /* META_PIXEL: Meta (Facebook/Instagram) Pixel ID from Events Manager — digits only. Empty = no
    tracking. assets/pixel.js loads it on every page and sends PageView, ViewContent,
    InitiateCheckout and Purchase with the same product ids as facebook-catalog.csv. */
-window.AKILIWO_META_PIXEL = '';
+window.AKILIWO_META_PIXEL = '29222531567359894';
 
 /* GOOGLE_TAG: Google Analytics 4 ID (G-XXXXXXXXXX) and/or Google Ads ID (AW-XXXXXXXXX),
    comma-separated. GOOGLE_ADS_PURCHASE: the Google Ads purchase conversion 'AW-XXXXXXXXX/label'.
