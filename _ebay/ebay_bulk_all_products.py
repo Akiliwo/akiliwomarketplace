@@ -117,7 +117,7 @@ CATALOG = {
     "Akiliwo Crystal Hair Removal": dict(
         sku="HAIR-005", title="Akiliwo Crystal Hair Eraser Painless Reusable Hair Removal Tool",
         category={"q": "crystal hair eraser hair removal"}, condition="NEW", weight=1.785, qty=1,
-        ebay_price="15.99",   # eBay price (same as website)
+        ebay_price="10.99",   # eBay price (same as website)
         aspects={"Brand": ["Akiliwo"]},
         extra_html="<p><b>Color:</b> pink or blue. Please send your color choice in eBay messages after purchase.</p>"),
     "Y38 Wireless Ear Cleaner with Camera": dict(
