@@ -61,7 +61,8 @@ function renderCardCheckout(lines) {
   lines.forEach(l => { l.qty = Math.min(l.qty, MAX_QTY); });
   const avail = lines.filter(l => !l.p.sold);
   const subtotal = avail.reduce((t, l) => t + Number(l.p.price) * l.qty, 0);
-  const ship = subtotal >= FREE_FROM ? 0 : SHIPPING;
+  const allFree = avail.length && avail.every(l => l.p.freeShipping);
+  const ship = (subtotal >= FREE_FROM || allFree) ? 0 : SHIPPING;
   el.innerHTML = `<h1>Your order</h1>
     ${lines.map(l => `<div class="line">
       ${l.p.image ? `<img src="${esc(l.p.image)}" alt="">` : '<span></span>'}

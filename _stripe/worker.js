@@ -80,7 +80,9 @@ async function handle(request, env, fetchImpl = fetch) {
   if (!lines.length) return json({error: 'These items are not available. Please contact us.'}, 400, origin);
 
   const subtotal = lines.reduce((t, l) => t + l.cents * l.qty, 0);
-  const shipping = subtotal >= FREE_SHIPPING_FROM_CENTS
+  // free when the order reaches the minimum, or when every item is marked freeShipping
+  const allFree = lines.every(l => l.p.freeShipping);
+  const shipping = (subtotal >= FREE_SHIPPING_FROM_CENTS || allFree)
     ? shippingOption('Free standard shipping', 0)
     : shippingOption('Standard shipping', SHIPPING_CENTS);
 

@@ -744,7 +744,7 @@ footer ul a:hover{color:var(--gold-soft)}
         <div><h3>Herbal Wellness</h3><ul><li><a href="p/dulu-herbal-tonic-500ml.html">DULU Herbal Tonic (500ml)</a> <span>$35.00</span></li><li><a href="p/suri-herbal-drink-500ml.html">SURI Herbal Drink (500ml)</a> <span>$35.00</span></li><li><a href="p/max-active-10-sachets.html">Max Active (10 sachets)</a> <span>$15.00</span></li><li><a href="p/maxactive-plus-125ml.html">Maxactive Plus (125ml)</a> <span>$15.00</span></li><li><a href="p/maxsuri-6-in-1-coffee-10-sachets.html">Maxsuri 6-in-1 Coffee (10 sachets)</a> <span>$15.00</span></li></ul></div>
         <div><h3>Soap &amp; Oral Care</h3><ul><li><a href="p/maxsuri-premium-herbal-soap-single.html">Maxsuri Premium Herbal Soap (Single)</a> <span>$4.00</span></li><li><a href="p/maxsuri-premium-herbal-soap-8-in-1-pack.html">Maxsuri Premium Herbal Soap — 8-in-1 Pack</a> <span>$25.00</span></li><li><a href="p/maxsuri-charcoal-toothpaste-150g.html">Maxsuri Charcoal Toothpaste (150g)</a> <span>$8.00</span></li></ul></div>
         <div><h3>Kids&#39; Clothing</h3><ul><li><a href="p/kids-pajama-set-blue-top-and-bottom.html">Kids&#39; Pajama Set — Blue (Top &amp; Bottom)</a> <span>$8.00</span></li><li><a href="p/kids-pajama-set-pink-top-and-bottom.html">Kids&#39; Pajama Set — Pink (Top &amp; Bottom)</a> <span>$8.00</span></li></ul></div>
-        <div><h3>Beauty &amp; Health</h3><ul><li><a href="p/akiliwo-crystal-hair-removal.html">Akiliwo Crystal Hair Removal</a> <span>$15.99</span></li><li><a href="p/y38-wireless-ear-cleaner-with-camera.html">Y38 Wireless Ear Cleaner with Camera</a> <span>$12.99</span></li></ul></div>
+        <div><h3>Beauty &amp; Health</h3><ul><li><a href="p/akiliwo-crystal-hair-removal.html">Akiliwo Crystal Hair Removal</a> <span>$10.99</span></li><li><a href="p/y38-wireless-ear-cleaner-with-camera.html">Y38 Wireless Ear Cleaner with Camera</a> <span>$10.99</span></li></ul></div>
         <div><h3>Christmas &amp; Home</h3><ul><li><a href="p/vintage-christmas-musical-carousel-merry-go-round-used.html">Vintage Christmas Musical Carousel (Merry-Go-Round) - Used</a> <span>$25.00</span></li><li><a href="p/department-56-shingle-creek-house-lighted-used.html">Department 56 Shingle Creek House (Lighted) - Used</a> <span>$23.00</span></li><li><a href="p/department-56-christmas-bells-98711-1996-special-event-piece-used.html">Department 56 Christmas Bells #98711 - 1996 Special Event Piece - Used</a> <span>$84.00</span></li><li><a href="p/department-56-dickens-village-start-a-tradition-set-set-of-13-used.html">Department 56 Dickens&#39; Village Start A Tradition Set (Set of 13) - Used</a> <span>$90.00</span></li><li><a href="p/vando-coach-lantern-and-30-shepherds-hook-used.html">V&amp;O Coach Lantern &amp; 30&quot; Shepherd&#39;s Hook - Used</a> <span>$10.00</span></li></ul></div>
         <div><h3>Toys &amp; Collectibles</h3><ul><li><a href="p/godzilla-super-kaiju-spacegodzilla-94-action-figure-in-box-used.html">Godzilla Super Kaiju SpaceGodzilla &#39;94 Action Figure (in Box) - Used</a> <span>$25.00</span></li></ul></div>
         <div><h3>Akiliwo Books</h3><ul><li><a href="p/last-bus-to-where.html">Last Bus to Where</a> <span>$19.99</span></li></ul></div>
@@ -875,6 +875,8 @@ footer ul a:hover{color:var(--gold-soft)}
    - images:   list of picture URLs, e.g. ["images/shoe-1000.webp"] (with -200/-500 sizes beside it) or Cloudinary links
                (or leave [] to use the emoji placeholder). Customers can flip through them.
    - badge:    optional little tag. Use "Sold out" to grey out the buy button.
+   - freeShipping: optional true = this item ships FREE (checkout charges no shipping when
+               every item in the cart has it).
    - disclaimer: optional small print under the benefits (e.g. the FDA line for herbal drinks/supplements).
    - videos:   optional demo videos: [{src:"videos/name.mp4", poster:"images/name-poster.webp", shape:"v"|"h"|"p"}]
                (v = 9:16 vertical, h = 16:9 horizontal, p = 3:4 portrait; add order:1 to show a video first).
@@ -1012,13 +1014,14 @@ const PRODUCTS = [
     category:"shop",
     sub:"Beauty & Health",
     title:"Akiliwo Crystal Hair Removal",
-    price:"$15.99",
+    price:"$10.99",
+    freeShipping:true,
     images:["images/crystal-hair-removal-1000.webp"],
     emoji:"💎",
     desc:"Smooth skin in seconds with no razor, no wax and no creams. This reusable crystal hair eraser has a fine nano-crystal surface that gently buffs hair away and exfoliates as you glide it over your skin in small circles. Rinse it, let it dry, and it's ready to use again.",
     benefits:["Removes hair on arms, legs and other body areas in minutes", "Gentle, virtually painless circular motion: no blades, no nicks or cuts", "Exfoliates as it works, leaving skin feeling soft and smooth", "No chemicals, creams or wax, and no batteries or charging", "Reusable: just rinse with water, dry and use again", "Compact and travel-friendly, perfect for quick touch-ups", "Available in two colors: pink or blue", "Tip: use on clean, dry skin, avoid irritated or broken skin, and moisturize afterward"],
     link:"https://buy.stripe.com/3cI5kEemX2BOfuOguX6sw04",
-    badge:"",
+    badge:"Free shipping",
     videos:[
       {src:"videos/crystal-hair-removal-akiliwo-demo.mp4", poster:"images/crystal-hair-removal-akiliwo-demo-poster.webp", shape:"h"}
     ]
@@ -1027,14 +1030,15 @@ const PRODUCTS = [
     category:"shop",
     sub:"Beauty & Health",
     title:"Y38 Wireless Ear Cleaner with Camera",
-    price:"$12.99",
+    price:"$10.99",
+    freeShipping:true,
     images:["images/y38-ear-cleaner-front-1000.webp", "images/y38-ear-cleaner-side-1000.webp", "images/y38-ear-cleaner-back-1000.webp"],
     emoji:"👂",
     desc:"Stop cleaning your ears blind. The Y38 has a tiny camera in the tip that streams a live view to your phone over Wi-Fi, so you can see exactly what you're doing and clean gently and precisely. Snap photos with one tap, too.",
     benefits:["Built-in camera streams a live HD view to your phone at 30 fps", "Wireless: connects over 2.4 GHz Wi-Fi to a phone app for iPhone and Android (QR code on the box)", "Take a picture with one tap to save or share", "Cordless design, powered by 5V USB", "Slim, lightweight handle with simple one-button control",
     "Model Y38, CE, FCC and RoHS marked", "Color: white", "Safety: clean gently near the opening of the ear canal and never push deep. Don't use with ear pain, infection or a perforated eardrum. Children should use it only with adult supervision."],
     link:"https://buy.stripe.com/eVqdRafr11xKfuOa6z6sw05",
-    badge:"",
+    badge:"Free shipping",
     videos:[
       {src:"videos/y38-ear-camera-final.mp4", poster:"images/y38-ear-camera-final-poster.webp", shape:"v", order:1},
       {src:"videos/y38-ear-camera-view.mp4", poster:"images/y38-ear-camera-view-poster.webp", shape:"p", order:2},

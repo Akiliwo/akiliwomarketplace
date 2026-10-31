@@ -107,8 +107,9 @@
       <g:link>https://www.akiliwomarketplace.com/p/akiliwo-crystal-hair-removal.html</g:link>
       <g:image_link>https://www.akiliwomarketplace.com/images/crystal-hair-removal-1000.webp</g:image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>15.99 USD</g:price>
+      <g:price>10.99 USD</g:price>
       <g:condition>new</g:condition>
+      <g:shipping><g:country>US</g:country><g:price>0.00 USD</g:price></g:shipping>
       <g:brand>Akiliwo</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Shop &gt; Beauty &amp; Health</g:product_type>
@@ -122,8 +123,9 @@
       <g:additional_image_link>https://www.akiliwomarketplace.com/images/y38-ear-cleaner-side-1000.webp</g:additional_image_link>
       <g:additional_image_link>https://www.akiliwomarketplace.com/images/y38-ear-cleaner-back-1000.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>12.99 USD</g:price>
+      <g:price>10.99 USD</g:price>
       <g:condition>new</g:condition>
+      <g:shipping><g:country>US</g:country><g:price>0.00 USD</g:price></g:shipping>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Shop &gt; Beauty &amp; Health</g:product_type>
     </item>

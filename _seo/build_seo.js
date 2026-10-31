@@ -157,7 +157,7 @@ ${imgs[0] ? `<meta property="og:image" content="${abs(imgs[0])}">\n` : ''}<meta 
       ${(p.highlights || []).length ? `<h2>${esc(p.highlightsTitle || 'Highlights')}</h2><ul>${p.highlights.map(b => `<li>${esc(b)}</li>`).join('')}</ul>` : ''}
       ${(p.details || []).length ? `<h2>${esc(p.detailsTitle || 'Details')}</h2><dl>${p.details.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>` : ''}
       ${p.disclaimer ? `<p class="fda">${esc(p.disclaimer)}</p>` : ''}
-      <ul class="trust"><li>🔒 Secure card checkout</li><li><a href="../shipping.html">🚚 $5.99 shipping · FREE on $50+ · 5–8 business days</a></li><li>📍 Ships from Denver, Colorado (USA)</li><li><a href="../#returns">↩️ 30-day returns</a></li></ul>
+      <ul class="trust"><li>🔒 Secure card checkout</li><li><a href="../shipping.html">${p.freeShipping ? '🚚 FREE shipping · 5–8 business days' : '🚚 $5.99 shipping · FREE on $50+ · 5–8 business days'}</a></li><li>📍 Ships from Denver, Colorado (USA)</li><li><a href="../#returns">↩️ 30-day returns</a></li></ul>
       <p class="ask">Questions? Call or text <a href="tel:+17207994089">+1 720 799 4089</a> or email <a href="mailto:info@akiliwomarketplace.com">info@akiliwomarketplace.com</a></p>
     </div>
   </article>
@@ -199,6 +199,7 @@ const feed = PRODUCTS.filter(p => p.images.length && priceNum(p.price)).map(p =>
     // real brand only for Akiliwo's own products; others have none we can vouch for
     brand: /^Akiliwo\b/.test(p.title) || p.featured ? 'Akiliwo' : '',
     type: `${SECTION[p.category] || ''} > ${p.sub || ''}`,
+    freeShipping: !!p.freeShipping,
   };
 });
 fs.writeFileSync(path.join(ROOT, 'google-shopping-feed.xml'),
@@ -212,7 +213,7 @@ fs.writeFileSync(path.join(ROOT, 'google-shopping-feed.xml'),
 ${f.images.slice(1).map(i => `      <g:additional_image_link>${esc(i)}</g:additional_image_link>\n`).join('')}      <g:availability>${f.inStock ? 'in_stock' : 'out_of_stock'}</g:availability>
       <g:price>${f.price}</g:price>
       <g:condition>${f.condition}</g:condition>
-${f.brand ? `      <g:brand>${f.brand}</g:brand>\n` : ''}      <g:identifier_exists>no</g:identifier_exists>
+${f.freeShipping ? `      <g:shipping><g:country>US</g:country><g:price>0.00 USD</g:price></g:shipping>\n` : ''}${f.brand ? `      <g:brand>${f.brand}</g:brand>\n` : ''}      <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>${esc(f.type)}</g:product_type>
     </item>`).join('\n') + `\n  </channel>\n</rss>\n`);
 // Meta's Commerce Policies prohibit ingestible supplements, so these sub-categories stay off
@@ -243,6 +244,7 @@ fs.writeFileSync(path.join(ROOT, 'assets', 'checkout-products.json'), JSON.strin
   photo: p.images[0] ? (fs.existsSync(path.join(ROOT, 'images/feed', path.basename(p.images[0], '.webp').replace(/-1000$/, '') + '.jpg')) ? `images/feed/${path.basename(p.images[0], '.webp').replace(/-1000$/, '')}.jpg` : p.images[0]) : '',
   link: ((p.formats && p.formats[0] && p.formats[0].link) || p.link || '').trim(),
   sold: isSold(p),
+  ...(p.freeShipping ? {freeShipping: true} : {}),
 }]))) + '\n');
 
 // ---- plain-HTML product directory inside index.html ----
