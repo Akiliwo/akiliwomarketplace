@@ -123,6 +123,7 @@ CATALOG = {
     "Y38 Wireless Ear Cleaner with Camera": dict(
         sku="EAR-006", title="Y38 Wireless Ear Wax Removal Tool with Camera WiFi Otoscope iPhone Android",
         category={"q": "ear wax removal camera"}, condition="NEW", weight=1.83, qty=1,
+        ebay_price="10.99",   # eBay: $10.99 + buyer pays shipping (website: $12.99 free shipping)
         aspects={"Brand": ["Unbranded"], "Model": ["Y38"], "Color": ["White"]}),
     "Max Active (10 sachets)": dict(
         sku="SACH-007", title="Maxsuri Max Active Herbal Drink Mix 10 Sachets Men's Wellness",
