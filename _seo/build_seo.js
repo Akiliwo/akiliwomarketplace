@@ -96,7 +96,7 @@ function page(p) {
   const imgs = (p.images || []);
   const opts = (p.formats && p.formats.length) ? p.formats : [{name: '', price: p.price, link: p.link}];
   const buy = isSold(p) ? '<span class="btn off">Sold out</span>' : CARD_CHECKOUT
-    ? `<div class="opt"><span class="price">${esc(p.price)}</span><a class="btn card" href="../checkout.html?products=${encodeURIComponent(p._id + ':1')}" rel="nofollow">💳 Buy now with card</a></div>`
+    ? `<div class="opt"><span class="price">${esc(p.price)}</span><a class="btn card" href="${(p.directCardLink && p.link) ? esc(p.link) : `../checkout.html?products=${encodeURIComponent(p._id + ':1')}`}" rel="nofollow">💳 Buy now with card</a></div>`
     : opts.map(o => {
     const wa = `https://wa.me/${WA}?text=` + encodeURIComponent(`Hello Akiliwo Marketplace, I would like to order: ${p.title}${o.name ? ' (' + o.name + ')' : ''} — ${o.price}. Is it available?`);
     return `<div class="opt">${o.name ? `<b>${esc(o.name)}</b> ` : ''}<span class="price">${esc(o.price)}</span>${o.note ? `<small>${esc(o.note)}</small>` : ''}
@@ -245,6 +245,7 @@ fs.writeFileSync(path.join(ROOT, 'assets', 'checkout-products.json'), JSON.strin
   link: ((p.formats && p.formats[0] && p.formats[0].link) || p.link || '').trim(),
   sold: isSold(p),
   ...(p.freeShipping ? {freeShipping: true} : {}),
+  ...(p.directCardLink ? {directCardLink: true} : {}),
 }]))) + '\n');
 
 // ---- plain-HTML product directory inside index.html ----

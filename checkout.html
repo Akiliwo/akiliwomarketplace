@@ -82,6 +82,8 @@ function renderCardCheckout(lines) {
   const btn = document.getElementById('pay');
   if (!btn) return;
   btn.addEventListener('click', async () => {
+    // product with its own payment link (directCardLink): one item, qty 1 -> go straight there
+    if (avail.length === 1 && avail[0].qty === 1 && avail[0].p.directCardLink && avail[0].p.link) { location.href = avail[0].p.link; return; }
     const err = document.getElementById('pay-err');
     err.hidden = true;
     btn.disabled = true;
