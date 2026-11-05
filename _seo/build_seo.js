@@ -150,6 +150,15 @@ ${imgs[0] ? `<meta property="og:image" content="${abs(imgs[0])}">\n` : ''}<meta 
       <div class="buy">
       ${buy}
       </div>
+      ${isSold(p) ? '' : `<div class="promise">
+        <p class="stock">✅ In stock – ready to ship from Denver, Colorado.</p>
+        ${p.freeShipping
+          ? `<p class="total">Total due at checkout: ${esc(p.price)}. No extra shipping, no hidden fees.</p>
+        <p class="perks">Free shipping · 5–8 business days · Secure card checkout · 30-day returns</p>`
+          : `<p class="total">Price ${esc(p.price)} + $5.99 shipping (FREE on orders of $50+), shown before you pay. No hidden fees.</p>
+        <p class="perks">5–8 business days · Secure card checkout · 30-day returns</p>`}
+        <p class="call">Questions? Call or text <a href="tel:+17207994089">+1 720 799 4089</a> or email <a href="mailto:info@akiliwomarketplace.com">info@akiliwomarketplace.com</a></p>
+      </div>`}
       ${p.tagline ? `<p class="lead">${esc(p.tagline)}</p>` : ''}
       ${p.desc ? `<p>${esc(p.desc)}</p>` : ''}
       ${(p.story || []).map(t => `<p>${bold(t)}</p>`).join('\n      ')}
