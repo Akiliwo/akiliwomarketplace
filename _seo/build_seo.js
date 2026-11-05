@@ -158,6 +158,7 @@ ${imgs[0] ? `<meta property="og:image" content="${abs(imgs[0])}">\n` : ''}<meta 
           : `<p class="total">Price ${esc(p.price)} + $5.99 shipping (FREE on orders of $50+), shown before you pay. No hidden fees.</p>
         <p class="perks">5–8 business days · Secure card checkout · 30-day returns</p>`}
         <p class="call">Questions? Call or text <a href="tel:+17207994089">+1 720 799 4089</a> or email <a href="mailto:info@akiliwomarketplace.com">info@akiliwomarketplace.com</a></p>
+        <p class="call"><a href="../#owner">👋 Meet the owner, Jibril (video)</a></p>
       </div>`}
       ${p.tagline ? `<p class="lead">${esc(p.tagline)}</p>` : ''}
       ${p.desc ? `<p>${esc(p.desc)}</p>` : ''}

@@ -246,6 +246,11 @@ section.block{padding:70px 0}
 #vid-dialog video{display:block;max-width:min(92vw,900px);max-height:84vh;border-radius:14px;background:#000}
 #vid-dialog .close{position:absolute;top:10px;right:10px;z-index:2;border:0;background:#fff;color:#000;font-weight:800;border-radius:50px;padding:8px 14px;cursor:pointer}
 /* ---------- RETURN POLICY ---------- */
+.owner{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:28px;align-items:center;background:var(--white);border:2px solid var(--green);border-radius:var(--radius);padding:22px;margin-bottom:24px}
+.owner video{width:100%;height:auto;aspect-ratio:600/796;border-radius:14px;background:#000;display:block}
+.owner h3{font-family:Georgia,'Fraunces',serif;font-size:1.5rem;color:var(--green);margin:0 0 8px}
+.owner p{margin:0 0 10px}
+@media(max-width:700px){.owner{grid-template-columns:1fr;padding:16px}.owner video{max-width:340px;margin:0 auto}}
 .policy{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
 .policy-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
 .policy-card .ic{font-size:1.8rem;margin-bottom:8px}
@@ -608,6 +613,17 @@ footer ul a:hover{color:var(--gold-soft)}
       <div class="sec-tag">🤝 Why shop with us</div>
       <h2>Buy with confidence</h2>
       <p>A real, registered business with real people behind it, and clear policies.</p>
+    </div>
+    <div class="owner reveal" id="owner">
+      <video controls playsinline preload="none" poster="images/meet-the-owner-jibril-poster.webp" width="600" height="796">
+        <source src="videos/meet-the-owner-jibril.mp4" type="video/mp4">
+      </video>
+      <div>
+        <div class="sec-tag">👋 Meet the owner</div>
+        <h3>Hi, I'm Jibril Ahmed</h3>
+        <p>I'm the founder of <b>Akiliwo Marketplace LLC</b>, a small business based in <b>Denver, Colorado</b>. Every order ships from Colorado.</p>
+        <p>Have a question before you buy? Talk to me directly: call or text <a href="tel:+17207994089">+1 720 799 4089</a> or email <a href="mailto:info@akiliwomarketplace.com">info@akiliwomarketplace.com</a>.</p>
+      </div>
     </div>
     <div class="policy reveal">
       <div class="policy-card">
