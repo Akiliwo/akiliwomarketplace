@@ -210,6 +210,7 @@ const feed = PRODUCTS.filter(p => p.images.length && priceNum(p.price)).map(p =>
     brand: /^Akiliwo\b/.test(p.title) || p.featured ? 'Akiliwo' : '',
     type: `${SECTION[p.category] || ''} > ${p.sub || ''}`,
     freeShipping: !!p.freeShipping,
+    gtin: /^\d{8,14}$/.test(p.gtin || '') ? p.gtin : '',
   };
 });
 fs.writeFileSync(path.join(ROOT, 'google-shopping-feed.xml'),
@@ -223,7 +224,7 @@ fs.writeFileSync(path.join(ROOT, 'google-shopping-feed.xml'),
 ${f.images.slice(1).map(i => `      <g:additional_image_link>${esc(i)}</g:additional_image_link>\n`).join('')}      <g:availability>${f.inStock ? 'in_stock' : 'out_of_stock'}</g:availability>
       <g:price>${f.price}</g:price>
       <g:condition>${f.condition}</g:condition>
-${f.freeShipping ? `      <g:shipping><g:country>US</g:country><g:price>0.00 USD</g:price></g:shipping>\n` : ''}${f.brand ? `      <g:brand>${f.brand}</g:brand>\n` : ''}      <g:identifier_exists>no</g:identifier_exists>
+${f.freeShipping ? `      <g:shipping><g:country>US</g:country><g:price>0.00 USD</g:price></g:shipping>\n` : ''}${f.brand ? `      <g:brand>${f.brand}</g:brand>\n` : ''}${f.gtin ? `      <g:gtin>${f.gtin}</g:gtin>` : `      <g:identifier_exists>no</g:identifier_exists>`}
       <g:product_type>${esc(f.type)}</g:product_type>
     </item>`).join('\n') + `\n  </channel>\n</rss>\n`);
 // Meta's Commerce Policies prohibit ingestible supplements, so these sub-categories stay off
@@ -241,9 +242,9 @@ const feedJpg = url => {
 };
 const csv = v => /[",\n]/.test(v) ? `"${String(v).replace(/"/g, '""')}"` : String(v);
 fs.writeFileSync(path.join(ROOT, 'facebook-catalog.csv'),
-  ['id,title,description,availability,condition,price,link,image_link,additional_image_link,brand,product_type',
+  ['id,title,description,availability,condition,price,link,image_link,additional_image_link,brand,product_type,gtin',
    ...feed.filter(f => !META_EXCLUDED_SUBS.has(f.p.sub)).map(f => [f.id, f.title, f.desc, f.inStock ? 'in stock' : 'out of stock', f.condition, f.price, f.p._url,
-     feedJpg(f.images[0]), f.images.slice(1).map(feedJpg).join(','), f.brand || 'Akiliwo Marketplace', f.type].map(csv).join(','))].join('\n') + '\n');
+     feedJpg(f.images[0]), f.images.slice(1).map(feedJpg).join(','), f.brand || 'Akiliwo Marketplace', f.type, f.gtin].map(csv).join(','))].join('\n') + '\n');
 
 // ---- checkout data: Facebook/Instagram shop "Buy" sends buyers to checkout.html?products=<id>:<qty>,...
 // The ids are the feed ids above, so checkout.html can look each product up here.

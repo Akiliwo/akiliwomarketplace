@@ -901,6 +901,8 @@ footer ul a:hover{color:var(--gold-soft)}
    - images:   list of picture URLs, e.g. ["images/shoe-1000.webp"] (with -200/-500 sizes beside it) or Cloudinary links
                (or leave [] to use the emoji placeholder). Customers can flip through them.
    - badge:    optional little tag. Use "Sold out" to grey out the buy button.
+   - gtin: optional real barcode number (UPC/EAN/ISBN-13) printed on the item; goes to the Google + Facebook feeds.
+               Never invent one.
    - freeShipping: optional true = this item ships FREE (checkout charges no shipping when
                every item in the cart has it).
    - disclaimer: optional small print under the benefits (e.g. the FDA line for herbal drinks/supplements).
@@ -1153,6 +1155,8 @@ const PRODUCTS = [
     kicker:"📖 New Japa thriller · Featured book",
     author:"Jibril Ahmed",
     price:"$19.99",
+    gtin:"9798170130016",   // ISBN-13 from the back cover barcode
+    freeShipping:true,      // the book's Stripe payment link charges $19.99 with no shipping
     formats:[
       {name:"Paperback", price:"$19.99", link:"https://buy.stripe.com/cNi14o3Ijdgs2I24Mf6sw03", note:"🚚 Shipping included · 📦 Limited stock, ships from Denver, Colorado"}
       // eBook hidden for now. To bring it back, remove the // below:
@@ -1181,6 +1185,7 @@ const PRODUCTS = [
       ["Author","Jibril Ahmed, Nigerian-American writer based in Denver, Colorado"],
       ["Genre","Japa Thriller / Contemporary African Fiction / Suspense"],
       ["Format","Paperback"],
+      ["ISBN","9798170130016"],
       ["Publisher","Akiliwo Marketplace Books"],
       ["For fans of","Chimamanda Ngozi Adichie, Colson Whitehead, and thrillers about migration"]
     ],
